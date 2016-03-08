@@ -148,7 +148,7 @@ namespace aetherClass{
 		@return         ¬Œ÷Fture/¸”s:false
 		@exception      none
 		*/
-		virtual void SetTextureDirectory(std::string)final;
+		virtual void SetTextureDirectoryName(std::string)final;
 
 	protected:
 

@@ -136,6 +136,17 @@ void ModelBase::CreateConstantBuffers(){
 	}
 }
 
+//
+void ModelBase::SetName(const std::string name){
+	m_modelName = name;
+}
+
+//
+std::string ModelBase::GetName()const{
+	return m_modelName;
+}
+
 Axis& ModelBase::GetAxis(){
 	return m_axis;
 }
+

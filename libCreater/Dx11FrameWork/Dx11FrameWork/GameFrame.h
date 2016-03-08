@@ -25,11 +25,12 @@ $Id$
 #define _GAMEFRAME_H
 #include "Direct3DManager.h"
 #include "GameSceneManager.h"
+#include"GameController.h"
+#include"DirectXEntity.h"
 #include <memory>
 namespace aetherClass{
 
 	namespace{
-		const bool kFullScreen = false;
 		const bool kVsyncEnabled = true;
 		const float kScreenDepth = 1000.0f;
 		const float kScreenNear = 1.0f;
@@ -45,15 +46,14 @@ namespace aetherClass{
 
 		/*
 		@brief          初期化用
-		@param[in]      ウィンドウハンドル
-		@param[in]      スクリーンのサイズ
-		@param[in]      フルスクリーン　true / ウィンドウモード false    default[false]
+		@param[in]      ウィンドウハンドルリスト
+		@param[in]      ウィンドウの数
 		@param[in]      スクリーンの奥行の広さ 0.1以上の値    default[1000.0f]
 		@param[in]      スクリーンの近さ 0.0~1.0の間の値    default[1.0f]
 		@return         成功時：true/失敗時: false
 		@exception      none
 		*/
-		virtual bool Initialize(HWND handle, POINT screensize={800,600},const bool isFullScreen = kFullScreen, const float screenDepth = kScreenDepth, const float screenNear = kScreenNear)final;
+		virtual bool Initialize(WindowBase **window, UINT numWindow,const float screenDepth = kScreenDepth, const float screenNear = kScreenNear)final;
 
 		/*
 		@brief          解放用
@@ -78,6 +78,14 @@ namespace aetherClass{
 		@exception      none
 		*/
 		virtual void BackgroundColor(Color)final;
+
+		/*
+		@brief          メインループの開始
+		@param          none
+		@return         none
+		@exception      none
+		*/
+		virtual void GameRun()final;
 
 	private:
 
@@ -105,12 +113,17 @@ namespace aetherClass{
 		*/
 		virtual void FinalizeBuffer(){ return; }
 
+		virtual void SetPerUpdate(const float)final;
+
 	private:
 		static std::unique_ptr<Direct3DManager> m_direct3D;
 		static Color m_backgroundColor;
 		static std::unique_ptr<GameSceneManager> m_sceneManager;
 		static std::unique_ptr<GameScene> m_scene;
 		DirectXEntity m_entity;
+		float m_previous;
+		float m_lag;
+		float m_perUpdate;
 	};
 
 }

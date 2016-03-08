@@ -21,6 +21,7 @@ using namespace aetherClass;
 
 Rectangle3D::Rectangle3D()
 {
+	SetName("Rectangle3D");
 }
 
 

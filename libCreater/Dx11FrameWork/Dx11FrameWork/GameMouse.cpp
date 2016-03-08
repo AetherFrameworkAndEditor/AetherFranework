@@ -1,4 +1,5 @@
 #include "GameMouse.h"
+#include"ModelUtility.h"
 
 using namespace aetherClass;
 
@@ -26,13 +27,8 @@ bool GameMouse::Initialize(HINSTANCE& hInstance, HWND& hWnd){
 	m_mousePos = { 0, 0 };
 	m_hWnd = hWnd;
 
-	tagRECT windowSize = { 0 };
-	GetWindowRect(hWnd, &windowSize);
-	float screenWidth = windowSize.right - windowSize.left;
-	float screenHeight = windowSize.bottom - windowSize.top;
-	screenHeight = abs(screenHeight);
-
-	m_screen = { screenWidth, screenHeight };
+	Vector2 screen = aetherFunction::GetWindowSize(m_hWnd);
+	m_screen = { screen._x,screen._y };
 
 
 	result = DirectInput8Create(hInstance, DIRECTINPUT_VERSION, IID_IDirectInput8, (void**)&m_directInput, NULL);
@@ -41,7 +37,7 @@ bool GameMouse::Initialize(HINSTANCE& hInstance, HWND& hWnd){
 	if (FAILED(result)){ return false; }
 	result = m_mouse->SetDataFormat(&c_dfDIMouse);
 	if (FAILED(result)){ return false; }
-	result = m_mouse->SetCooperativeLevel(hWnd, DISCL_FOREGROUND | DISCL_NONEXCLUSIVE);
+	result = m_mouse->SetCooperativeLevel(m_hWnd, DISCL_FOREGROUND | DISCL_NONEXCLUSIVE);
 	if (FAILED(result)){ return false; }
 	result = m_mouse->Acquire();
 	if (FAILED(result)){ return false; }
@@ -243,4 +239,10 @@ Vector3 GameMouse::GetOrigin()
 POINT GameMouse::GetMousePosition()
 {
 	return m_mousePoint;
+}
+
+void GameMouse::ChangeActiveWindow(HWND hwnd){
+	m_hWnd = hwnd;
+	m_mouse->SetCooperativeLevel(m_hWnd, DISCL_FOREGROUND | DISCL_NONEXCLUSIVE);
+	m_mouse->Acquire();
 }

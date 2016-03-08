@@ -23,6 +23,16 @@ void Text::SetFont(Font *font){
 	m_font = font;
 }
 
+BYTE* GetData(GLYPHMETRICS &GM,UINT& code,HDC &hdc){
+	CONST MAT2 Mat = { { 0, 1 }, { 0, 0 }, { 0, 0 }, { 0, 1 } };
+	DWORD size = 0;
+	SecureZeroMemory(&GM, sizeof(GM));
+	size = GetGlyphOutline(hdc, code, GGO_GRAY4_BITMAP, &GM, 0, NULL, &Mat);
+
+	BYTE* ptr = new BYTE[size];
+	GetGlyphOutline(hdc, code, GGO_GRAY4_BITMAP, &GM, size, ptr, &Mat);
+	return ptr;
+}
 
 bool Text::UpdateText(std::wstring str){
 	HRESULT hResult;
@@ -30,37 +40,24 @@ bool Text::UpdateText(std::wstring str){
 	HDC hdc = GetDC(NULL);
 	HFONT oldFont = (HFONT)SelectObject(hdc, m_font->GetFont());
 	UINT code = 0;
-#if _UNICODE
-	// unicodeの場合、文字コードは単純にワイド文字のUINT変換です
-#else
-	// マルチバイト文字の場合、
-	// 1バイト文字のコードは1バイト目のUINT変換、
-	// 2バイト文字のコードは[先導コード]*256 + [文字コード]です
-	if (IsDBCSLeadByte(*c))
-		code = (BYTE)c[0] << 8 | (BYTE)c[1];
-	else
-		code = c[0];
-#endif
+
 
 	ID3D11Texture2D **stringTextureList = new ID3D11Texture2D*[str.length()];
 	unsigned int *charWidth = new unsigned int[str.length()];
 	UINT texWidth = 0;
 
-	CONST MAT2 Mat = { { 0, 1 }, { 0, 0 }, { 0, 0 }, { 0, 1 } };
 	TEXTMETRIC TM;
 	GetTextMetrics(hdc, &TM);
 	GLYPHMETRICS GM;
 
 
 	for (int i = 0; i < str.length(); i++){
+	code = (UINT)*(str.begin() + i);
+	BYTE* ptr = GetData(GM, code, hdc);
 
-	DWORD size = 0;
-	SecureZeroMemory(&GM, sizeof(GM));
-	code = (UINT)*(str.begin()+i);
-	size = GetGlyphOutline(hdc, code, GGO_GRAY4_BITMAP, &GM, 0, NULL, &Mat);
-
-	BYTE* ptr = new BYTE[size];
-	GetGlyphOutline(hdc, code, GGO_GRAY4_BITMAP, &GM, size, ptr, &Mat);
+	/*printf("blackboxX %d,blackboxY %d\n", GM.gmBlackBoxX, GM.gmBlackBoxY);
+	printf("cellIncX %d,cellIncY %d\n", GM.gmCellIncX, GM.gmCellIncY);
+	printf("GlyphOrigin%d\n", GM.gmptGlyphOrigin);*/
 
 
 	D3D11_TEXTURE2D_DESC desc;

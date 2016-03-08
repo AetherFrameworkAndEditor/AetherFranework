@@ -23,6 +23,7 @@ using namespace aetherClass;
 Circle::Circle()
 {
 	m_slice = 20;
+	SetName("Circle");
 }
 
 

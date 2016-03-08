@@ -39,6 +39,8 @@ namespace aetherClass{
 		bool Read();
 		bool IsKeyDown(unsigned int keyType);
 		void Finalize();
+		void ChangeActiveWindow(HWND hwnd);
+
 	private:
 		IDirectInput8* m_directInput;
 		IDirectInputDevice8* m_keybord;

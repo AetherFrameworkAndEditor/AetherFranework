@@ -21,6 +21,7 @@ $Id$
 using namespace aetherClass;
 Triangle::Triangle()
 {
+	SetName("Triangle");
 }
 
 

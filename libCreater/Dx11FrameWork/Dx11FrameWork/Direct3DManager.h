@@ -31,6 +31,9 @@ $Id$
 #include "Color.h"
 #include "MathUtility.h"
 #include"Matrix4x4.h"
+#include<vector>
+#include"WindowBase.h"
+#include<unordered_map>
 namespace aetherClass{
 	
 	class Direct3DManager{
@@ -42,13 +45,15 @@ namespace aetherClass{
 		@brief         DirectXの初期化
 		@param[in]      screen          画面のサイズ
 		@param[in]      vsync           true:/false:  
+		@param[in]      *hwnd			ウィンドウハンドルリスト
+		@param[in]      numWindow		ウィンドウ数
 		@param[in]      isFullScreen    true: フルスクリーンモード / false: ウィンドウモード
 		@param[in]      screenDepth     画面の奥行の最大値を0.0以上の値で設定
 		@param[in]      screenNear      画面の近さを0.0以上の値で設定
 		@return         成功時: true / 失敗時: false
 		@exception      none
 		*/
-		bool Initialize(POINT screen, bool vsync, HWND hWNd, bool isFullScreen, float screenDepth, float screenNear);
+		bool Initialize(Vector2 screen, bool vsync, WindowBase** hWNd,UINT numWindow, bool isFullScreen, float screenDepth, float screenNear);
 
 		/*
 		@brief          解放処理
@@ -59,7 +64,7 @@ namespace aetherClass{
 		void Finalize();
 
 		/*
-		@brief          画面全体を引数の色で塗りつぶす     
+		@brief          画面全体を引数の色で塗りつぶし、すべてのウィンドウを初期化する   
 		@param[in]      Color    画面を塗りつぶす色
 		@return         none
 		@exception      none
@@ -171,6 +176,14 @@ namespace aetherClass{
 		*/
 		int GetScreenNear();
 
+		/*
+		@brief          レンダリング対象のウィンドウ
+		@param[in/out]  対象のウィンドウ番号
+		@return         none
+		@exception      none
+		*/
+		void SetTargetWindow(std::wstring);
+
 		void EnableAlphaBlending();
 		void DisableAlphaBlending();
 
@@ -179,17 +192,17 @@ namespace aetherClass{
 		int m_videoCardMemory;
 		char m_videoCardDescription[128];
 		int m_screenNear, m_screenDepth;
+		UINT m_numWindows;
 
-
-		IDXGISwapChain *m_swapChain;
 		ID3D11Device *m_device;
 		ID3D11DeviceContext *m_deviceContext;
 
-		ID3D11RenderTargetView *m_renderTargetView;
-		ID3D11Texture2D *m_depthStencilBuffer;
+		std::unordered_map<std::wstring,IDXGISwapChain*>m_swapChain;
+		std::unordered_map<std::wstring, ID3D11RenderTargetView *>m_renderTargetView;
+		std::unordered_map<std::wstring, ID3D11DepthStencilView *>m_depthStencilView;
+		std::unordered_map<std::wstring, ID3D11Texture2D *>m_depthStencilBuffer;
 
 		ID3D11DepthStencilState *m_depthStencilState, *m_depthStencilDisableState;
-		ID3D11DepthStencilView *m_depthStencilView;
 
 		ID3D11RasterizerState *m_rasterState;
 		ID3D11BlendState* m_alphaEnableBlendingState;

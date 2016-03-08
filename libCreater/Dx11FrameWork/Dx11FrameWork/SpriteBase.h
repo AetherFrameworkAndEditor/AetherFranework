@@ -81,6 +81,9 @@ namespace aetherClass{
 		@exception      none
 		*/
 		virtual int GetIndexCount()final;
+
+		
+		virtual std::string GetName()final;
 		
 	private :
 		/*
@@ -122,6 +125,10 @@ namespace aetherClass{
 
 		Texture* m_texture;
 
+	protected:
+		virtual void SetName(const std::string);
+	private:
+		std::string m_spriteName;
 
 	};
 }

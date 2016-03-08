@@ -22,6 +22,7 @@ Line::Line()
 {
 	m_rayVector._direction = Vector3(0.0f, 1.0f, 0.0f);
 	m_rayVector._scaler = 1;
+	SetName("Line");
 }
 
 

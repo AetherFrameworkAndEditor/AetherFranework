@@ -3,6 +3,7 @@
 using namespace aetherClass;
 Point::Point()
 {
+	SetName("Point");
 }
 
 

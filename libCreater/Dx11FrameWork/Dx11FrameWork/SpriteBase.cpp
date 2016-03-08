@@ -114,3 +114,12 @@ void SpriteBase::CreateConstantBuffers(){
 		GetDirect3DManager()->GetDeviceContext()->PSSetShaderResources(0, 1, &tex);
 	}
 }
+
+std::string SpriteBase::GetName(){
+	return m_spriteName;
+}
+
+
+void SpriteBase::SetName(std::string name){
+	m_spriteName = name;
+}

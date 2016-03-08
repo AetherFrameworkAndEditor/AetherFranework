@@ -74,3 +74,8 @@ void GameKeyBord::Finalize(){
 		m_directInput = 0;
 	}
 }
+
+void GameKeyBord::ChangeActiveWindow(HWND hwnd){
+	m_keybord->SetCooperativeLevel(hwnd, DISCL_FOREGROUND | DISCL_NONEXCLUSIVE);
+	m_keybord->Acquire();
+}

@@ -34,7 +34,7 @@ namespace aetherClass{
 			@return         none
 			@exception      none
 			*/
-			static void CopyDirectX(Direct3DManager* manager,const HWND);
+			static void CopyDirectX(Direct3DManager* manager,WindowBase** window,UINT numWindow);
 
 			/*
 			@brief          Direct3DManagerの参照を返す
@@ -51,6 +51,14 @@ namespace aetherClass{
 
 			/*
 			@brief          ウィンドウハンドルの参照を返す
+			@param[in]      ウィンドウ番号
+			@return         HWND
+			@exception      none
+			*/
+			HWND& GetWindowHandle(std::wstring)const;
+
+			/*
+			@brief          先頭のウィンドウハンドルの参照を返す
 			@param[in]      none
 			@return         HWND
 			@exception      none
@@ -58,9 +66,11 @@ namespace aetherClass{
 			HWND& GetWindowHandle()const;
 
 
+
 		private:
 			static Direct3DManager* m_direct3d;
-			static HWND m_hWnd;
+			static std::unordered_map<std::wstring, WindowBase*>m_window;
+
 	};
 }
 #endif

@@ -101,6 +101,8 @@ namespace aetherClass{
 		*/
 		virtual Axis& GetAxis()final;
 
+		virtual std::string GetName()const;
+
 	public:
 		Property property;
 	protected:
@@ -110,6 +112,8 @@ namespace aetherClass{
 		Texture* m_texture;
 		ViewCamera* m_camera;
 
+	protected:
+		virtual void SetName(const std::string);
 
 	private:
 	
@@ -147,7 +151,7 @@ namespace aetherClass{
 
 	private:
 		Axis m_axis;
-
+		std::string m_modelName;
 	
 	};
 }

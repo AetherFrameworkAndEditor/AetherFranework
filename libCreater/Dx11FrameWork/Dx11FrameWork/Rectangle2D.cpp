@@ -5,6 +5,7 @@ using namespace aetherClass;
 
 Rectangle2D::Rectangle2D()
 {
+	SetName("Rectangle2D");
 }
 
 bool Rectangle2D::InitializeBuffers(){

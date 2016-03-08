@@ -6,6 +6,7 @@ Sphere::Sphere(UINT slice,UINT stack)
 	m_radius = 1;
 	m_sliceCount = slice;
 	m_stackCount = stack;
+	SetName("Sphere");
 }
 
 

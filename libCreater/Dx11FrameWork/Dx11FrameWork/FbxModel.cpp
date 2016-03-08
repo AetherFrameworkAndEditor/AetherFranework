@@ -374,7 +374,7 @@ using namespace aetherClass;
 	}
 
 	//
-	void FbxModel::SetTextureDirectory(std::string directryName){
+	void FbxModel::SetTextureDirectoryName(std::string directryName){
 		for (int id = 0; id < m_nodeMeshBuffer.size();++id)
 		{
 

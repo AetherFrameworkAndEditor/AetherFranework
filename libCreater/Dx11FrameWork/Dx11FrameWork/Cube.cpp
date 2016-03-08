@@ -3,6 +3,7 @@
 using namespace aetherClass;
 Cube::Cube()
 {
+	SetName("Cube");
 }
 
 

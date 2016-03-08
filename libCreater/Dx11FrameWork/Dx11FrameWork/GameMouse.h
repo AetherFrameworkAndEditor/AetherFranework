@@ -48,6 +48,7 @@ namespace aetherClass{
 		bool IsWheelTrigger();
 
 		void Intersection(ViewCamera);
+		void ChangeActiveWindow(HWND hwnd);
 
 		Vector3 GetDirection();
 		Vector3 GetOrigin();

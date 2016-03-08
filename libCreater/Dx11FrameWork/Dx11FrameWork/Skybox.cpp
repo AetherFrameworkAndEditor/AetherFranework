@@ -4,7 +4,7 @@ using namespace aetherClass;
 Skybox::Skybox()
 {
 	m_samplerState = nullptr;
-
+	SetName("SkyBox");
 }
 
 

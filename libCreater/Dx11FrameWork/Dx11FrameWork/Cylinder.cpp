@@ -22,6 +22,7 @@ $Id$
 using namespace aetherClass;
 Cylinder::Cylinder()
 {
+	SetName("Cylinder");
 	m_slice = 20;
 }
 

@@ -4,22 +4,18 @@ using namespace aetherClass;
 using namespace DirectX;
 Direct3DManager::Direct3DManager(){
 
-	m_swapChain = nullptr;
 	m_device = nullptr;
 	m_deviceContext = nullptr;
 
-	m_renderTargetView = nullptr;
-	m_depthStencilBuffer = nullptr;
 	m_depthStencilState = nullptr;
-	m_depthStencilView = nullptr;
 	m_rasterState = nullptr;
 
 }
 
 Direct3DManager::~Direct3DManager(){}
 
-bool Direct3DManager::Initialize(POINT screen, bool vsync, HWND hWnd,
-	bool isFullScreen, float screenDepth, float screenNear){
+bool Direct3DManager::Initialize(Vector2 screen, bool vsync, WindowBase **window,
+	UINT numWindow,bool isFullScreen, float screenDepth, float screenNear){
 	HRESULT result;
 	IDXGIFactory* factory;
 	IDXGIAdapter* adapter;
@@ -91,9 +87,9 @@ bool Direct3DManager::Initialize(POINT screen, bool vsync, HWND hWnd,
 	// When a match is found store the numerator and denominator of the refresh rate for that monitor.
 	for (int i = 0; i < numModes; i++)
 	{
-		if (displayModeList[i].Width == (unsigned int)screen.x)
+		if (displayModeList[i].Width == (unsigned int)screen._x)
 		{
-			if (displayModeList[i].Height == (unsigned int)screen.y)
+			if (displayModeList[i].Height == (unsigned int)screen._y)
 			{
 				numerator = displayModeList[i].RefreshRate.Numerator;
 				denominator = displayModeList[i].RefreshRate.Denominator;
@@ -119,21 +115,7 @@ bool Direct3DManager::Initialize(POINT screen, bool vsync, HWND hWnd,
 		return false;
 	}
 
-	// Release the display mode list.
-	delete[] displayModeList;
-	displayModeList = nullptr;
 
-	// Release the adapter output.
-	adapterOutput->Release();
-	adapterOutput = nullptr;
-
-	// Release the adapter.
-	adapter->Release();
-	adapter = nullptr;
-
-	// Release the factory.
-	factory->Release();
-	factory = nullptr;
 
 	// Initialize the swap chain description.
 	ZeroMemory(&swapChainDesc, sizeof(swapChainDesc));
@@ -142,8 +124,8 @@ bool Direct3DManager::Initialize(POINT screen, bool vsync, HWND hWnd,
 	swapChainDesc.BufferCount = 1;
 
 	// Set the width and height of the back buffer.
-	swapChainDesc.BufferDesc.Width = screen.x;
-	swapChainDesc.BufferDesc.Height = screen.y;
+	swapChainDesc.BufferDesc.Width = screen._x;
+	swapChainDesc.BufferDesc.Height = screen._y;
 
 	// Set regular 32-bit surface for the back buffer.
 	swapChainDesc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
@@ -164,7 +146,6 @@ bool Direct3DManager::Initialize(POINT screen, bool vsync, HWND hWnd,
 	swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
 
 	// Set the handle for the window to render to.
-	swapChainDesc.OutputWindow = hWnd;
 
 	// Turn multisampling off.
 	swapChainDesc.SampleDesc.Count = 1;
@@ -193,40 +174,52 @@ bool Direct3DManager::Initialize(POINT screen, bool vsync, HWND hWnd,
 	// Set the feature level to DirectX 11.
 	featureLevel = D3D_FEATURE_LEVEL_11_0;
 
-	// Create the swap chain, Direct3D device, and Direct3D device context.
-	result = D3D11CreateDeviceAndSwapChain(NULL, D3D_DRIVER_TYPE_HARDWARE, NULL, 0, &featureLevel, 1,
-		D3D11_SDK_VERSION, &swapChainDesc, &m_swapChain, &m_device, NULL, &m_deviceContext);
-
-	if (FAILED(result))
-	{
+	result = D3D11CreateDevice(NULL, D3D_DRIVER_TYPE_HARDWARE, NULL, 0, &featureLevel, 1, D3D11_SDK_VERSION,
+		&m_device, NULL, &m_deviceContext);
+	if (FAILED(result)){
 		return false;
 	}
 
-	// Get the pointer to the back buffer.
-	result = m_swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&backBufferPtr);
-	if (FAILED(result))
-	{
-		return false;
+	//// Create the swap chain, Direct3D device, and Direct3D device context.
+	//result = D3D11CreateDeviceAndSwapChain(NULL, D3D_DRIVER_TYPE_HARDWARE, NULL, 0, &featureLevel, 1,
+	//	D3D11_SDK_VERSION, &swapChainDesc, &m_swapChain, &m_device, NULL, &m_deviceContext);
+
+	//if (FAILED(result))
+	//{
+	//	return false;
+	//}
+
+
+	for (UINT i = 0; i < numWindow; ++i) {
+		swapChainDesc.OutputWindow = window[i]->GetWindowHandle();
+		std::wstring name = window[i]->GetWindowName();
+
+		factory->CreateSwapChain(m_device, &swapChainDesc, &m_swapChain[name]);
+		result = m_swapChain[name]->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&backBufferPtr);
+		if (FAILED(result)){
+			return false;
+		}
+
+		// Create the render target view with the back buffer pointer.
+		result = m_device->CreateRenderTargetView(backBufferPtr, NULL, &m_renderTargetView[name]);
+		if (FAILED(result)){
+			return false;
+		}
+
+		// Release pointer to the back buffer as we no longer need it.
+		backBufferPtr->Release();
+		backBufferPtr = nullptr;
 	}
 
-	// Create the render target view with the back buffer pointer.
-	result = m_device->CreateRenderTargetView(backBufferPtr, NULL, &m_renderTargetView);
-	if (FAILED(result))
-	{
-		return false;
-	}
 
-	// Release pointer to the back buffer as we no longer need it.
-	backBufferPtr->Release();
-	backBufferPtr = nullptr;
 
 
 	// Initialize the description of the depth buffer.
 	ZeroMemory(&depthBufferDesc, sizeof(depthBufferDesc));
 
 	// Set up the description of the depth buffer.
-	depthBufferDesc.Width = screen.x;
-	depthBufferDesc.Height = screen.y;
+	depthBufferDesc.Width = screen._x;
+	depthBufferDesc.Height = screen._y;
 	depthBufferDesc.MipLevels = 1;
 	depthBufferDesc.ArraySize = 1;
 	depthBufferDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
@@ -236,12 +229,17 @@ bool Direct3DManager::Initialize(POINT screen, bool vsync, HWND hWnd,
 	depthBufferDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
 	depthBufferDesc.CPUAccessFlags = 0;
 	depthBufferDesc.MiscFlags = 0;
+	
+	for (int i = 0; i < numWindow; ++i){
+		std::wstring name = window[i]->GetWindowName();
 
-	// Create the texture for the depth buffer using the filled out description.
-	result = m_device->CreateTexture2D(&depthBufferDesc, NULL, &m_depthStencilBuffer);
-	if (FAILED(result))
-	{
-		return false;
+		// Create the texture for the depth buffer using the filled out description.
+		result = m_device->CreateTexture2D(&depthBufferDesc, NULL, &m_depthStencilBuffer[name]);
+		if (FAILED(result))
+		{
+			return false;
+		}
+
 	}
 
 	// Initialize the description of the stencil state.
@@ -292,15 +290,19 @@ bool Direct3DManager::Initialize(POINT screen, bool vsync, HWND hWnd,
 	depthStencilViewDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
 	depthStencilViewDesc.Texture2D.MipSlice = 0;
 
-	// Create the depth stencil view.
-	result = m_device->CreateDepthStencilView(m_depthStencilBuffer, &depthStencilViewDesc, &m_depthStencilView);
-	if (FAILED(result))
-	{
-		return false;
-	}
+	for (int i = 0; i < numWindow; ++i){
+		std::wstring name = window[i]->GetWindowName();
 
+		result = m_device->CreateDepthStencilView(m_depthStencilBuffer[name], &depthStencilViewDesc, &m_depthStencilView[name]);
+		if (FAILED(result))
+		{
+			return false;
+		}
+
+	}
+	std::wstring firstname = window[0]->GetWindowName();
 	// Bind the render target view and depth stencil buffer to the output render pipeline.
-	m_deviceContext->OMSetRenderTargets(1, &m_renderTargetView, m_depthStencilView);
+	m_deviceContext->OMSetRenderTargets(1, &m_renderTargetView[firstname], m_depthStencilView[firstname]);
 
 	// Setup the raster description which will determine how and what polygons will be drawn.
 	rasterDesc.AntialiasedLineEnable = false;
@@ -344,8 +346,8 @@ bool Direct3DManager::Initialize(POINT screen, bool vsync, HWND hWnd,
 
 
 	// Setup the viewport for rendering.
-	viewport.Width = (float)screen.x;
-	viewport.Height = (float)screen.y;
+	viewport.Width = (float)screen._x;
+	viewport.Height = (float)screen._y;
 	viewport.MinDepth = 0.0f;
 	viewport.MaxDepth = 1.0f;
 	viewport.TopLeftX = 0.0f;
@@ -356,7 +358,7 @@ bool Direct3DManager::Initialize(POINT screen, bool vsync, HWND hWnd,
 	
 	// Setup the projection matrix.
 	fieldOfView = (float)kAetherPI / 4.0f;
-	screenAspect = (float)screen.x / (float)screen.y;
+	screenAspect = (float)screen._x / (float)screen._y;
 
 	// Initialize the world matrix to the identity matrix.
 	m_worldMatrix.Identity();
@@ -365,7 +367,7 @@ bool Direct3DManager::Initialize(POINT screen, bool vsync, HWND hWnd,
 	m_perspectiveFovMatrix.PerspectiveFovLH(fieldOfView, screenAspect, screenNear, screenDepth);
 
 	// Create an orthographic projection matrix for 2D rendering.
-	m_orthoMatrix.OrthoLH((float)screen.x, (float)screen.y, screenNear, screenDepth);
+	m_orthoMatrix.OrthoLH((float)screen._x, (float)screen._y, screenNear, screenDepth);
 
 	//Set projection matrix,default State is 3D rendering mode.
 	this->SetProjectionMatrix(m_perspectiveFovMatrix);
@@ -402,9 +404,26 @@ bool Direct3DManager::Initialize(POINT screen, bool vsync, HWND hWnd,
 	}
 
 	// Direct3DManager‚ÆWindowHandle‚ÌŽæ“¾
-	DirectXEntity::CopyDirectX(this, hWnd);
+	DirectXEntity::CopyDirectX(this, window,numWindow);
 	m_screenDepth = screenDepth;
 	m_screenNear = screenNear;
+	m_numWindows = numWindow;
+
+	// Release the display mode list.
+	delete[] displayModeList;
+	displayModeList = nullptr;
+
+	// Release the adapter output.
+	adapterOutput->Release();
+	adapterOutput = nullptr;
+
+	// Release the adapter.
+	adapter->Release();
+	adapter = nullptr;
+
+	// Release the factory.
+	factory->Release();
+	factory = nullptr;
 
 	return true;
 }
@@ -413,11 +432,6 @@ bool Direct3DManager::Initialize(POINT screen, bool vsync, HWND hWnd,
 void Direct3DManager::Finalize(){
 
 	// Before shutting down set to windowed mode or when you release the swap chain it will throw an exception
-
-	if (m_swapChain)
-	{
-		m_swapChain->SetFullscreenState(false, NULL);
-	}
 
 	if (m_alphaEnableBlendingState)
 	{
@@ -438,11 +452,6 @@ void Direct3DManager::Finalize(){
 		m_rasterState = nullptr;
 	}
 
-	if (m_depthStencilView)
-	{
-		m_depthStencilView->Release();
-		m_depthStencilView = nullptr;
-	}
 
 	if (m_depthStencilState)
 	{
@@ -455,16 +464,24 @@ void Direct3DManager::Finalize(){
 		m_depthStencilDisableState = nullptr;
 	}
 
-	if (m_depthStencilBuffer)
+	for each (auto i in m_depthStencilBuffer)
 	{
-		m_depthStencilBuffer->Release();
-		m_depthStencilBuffer = nullptr;
-	}
 
-	if (m_renderTargetView)
-	{
-		m_renderTargetView->Release();
-		m_renderTargetView = nullptr;
+		if (m_depthStencilBuffer[i.first])
+		{
+			m_depthStencilBuffer[i.first]->Release();
+			m_depthStencilBuffer[i.first] = nullptr;
+		}
+		if (m_renderTargetView[i.first])
+		{
+			m_renderTargetView[i.first]->Release();
+			m_renderTargetView[i.first] = nullptr;
+		}
+		if (m_depthStencilView[i.first])
+		{
+			m_depthStencilView[i.first]->Release();
+			m_depthStencilView[i.first] = nullptr;
+		}
 	}
 
 	if (m_deviceContext)
@@ -478,11 +495,13 @@ void Direct3DManager::Finalize(){
 		m_device->Release();
 		m_device = nullptr;
 	}
-
-	if (m_swapChain)
+	for each (auto i in m_swapChain)
 	{
-		m_swapChain->Release();
-		m_swapChain = nullptr;
+		if (i.second)
+		{
+			i.second->Release();
+			i.second = nullptr;
+		}
 	}
 
 	return;
@@ -496,11 +515,13 @@ void Direct3DManager::BeginScene(Color selectColor){
 		selectColor._blue,
 		selectColor._alpha
 	};
-	// Clear the back buffer.
-	m_deviceContext->ClearRenderTargetView(m_renderTargetView, color);
-
-	// Clear the depth buffer.
-	m_deviceContext->ClearDepthStencilView(m_depthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
+	
+	for each (auto i in m_renderTargetView)
+	{
+		// Clear the back buffer.
+		m_deviceContext->ClearRenderTargetView(m_renderTargetView[i.first], color);
+		m_deviceContext->ClearDepthStencilView(m_depthStencilView[i.first], D3D11_CLEAR_DEPTH, 1.0f, 0);
+	}
 	return;
 }
 
@@ -508,15 +529,26 @@ void Direct3DManager::EndScene(){
 	// Present the back buffer to the screen since rendering is complete
 	if (m_vsyncEnabled)
 	{
-		// Lock to screen refresh rate
-		m_swapChain->Present(1, 0);
+		for each (auto i in m_swapChain)
+		{
+			// Lock to screen refresh rate
+			i.second->Present(1, 0);
+		}
 	}
 	else
 	{
-		// Present as fast as possible
-		m_swapChain->Present(0, 0);
+		for each (auto i in m_swapChain)
+		{
+			// Lock to screen refresh rate
+			i.second->Present(0, 0);
+		}
 	}
 	return;
+}
+
+void Direct3DManager::SetTargetWindow(std::wstring numWindow){
+	if(!m_renderTargetView.count(numWindow))return;
+	m_deviceContext->OMSetRenderTargets(1, &m_renderTargetView[numWindow], m_depthStencilView[numWindow]);
 }
 
 // helper function
