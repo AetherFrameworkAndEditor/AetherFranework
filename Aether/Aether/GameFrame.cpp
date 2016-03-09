@@ -1,6 +1,7 @@
 #include "GameFrame.h"
 #include "NullScene.h"
 #include"ModelUtility.h"
+#include "GameClock.h"
 #include <assert.h>
 #include <iostream>
 using namespace aetherClass;
@@ -45,38 +46,8 @@ bool GameFrame::Initialize(WindowBase **window ,UINT numWindow, const float scre
 		assert(!"不正な処理です.class:GameFrame child class. function name:InitializeBuffer()");
 		return false;
 	}
+	
 	return true;
-}
-
-// 実際のメインループ
-bool GameFrame::FrameRunning(){
-	bool result = true;
-
-	m_direct3D->BeginScene(m_backgroundColor);
-	// user's override process
-	result = FrameRunningBuffer();
-
-	result = m_sceneManager->SceneInitialize();
-	if (!result)
-	{
-		assert(!"do not Initialize");
-		return false;
-	}
-
-	result = m_sceneManager->SceneUpdatar();
-	
-	m_sceneManager->SceneRender();
-	
-	// UIだけ2Dモードで描画
-	m_entity.GetDirect3DManager()->Change2DMode();
-	m_sceneManager->SceneUIRender();
-	m_entity.GetDirect3DManager()->Change3DMode();
-
-	m_sceneManager->ChangeScene();
-	
-	m_direct3D->EndScene();
-
-	return result;
 }
 
 void GameFrame::GameRun(){
@@ -114,6 +85,45 @@ void GameFrame::GameRun(){
 
 	// Exit application
 	return;
+}
+
+// 実際のメインループ
+bool GameFrame::FrameRunning(){
+
+	// 時間の取得
+	GameClock::BeginTime();
+
+	bool result = true;
+
+	m_direct3D->BeginScene(m_backgroundColor);
+	// user's override process
+	result = FrameRunningBuffer();
+	
+	result = m_sceneManager->SceneInitialize();
+	if (!result)
+	{
+		assert(!"do not Initialize");
+		return false;
+	}
+
+	
+	result = m_sceneManager->SceneUpdatar();
+
+	m_sceneManager->SceneRender();
+
+	// UIだけ2Dモードで描画
+	m_entity.GetDirect3DManager()->Change2DMode();
+	m_sceneManager->SceneUIRender();
+	m_entity.GetDirect3DManager()->Change3DMode();
+
+	m_sceneManager->ChangeScene();
+
+	m_direct3D->EndScene();
+
+	// 時間の計算を行いdeltaTimeを求める
+	GameClock::EndTime();
+
+	return result;
 }
 
 // 解放処理
