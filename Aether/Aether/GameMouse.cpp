@@ -225,7 +225,7 @@ RayVector GameMouse::Intersection(ViewCamera camera)
 	ray._origin = origin;
 	ray._scaler = 1;
 
-
+	return ray;
 }
 
 POINT GameMouse::GetMousePosition()
