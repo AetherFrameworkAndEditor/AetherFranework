@@ -25,12 +25,15 @@ namespace aetherClass{
 	struct RayVector
 	{
 		RayVector(){
+			_origin = 0;
 			_direction = 0;
 			_scaler = 0;
 		};
+		Vector3 _origin;
 		Vector3 _direction;
 		float	_scaler;
 	};
+
 	class Line :
 		public ModelBase
 	{

@@ -80,6 +80,13 @@ namespace aetherClass{
 		*/
 		virtual LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
+		/*
+		@brief          ウィンドウ生成後の初期化処理
+		@return         none
+		@exception		none
+		*/
+		virtual void OnCreate(){};
+
 	protected:
 		HWND m_hWnd;
 		std::wstring m_windowName;

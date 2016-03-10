@@ -18,7 +18,7 @@ $Id$
 #include"ViewCamera.h"
 #include"Vector3.h"
 #include<string>
-
+#include"Line.h"
 #ifndef _CONTROLLER_
 #define _CONTROLLER_
 #pragma comment(lib,"dinput8.lib")
@@ -47,11 +47,9 @@ namespace aetherClass{
 		bool IsRightButtonTrigger();
 		bool IsWheelTrigger();
 
-		void Intersection(ViewCamera);
+		RayVector Intersection(ViewCamera);
 		void ChangeActiveWindow(HWND hwnd);
 
-		Vector3 GetDirection();
-		Vector3 GetOrigin();
 		POINT GetMousePosition();
 	private:
 		bool Read();
@@ -69,8 +67,6 @@ namespace aetherClass{
 
 		POINT m_mousePoint;
 
-		Vector3 m_rayOrigin;
-		Vector3 m_rayDirection;
 	};
 }
 #endif
