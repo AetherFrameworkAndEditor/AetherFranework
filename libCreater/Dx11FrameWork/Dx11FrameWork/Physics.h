@@ -20,6 +20,7 @@ $Id$
 #include <memory>
 #include "ModelBase.h"
 #include"Sphere.h"
+#include"Line.h"
 namespace aetherFunction{
 	//bool CollideBoxOBB(const std::shared_ptr<aetherClass::ModelBase>&, const std::shared_ptr<aetherClass::ModelBase>&);
 	//bool IsCompareLengthOBB(const std::shared_ptr<aetherClass::ModelBase>&, const std::shared_ptr<aetherClass::ModelBase>&, aetherClass::Vector3&, aetherClass::Vector3&);
@@ -135,6 +136,41 @@ namespace aetherFunction{
 
 		return true;
 	}
+
+	/*
+	@brief          SphereとRayで当たり判定を取る。
+	@param[in]		Ray構造体
+	@return         成功時 true/失敗時	false
+	@exception      none
+	*/
+	static bool RaySphereIntersect(aetherClass::Sphere& sphere, aetherClass::RayVector rayVector)
+	{
+		rayVector._direction *= rayVector._scaler;
+
+		float Xa = rayVector._origin._x - sphere.property._transform._translation._x;
+		float Ya = rayVector._origin._y - sphere.property._transform._translation._y;
+		float Za = rayVector._origin._z - sphere.property._transform._translation._z;
+
+		float a = ((rayVector._direction._x*rayVector._direction._x) + (rayVector._direction._y*rayVector._direction._y) + (rayVector._direction._z*rayVector._direction._z));
+		float b = 2.0f * ((rayVector._direction._x * Xa) + (rayVector._direction._y * Ya) + (rayVector._direction._z * Za));
+		float c = (Xa * Xa) + (Ya*Ya) + (Za*Za) - (sphere.property._transform._scale._x * sphere.property._transform._scale._x);
+
+		float d = b*b - 4.0f * a * c;
+
+		if (d < 0.0f)return false;
+
+		d = sqrt(d);
+		float t0 = (-b + d) / (2.0f * a);
+		float t1 = (-b - d) / (2.0f * a);
+
+		float t = 2.0f;
+		if ((t0 >= 0.0f) && (t0 <= 1.0f) && (t0 < t))t = t0;
+		if ((t1 >= 0.0f) && (t1 <= 1.0f) && (t1 < t))t = t1;
+		if (t > 1.0f)return false;
+
+		return true;
+	}
+
 
 	/*
 	@brief          ２点間の距離を計算する。（３次元用）

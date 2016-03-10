@@ -180,7 +180,7 @@ bool GameMouse::IsWheelTrigger()
 }
 
 
-void GameMouse::Intersection(ViewCamera camera)
+RayVector GameMouse::Intersection(ViewCamera camera)
 {
 	float pointX, pointY;
 	Matrix4x4 projectionMatrix, viewMatrix, worldMatrix, translateMatrix;
@@ -220,20 +220,12 @@ void GameMouse::Intersection(ViewCamera camera)
 		direction = a;
 	}
 
-	m_rayDirection = direction.Normalize();
-	m_rayOrigin = origin;
+	RayVector ray;
+	ray._direction = direction.Normalize();
+	ray._origin = origin;
+	ray._scaler = 1;
 
-
-}
-
-Vector3 GameMouse::GetDirection()
-{
-	return m_rayDirection;
-}
-
-Vector3 GameMouse::GetOrigin()
-{
-	return m_rayOrigin;
+	return ray;
 }
 
 POINT GameMouse::GetMousePosition()
