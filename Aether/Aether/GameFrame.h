@@ -119,6 +119,7 @@ namespace aetherClass{
 		static std::unique_ptr<GameSceneManager> m_sceneManager;
 		static std::unique_ptr<GameScene> m_scene;
 		DirectXEntity m_entity;
+
 	};
 
 }

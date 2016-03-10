@@ -83,7 +83,7 @@ bool GameActor::CreateModel(){
 //
 void GameActor::SetFbxTextureDirectory(std::string path){
 	if (!m_fbx) return;
-	m_fbx->SetTextureDirectory(path);
+	m_fbx->SetTextureDirectoryName(path);
 }
 
 
