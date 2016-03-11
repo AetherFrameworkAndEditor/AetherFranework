@@ -491,3 +491,7 @@ using namespace aetherClass;
 
 		return;
 	}
+
+	std::string FbxModel::GetModelPath()const{
+		return m_modelPath;
+	}
