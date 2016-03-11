@@ -20,6 +20,7 @@ using namespace aetherClass;
 	void FbxModel::LoadFBX(std::string file,eAxisSystem axis){
 
 		bool result;
+		m_modelPath = file;
 		// read start fbx file 
 		m_fbxLoader = std::make_unique<FbxLoader>();
 		result = m_fbxLoader->Load(file, axis);
