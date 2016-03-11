@@ -78,6 +78,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AetherWindow.cpp" />
     <ClCompile Include="Axis.cpp" />
     <ClCompile Include="Circle.cpp" />
     <ClCompile Include="Color.cpp" />
@@ -91,6 +92,7 @@
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="GameActor.cpp" />
     <ClCompile Include="GameActorManager.cpp" />
+    <ClCompile Include="GameClock.cpp" />
     <ClCompile Include="GameController.cpp" />
     <ClCompile Include="GameEntry.cpp" />
     <ClCompile Include="GameFrame.cpp" />
@@ -98,6 +100,7 @@
     <ClCompile Include="GameMouse.cpp" />
     <ClCompile Include="GameSceneManager.cpp" />
     <ClCompile Include="GameSound.cpp" />
+    <ClCompile Include="GameSound3D.cpp" />
     <ClCompile Include="LightShader.cpp" />
     <ClCompile Include="Line.cpp" />
     <ClCompile Include="Material.cpp" />
@@ -126,12 +129,15 @@
     <ClCompile Include="VertexType.cpp" />
     <ClCompile Include="ViewCamera.cpp" />
     <ClCompile Include="WaveSoundLoader.cpp" />
+    <ClCompile Include="WindowBase.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AetherWindow.h" />
     <ClInclude Include="Axis.h" />
     <ClInclude Include="Circle.h" />
     <ClInclude Include="Color.h" />
     <ClInclude Include="ConsoleWindow.h" />
+    <ClInclude Include="Coroutine.h" />
     <ClInclude Include="Cube.h" />
     <ClInclude Include="Cylinder.h" />
     <ClInclude Include="Direct3DManager.h" />
@@ -145,6 +151,7 @@
     <ClInclude Include="Font.h" />
     <ClInclude Include="GameActor.h" />
     <ClInclude Include="GameActorManager.h" />
+    <ClInclude Include="GameClock.h" />
     <ClInclude Include="GameController.h" />
     <ClInclude Include="GameEntry.h" />
     <ClInclude Include="GameFrame.h" />
@@ -153,6 +160,7 @@
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="GameSceneManager.h" />
     <ClInclude Include="GameSound.h" />
+    <ClInclude Include="GameSound3D.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="LightShader.h" />
     <ClInclude Include="Line.h" />
@@ -189,6 +197,7 @@
     <ClInclude Include="VertexType.h" />
     <ClInclude Include="ViewCamera.h" />
     <ClInclude Include="WaveSoundLoader.h" />
+    <ClInclude Include="WindowBase.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
