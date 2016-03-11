@@ -150,6 +150,7 @@ namespace aetherClass{
 		*/
 		virtual void SetTextureDirectoryName(std::string)final;
 
+		virtual std::string GetModelPath()const final;
 	protected:
 
 		std::vector<Mesh> m_nodeMeshBuffer;
@@ -194,6 +195,7 @@ namespace aetherClass{
 
 	private:
 		ViewCamera* m_camera;
+		std::string m_modelPath;
 	};
 
 }

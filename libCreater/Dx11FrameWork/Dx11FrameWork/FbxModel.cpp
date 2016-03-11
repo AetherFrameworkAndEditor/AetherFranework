@@ -20,6 +20,7 @@ using namespace aetherClass;
 	void FbxModel::LoadFBX(std::string file,eAxisSystem axis){
 
 		bool result;
+		m_modelPath = file;
 		// read start fbx file 
 		m_fbxLoader = std::make_unique<FbxLoader>();
 		result = m_fbxLoader->Load(file, axis);
@@ -489,4 +490,8 @@ using namespace aetherClass;
 		directX->GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 		return;
+	}
+
+	std::string FbxModel::GetModelPath()const{
+		return m_modelPath;
 	}
