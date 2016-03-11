@@ -88,6 +88,13 @@ void Texture::Release(){
 ID3D11ShaderResourceView* Texture::GetTexture(){
 	return m_texture;
 }
+
+//
 ID3D11SamplerState* Texture::GetSamplerState(){
 	return m_samplerState;
+}
+
+//
+std::string Texture::GetPath()const{
+	return m_path;
 }

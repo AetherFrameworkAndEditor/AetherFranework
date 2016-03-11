@@ -57,7 +57,11 @@ namespace aetherClass{
 		@exception      none
 		*/
 		ID3D11SamplerState* GetSamplerState();
+
+		std::string GetPath()const;
+
 	private:
+		std::string m_path;
 		ID3D11ShaderResourceView* m_texture;
 		ID3D11SamplerState *m_samplerState;
 	private:
