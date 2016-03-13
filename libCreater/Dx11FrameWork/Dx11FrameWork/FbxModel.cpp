@@ -17,7 +17,7 @@ using namespace aetherClass;
 
 
 	//
-	void FbxModel::LoadFBX(std::string file,eAxisSystem axis){
+	bool FbxModel::LoadFBX(std::string file, eAxisSystem axis){
 
 		bool result;
 		m_modelPath = file;
@@ -26,17 +26,17 @@ using namespace aetherClass;
 		result = m_fbxLoader->Load(file, axis);
 		if (!result)
 		{
-			assert(!"cannot be read a fbx model");
+			return false;
 		}
 
 		// Initalize
 		result = LoadModelBuffers(GetDirect3DManager());
 		if (!result)
 		{
-			assert(!"do not copleate Initalize");
+			return false;
 		}
 
-		return;
+		return true;
 	}
 
 	//

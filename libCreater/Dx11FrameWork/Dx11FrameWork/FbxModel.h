@@ -48,7 +48,7 @@ namespace aetherClass{
 		@return         none
 		@exception      none
 		*/
-		virtual void LoadFBX(std::string, eAxisSystem)final;
+		virtual bool LoadFBX(std::string, eAxisSystem)final;
 
 		/*
 		@brief          ‰ð•ú—p
