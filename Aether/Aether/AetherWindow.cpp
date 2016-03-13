@@ -20,6 +20,10 @@ LRESULT CALLBACK AetherWindow::WindowProcedure(HWND hWnd, UINT uMsg, WPARAM wPar
 			GameController::GetMouse().ChangeActiveWindow(m_hWnd);
 		}
 		break;
+	case WM_CLOSE:
+		PostQuitMessage(0);
+
+			break;
 	default:
 		return DefWindowProc(hWnd, uMsg, wParam, lParam);
 	}

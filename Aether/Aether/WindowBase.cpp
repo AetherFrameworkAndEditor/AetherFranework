@@ -9,6 +9,8 @@ WindowBase::WindowBase()
 
 WindowBase::~WindowBase()
 {
+	DestroyWindow(m_hWnd);
+	UnregisterClass(m_windowName.c_str(), GetModuleHandle(NULL));
 
 }
 
@@ -38,21 +40,9 @@ BOOL WindowBase::RegisterWindow(std::wstring windowName)
 LRESULT CALLBACK WindowBase::CloseWindowProcedure(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam){
 	WindowBase* instance = (WindowBase*)GetWindowLong(hWnd, GWL_USERDATA);
 	if (instance){
-		UINT flg = LOWORD(wParam);
-
-		switch (uMsg){
-			case WM_CLOSE:
-				DestroyWindow(hWnd);
-				break;
-			case WM_DESTROY:
-				UnregisterClass(instance->m_windowName.c_str(), GetModuleHandle(NULL));
-				break;
-			default:
-				return instance->WindowProcedure(hWnd, uMsg, wParam, lParam);
-		}
-		return S_OK;
+		return instance->WindowProcedure(hWnd, uMsg, wParam, lParam);
 	}
-		return DefWindowProc(hWnd, uMsg, wParam, lParam);
+	return DefWindowProc(hWnd, uMsg, wParam, lParam);
 
 }
 
