@@ -27,6 +27,7 @@ $Id$
 #include "GameSceneManager.h"
 #include"GameController.h"
 #include"DirectXEntity.h"
+#include "GameScene.h"
 #include <memory>
 namespace aetherClass{
 
@@ -114,10 +115,10 @@ namespace aetherClass{
 		virtual void FinalizeBuffer(){ return; }
 
 	private:
-		static std::unique_ptr<Direct3DManager> m_direct3D;
 		static Color m_backgroundColor;
-		static std::unique_ptr<GameSceneManager> m_sceneManager;
-		static std::unique_ptr<GameScene> m_scene;
+		std::unique_ptr<Direct3DManager> m_direct3D;
+		std::unique_ptr<GameSceneManager> m_sceneManager;
+		std::unique_ptr<GameScene> m_scene;
 		DirectXEntity m_entity;
 
 	};

@@ -31,6 +31,7 @@ GameSceneManager::GameSceneManager(){
 	m_isChangeScene = false;
 }
 GameSceneManager::~GameSceneManager(){
+	Finalize();
 }
 
 // “o˜^ˆ—
@@ -138,9 +139,13 @@ void GameSceneManager::Finalize(){
 	{
 		if (index.second)
 		{
-			index.second->Finalize();
-			delete index.second;
-			index.second = nullptr;
+			if (index.second)
+			{
+				index.second->Finalize();
+				delete index.second;
+				index.second = nullptr;
+			}
+			
 		}
 	}
 

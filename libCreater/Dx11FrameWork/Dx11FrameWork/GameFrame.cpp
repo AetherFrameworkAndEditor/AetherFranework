@@ -4,13 +4,10 @@
 #include "GameClock.h"
 #include <assert.h>
 #include <iostream>
+#include "GameScene.h"
 using namespace aetherClass;
 
-std::unique_ptr<Direct3DManager> GameFrame::m_direct3D = nullptr;
 Color GameFrame::m_backgroundColor = Color(NULL, NULL, NULL, NULL);
-
-std::unique_ptr<GameSceneManager> GameFrame::m_sceneManager = nullptr;
-std::unique_ptr<GameScene> GameFrame::m_scene = nullptr;;
 GameFrame::GameFrame(){}
 
 //
@@ -105,7 +102,6 @@ bool GameFrame::FrameRunning(){
 		assert(!"do not Initialize");
 		return false;
 	}
-
 	
 	result = m_sceneManager->SceneUpdatar();
 
@@ -131,7 +127,12 @@ void GameFrame::Finalize(){
 
 	// user's override process
 	FinalizeBuffer();
-
+	if (m_sceneManager)
+	{
+		m_sceneManager.release();
+		m_sceneManager = nullptr;
+	}
+	
 	GameController::Destroy();
 	if (m_direct3D);
 	{
