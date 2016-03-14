@@ -192,15 +192,7 @@ RayVector GameMouse::Intersection(ViewCamera camera)
 
 	translateMatrix.Inverse();
 
-	{
-		Vector3 a;
-
-		a._x = (direction._x * translateMatrix._11) + (direction._y * translateMatrix._21) + (direction._z * translateMatrix._31);
-		a._y = (direction._x * translateMatrix._12) + (direction._y * translateMatrix._22) + (direction._z * translateMatrix._32);
-		a._z = (direction._x * translateMatrix._13) + (direction._y * translateMatrix._23) + (direction._z * translateMatrix._33);
-
-		direction = a;
-	}
+	direction = direction.TransformCoordNormal(translateMatrix);
 
 	RayVector ray;
 	ray._direction = direction.Normalize();

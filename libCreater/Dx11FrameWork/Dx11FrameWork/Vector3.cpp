@@ -92,6 +92,16 @@ using namespace DirectX;
 		return output;
 	}
 
+	Vector3 Vector3::TransformCoordNormal(Matrix4x4 input){
+		Vector3 out;
+		out._x = (this->_x * input._11) + (this->_y * input._21) + (this->_z * input._31);
+		out._y = (this->_x * input._12) + (this->_y * input._22) + (this->_z * input._32);
+		out._z = (this->_x * input._13) + (this->_y * input._23) + (this->_z * input._33);
+
+		return out;
+	}
+
+
 	/*	‘ã“ü		*/
 
 	void Vector3::operator =(float input){
