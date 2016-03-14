@@ -6,7 +6,6 @@ using namespace aetherClass;
 
 GameMouse::GameMouse()
 {
-	SecureZeroMemory(&m_mousePos, sizeof(POINT));
 	SecureZeroMemory(&m_screen, sizeof(POINT));
 	SecureZeroMemory(&m_mousePoint, sizeof(POINT));
 	m_directInput = nullptr;
@@ -17,14 +16,12 @@ GameMouse::GameMouse()
 
 GameMouse::~GameMouse()
 {
-	SecureZeroMemory(&m_mousePos, sizeof(POINT));
 	SecureZeroMemory(&m_screen, sizeof(POINT));
 	SecureZeroMemory(&m_mousePoint, sizeof(POINT));
 }
 
 bool GameMouse::Initialize(HINSTANCE& hInstance, HWND& hWnd){
 	HRESULT result;
-	m_mousePos = { 0, 0 };
 	m_hWnd = hWnd;
 
 	Vector2 screen = aetherFunction::GetWindowSize(m_hWnd);
@@ -62,7 +59,6 @@ bool GameMouse::Frame()
 	{
 		return false;
 	}
-	ProcessInput();
 
 	GetCursorPos(&m_mousePoint);
 	ScreenToClient(m_hWnd, &m_mousePoint);
@@ -87,20 +83,6 @@ bool GameMouse::Read()
 		}
 	}
 	return true;
-}
-
-void GameMouse::ProcessInput()
-{
-	m_mousePos.x += m_mouseState.lX;
-	m_mousePos.y += m_mouseState.lY;
-
-	if (m_mousePos.x < 0){ m_mousePos.x = 0; }
-	if (m_mousePos.y < 0){ m_mousePos.y = 0; }
-
-	if (m_mousePos.x >m_screen.x){ m_mousePos.x = m_screen.x; }
-	if (m_mousePos.y > m_screen.y){ m_mousePos.y = m_screen.y; }
-
-	return;
 }
 
 void GameMouse::Finalize()
@@ -228,13 +210,20 @@ RayVector GameMouse::Intersection(ViewCamera camera)
 	return ray;
 }
 
-POINT GameMouse::GetMousePosition()
+Vector2 GameMouse::GetMousePosition()
 {
-	return m_mousePoint;
+	return Vector2(m_mousePoint.x,m_mousePoint.y);
 }
 
 void GameMouse::ChangeActiveWindow(HWND hwnd){
 	m_hWnd = hwnd;
 	m_mouse->SetCooperativeLevel(m_hWnd, DISCL_FOREGROUND | DISCL_NONEXCLUSIVE);
 	m_mouse->Acquire();
+}
+
+float GameMouse::GetWheelMovement(){
+	return m_mouseState.lZ;
+}
+Vector2 GameMouse::GetMouseMovement(){
+	return Vector2(m_mouseState.lX,m_mouseState.lY);
 }

@@ -50,10 +50,12 @@ namespace aetherClass{
 		RayVector Intersection(ViewCamera);
 		void ChangeActiveWindow(HWND hwnd);
 
-		POINT GetMousePosition();
+		float GetWheelMovement();
+		Vector2 GetMouseMovement();
+		Vector2 GetMousePosition();
+
 	private:
 		bool Read();
-		void ProcessInput();
 
 	private:
 		HWND m_hWnd;
@@ -62,9 +64,7 @@ namespace aetherClass{
 
 		DIMOUSESTATE m_mouseState;
 
-		POINT m_mousePos;
 		POINT m_screen;
-
 		POINT m_mousePoint;
 
 	};
