@@ -129,6 +129,7 @@
     <ClCompile Include="ViewCamera.cpp" />
     <ClCompile Include="WaveSoundLoader.cpp" />
     <ClCompile Include="WindowBase.cpp" />
+    <ClCompile Include="WorldReader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AetherWindow.h" />
@@ -196,6 +197,8 @@
     <ClInclude Include="ViewCamera.h" />
     <ClInclude Include="WaveSoundLoader.h" />
     <ClInclude Include="WindowBase.h" />
+    <ClInclude Include="World.h" />
+    <ClInclude Include="WorldReader.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
