@@ -62,67 +62,105 @@ Matrix4x4 ViewCamera::GetViewMatrix(){
 	return m_viewMatrix;
 }
 
-
+#include<iostream>
 //Debug Controller
 #ifdef DEBUG_MODE
 #include"GameController.h"
 void ViewCamera::Controller(){
 
-	static float cm_move = 0.2f;
+	static float cm_trans = 0.2f;
+	static float cm_rote = 1.0f;
 
+	float trans_accelVal = 0.2f;
+	float rote_accelVal = 0.5f;
 
+	static int count = 0;
+	Vector3 translation;
+	Vector3 rotation;
+
+	bool IsKeyDown = false;
 	if (GameController::GetKey().IsKeyDown(DIK_LCONTROL)){
 
 		if (GameController::GetKey().IsKeyDown(DIK_W)){
-			property._rotation._x += cm_move * 4;
+			rotation._x += cm_rote;
 		}
 		else if (GameController::GetKey().IsKeyDown(DIK_S)){
-			property._rotation._x -= cm_move * 4;
+			rotation._x -= cm_rote;
 		}
 		if (GameController::GetKey().IsKeyDown(DIK_Q)){
-			property._rotation._z += cm_move * 4;
+			rotation._z += cm_rote;
 		}
 		else if (GameController::GetKey().IsKeyDown(DIK_E)){
-			property._rotation._z -= cm_move * 4;
+			rotation._z -= cm_rote;
 		}
 		if (GameController::GetKey().IsKeyDown(DIK_D)){
-			property._rotation._y += cm_move * 4;
+			rotation._y += cm_rote;
 		}
 		else if (GameController::GetKey().IsKeyDown(DIK_A)){
-			property._rotation._y -= cm_move * 4;
+			rotation._y -= cm_rote;
 		}
-
-
+		IsKeyDown = true;
 	}
 	else{
 		if (GameController::GetKey().IsKeyDown(DIK_E)){
-			property._rotation._y += cm_move * 4;
+			rotation._y += cm_rote;
 		}
 		else if (GameController::GetKey().IsKeyDown(DIK_Q)){
-			property._rotation._y -= cm_move * 4;
+			rotation._y -= cm_rote;
 		}
 		if (GameController::GetKey().IsKeyDown(DIK_A)){
-			property._translation._x -= cm_move * cos(kAetherPI * property._rotation._y / 180);
-			property._translation._z += cm_move * sin(kAetherPI * property._rotation._y / 180);
+			translation._x -= cm_trans;
 		}
 		else if (GameController::GetKey().IsKeyDown(DIK_D)){
-			property._translation._x += cm_move * cos(kAetherPI * property._rotation._y / 180);
-			property._translation._z -= cm_move * sin(kAetherPI * property._rotation._y / 180);
+			translation._x += cm_trans;
 		}
 		if (GameController::GetKey().IsKeyDown(DIK_W)){
-			property._translation._x += cm_move * sin(kAetherPI * property._rotation._y / 180);
-			property._translation._z += cm_move * cos(kAetherPI * property._rotation._y / 180);
+			translation._z += cm_trans;
 		}
 		else if (GameController::GetKey().IsKeyDown(DIK_S)){
-			property._translation._x -= cm_move * sin(kAetherPI * property._rotation._y / 180);
-			property._translation._z -= cm_move * cos(kAetherPI * property._rotation._y / 180);
+			translation._z -= cm_trans;
 		}
 		if (GameController::GetKey().IsKeyDown(DIK_SPACE)){
-			property._translation._y += cm_move;
+			translation._y += cm_trans;
 		}
 		else if (GameController::GetKey().IsKeyDown(DIK_LSHIFT)){
-			property._translation._y -= cm_move;
+			translation._y -= cm_trans;
 		}
+
+	}
+	if (!(translation == Vector3(0, 0, 0))){
+		count++;
+		IsKeyDown = true;
+		if (count % 50 == 0){
+			cm_trans += trans_accelVal;
+		}
+	}
+	if (!(rotation == Vector3(0, 0, 0))){
+		count++;
+		IsKeyDown = true;
+		if (count % 30 == 0){
+			cm_rote += rote_accelVal;
+		}
+	}
+
+	if (IsKeyDown){
+		property._rotation += rotation;
+		Matrix4x4 roteMat;
+		Vector3 roteVec = property._rotation;
+		roteVec *= kAetherRadian;
+
+		roteMat.PitchYawRoll(roteVec);
+		translation = translation.TransformCoordNormal(roteMat);
+
+		property._translation._x += translation._x;
+		property._translation._y += translation._y;
+		property._translation._z += translation._z;
+	}
+	if (!IsKeyDown){
+		count = 0;
+		cm_trans = trans_accelVal;
+		cm_rote = rote_accelVal;
+
 	}
 
 
