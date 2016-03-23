@@ -132,11 +132,53 @@ namespace aetherClass{
 		*/
 		bool InitializeParticle();
 
+		/*
+		@brief          2Dパーティクルの作成
+		@param          none
+		@return         成功時：true/失敗時：false
+		@exception      none
+		*/
 		bool Create2DParticle(std::string texturePath, const int maxCount);
+
+		/*
+		@brief          2Dパーティクルの解放
+		@param          none
+		@return         none
+		@exception      none
+		*/
 		void Remove2DParticle();
+
+		/*
+		@brief          2Dパーティクルの描画
+		@param[in]      使用するシェーダーのポインタ
+		@return         none
+		@exception      none
+		*/
 		void Render2DParticle(ShaderBase*);
-		void Update2DParticle(Vector3,float);
+
+		/*
+		@brief          2Dパーティクルの更新処理
+		@param[in]      位置情報
+		@param[in]      パーティクルの速度
+		@return         none
+		@exception      none
+		*/
+		void Update2DParticle(Vector3 position,float frameTime);
+
+		/*
+		@brief          2Dパーティクルの生成処理
+		@param[in]      パーティクルの速度
+		@return         none
+		@exception      none
+		*/
 		void Emit2DParticles(float frameTime);
+
+		/*
+		@brief          2Dパーティクルの一部破棄処理
+		@param          none
+		@return         none
+		@exception      none
+		*/
 		void Kill2DParticle();
 
 		/*
@@ -173,7 +215,7 @@ namespace aetherClass{
 		void Update3DParticle(Vector3,float);
 
 		/*
-		@brief          3Dパーティクルの更新用
+		@brief          3Dパーティクルの生成用
 		@param[in]      更新時間
 		@return         none
 		@exception      none
