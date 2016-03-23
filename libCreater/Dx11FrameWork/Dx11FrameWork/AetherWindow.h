@@ -22,6 +22,11 @@ namespace aetherClass{
 	public:
 		AetherWindow();
 		~AetherWindow();
+		/*
+		@brief          ウィンドウプロシージャ
+		@return         callback
+		@exception		none
+		*/
 		LRESULT CALLBACK WindowProcedure(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) override;
 
 	};
