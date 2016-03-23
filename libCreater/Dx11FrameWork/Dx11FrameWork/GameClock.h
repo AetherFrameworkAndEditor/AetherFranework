@@ -1,3 +1,17 @@
+
+/******************************************************************************/
+/*! @addtogroup aetherClass
+@file      GameClock.h
+@brief     ゲーム内時間管理用クラス。現状はデルタタイムを取得可能
+
+*******************************************************************************
+@date       2015/12/23
+@author     橋本航
+@par        1.0
+$Id$
+@par        Team Hurusu
+
+******************************************************************************/
 #ifndef _GAMECLOCK_H
 #define _GAMECLOCK_H
 #include <chrono>
@@ -16,7 +30,7 @@ namespace aetherClass{
 		static void BeginTime();
 
 		/*
-		@brief          現在のゲーム内時間の取得
+		@brief          デルタタイムの取得
 		@param[in]		none
 		@return         none
 		@exception      none

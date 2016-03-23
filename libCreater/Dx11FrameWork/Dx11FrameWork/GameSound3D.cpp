@@ -44,10 +44,10 @@ bool GameSound3D::Load(const char* path)
 void GameSound3D::Finalize()
 {
 	// Release the secondary buffer.
-	ShutdownWaveFile(&m_secondaryBuffer1, &m_secondary3DBuffer1);
+	FinalizeWaveFile(&m_secondaryBuffer1, &m_secondary3DBuffer1);
 
-	// Shutdown the Direct Sound API.
-	ShutdownDirectSound();
+	// Finalize the Direct Sound API.
+	FinalizeDirectSound();
 
 	return;
 }
@@ -121,7 +121,7 @@ bool GameSound3D::InitializeDirectSound()
 }
 
 
-void GameSound3D::ShutdownDirectSound()
+void GameSound3D::FinalizeDirectSound()
 {
 	// Release the listener interface.
 	if (m_listener)
@@ -324,7 +324,7 @@ bool GameSound3D::LoadWaveFile(const char* filename, IDirectSoundBuffer8** secon
 }
 
 
-void GameSound3D::ShutdownWaveFile(IDirectSoundBuffer8** secondaryBuffer, IDirectSound3DBuffer8** secondary3DBuffer)
+void GameSound3D::FinalizeWaveFile(IDirectSoundBuffer8** secondaryBuffer, IDirectSound3DBuffer8** secondary3DBuffer)
 {
 	// Release the 3D interface to the secondary sound buffer.
 	if (*secondary3DBuffer)
