@@ -16,10 +16,22 @@ $Id$
 #include"Direct3DManager.h"
 namespace aetherFunction{
 
+	/*
+	@brief          コンスタンバッファを初期化する時用
+	@param[in]      バッファサイズ
+	@return         BufferDesc
+	@exception      none
+	*/
 	static D3D11_BUFFER_DESC GetConstantBufferDesc(size_t strideType){
 		D3D11_BUFFER_DESC desc = { strideType, D3D11_USAGE_DYNAMIC, D3D11_BIND_CONSTANT_BUFFER, D3D11_CPU_ACCESS_WRITE, 0, 0 };
 		return desc;
 	}
+	/*
+	@brief          ウィンドウサイズを得る
+	@param[in]      ウィンドウハンドル
+	@return         ウィンドウサイズ
+	@exception      none
+	*/
 	static aetherClass::Vector2 GetWindowSize(HWND hWnd){
 		RECT screen;
 		GetWindowRect(hWnd, &screen);
