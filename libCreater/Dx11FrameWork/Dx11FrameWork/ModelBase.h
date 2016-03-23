@@ -103,7 +103,13 @@ namespace aetherClass{
 		ViewCamera* m_camera;
 
 	protected:
-		virtual void SetName(const std::string);
+		/*
+		@brief          名前の設定。派生先で記述
+		@param          none
+		@return         none
+		@exception      none
+		*/
+		virtual void SetName(const std::string)final;
 
 	private:
 	
