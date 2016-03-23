@@ -1,4 +1,17 @@
-#pragma once
+/******************************************************************************/
+/*! @addtogroup aetherClass
+@file      Sphere.h
+@brief     球作成用クラス
+
+*******************************************************************************
+@date       2016/01/05
+@author     湯川計
+@par        1.0
+$Id$
+@par        Team Hurusu
+******************************************************************************/
+#ifndef _SPHERE_H
+#define _SPHERE_H
 #include "ModelBase.h"
 #include "VertexType.h"
 namespace aetherClass
@@ -12,7 +25,7 @@ namespace aetherClass
 
 	private:
 		/*
-		@brief          初期化用関数。派生先でオーバーライドし初期化の処理を記述
+		@brief          基底クラスから呼ばれる
 		@param          none
 		@return         none
 		@exception      none
@@ -20,7 +33,7 @@ namespace aetherClass
 		bool InitializeBuffers()override;
 
 		/*
-		@brief          解放用関数。派生先でオーバーライドし解放の処理を記述
+		@brief          基底クラスから呼ばれる
 		@param          none
 		@return         none
 		@exception      none
@@ -28,7 +41,7 @@ namespace aetherClass
 		void FinalizeBuffers()override;
 
 		/*
-		@brief          描画用関数。派生先でオーバーライドし描画の処理を記述
+		@brief          基底クラスから呼ばれる
 		@param          none
 		@return         none
 		@exception      none
@@ -41,3 +54,4 @@ namespace aetherClass
 		float m_radius;
 	};
 }
+#endif

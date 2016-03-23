@@ -72,6 +72,7 @@ void WorldReader::UnLoadTexture(){
 		delete texture;
 		texture = nullptr;
 	}
+	m_world._texture.clear();
 }
 
 //
@@ -83,6 +84,7 @@ void WorldReader::UnLoadObject(){
 		delete object;
 		object = nullptr;
 	}
+	m_world._object.clear();
 }
 
 //
@@ -94,6 +96,8 @@ void WorldReader::UnLoadMaterial(){
 		delete material;
 		material = nullptr;
 	}
+
+	m_world._material.clear();
 }
 
 // オブジェクト情報を読み取る

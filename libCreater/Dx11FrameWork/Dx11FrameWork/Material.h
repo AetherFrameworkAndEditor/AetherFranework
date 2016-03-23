@@ -10,16 +10,6 @@
 $Id$
 @par        Team Hurusu
 
-*******************************************************************************
-@par        History
-- 2015/12/27 ã‡éq òaé˜
--# Initial Version
-- 2015/12/27 ã¥ñ{ çq
--# êVÇµÇ¢ê›åvÇ…çáÇÌÇπÇΩ
-- 2015/12/27 ã¥ñ{ çq
--# delete GetMaterial function
-- 2015/12/27 ã¥ñ{ çq
--# add MaterialElement struct
 ******************************************************************************/
 #ifndef _MATERIAL_H
 #define _MATERIAL_H
