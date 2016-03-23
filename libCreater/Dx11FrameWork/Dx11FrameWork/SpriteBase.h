@@ -76,7 +76,12 @@ namespace aetherClass{
 		*/
 		virtual int GetIndexCount()final;
 
-		
+		/*
+		@brief          オブジェクト名を得る
+		@param[in]      none
+		@return         オブジェクト名
+		@exception      none
+		*/
 		virtual std::string GetName()final;
 		
 	private :
@@ -120,6 +125,13 @@ namespace aetherClass{
 		Texture* m_texture;
 
 	protected:
+
+		/*
+		@brief          オブジェクト名を指定する
+		@param[in]      オブジェクト名
+		@return         none
+		@exception      none
+		*/
 		virtual void SetName(const std::string);
 	private:
 		std::string m_spriteName;

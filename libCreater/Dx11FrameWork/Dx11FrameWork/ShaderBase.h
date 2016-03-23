@@ -11,7 +11,6 @@
 @par        1.0
 $Id$
 @par        Team Hurusu
-
 ******************************************************************************/
 #include<string>
 #include"DirectXEntity.h"
@@ -39,13 +38,13 @@ namespace aetherClass{
 				SecureZeroMemory(this, sizeof(Shader));
 				_shaderCompileFlags = D3D10_SHADER_ENABLE_STRICTNESS;
 			}
-			std::wstring _srcFile;
-			CONST D3D10_SHADER_MACRO *_pDefines;
-			LPD3D10INCLUDE _pInclude;
-			std::string _entryName;
-			std::string _shaderModel;
-			UINT _shaderCompileFlags;
-			UINT _effectCompileFlags;
+			std::wstring _srcFile;		//シェーダーファイルのパス
+			CONST D3D10_SHADER_MACRO *_pDefines;	//シェーダーマクロ
+			LPD3D10INCLUDE _pInclude;			//シェーダーインクルードヘッダ
+			std::string _entryName;				//エントリー名
+			std::string _shaderModel;			//シェーダーのモデル（バージョンのようなもの）
+			UINT _shaderCompileFlags;			
+			UINT _effectCompileFlags;			
 			ID3DX11ThreadPump *_pPump;
 		};
 		Shader _vertex;
