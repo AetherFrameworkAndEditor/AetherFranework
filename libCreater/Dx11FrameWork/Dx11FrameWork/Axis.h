@@ -11,7 +11,6 @@
 @par        1.0
 $Id$
 @par        Team Hurusu
-
 ******************************************************************************/
 #include "Vector3.h"
 
@@ -23,6 +22,12 @@ namespace aetherClass{
 		Axis(Vector3,Vector3,Vector3);
 		~Axis();
 
+		/*
+		@brief          •ª—£²‚ğXV‚·‚é
+		@param          none
+		@return         none
+		@exception      none
+		*/
 		void Update(Vector3 rotation);
 
 	public:

@@ -4,8 +4,8 @@
 @brief     キー入力管理クラス
 
 *******************************************************************************
-@date       2016/02/03
-@author     橋本　航
+@date       2016/2/27
+@author     橋本航
 @par        1.0
 $Id$
 @par        Team Hurusu
@@ -29,10 +29,41 @@ namespace aetherClass{
 		GameKeyBord();
 		~GameKeyBord();
 
-		bool Initialize(HINSTANCE,HWND);
+		/*
+		@brief          デバイスの初期化
+		@param          インスタンスハンドル
+		@param          ウィンドウハンドル
+		@return         成功時 true / 失敗時 false
+		@exception      none
+		*/
+		bool Initialize(HINSTANCE, HWND);
+		/*
+		@brief          更新処理
+		@param          none
+		@return         成功時 true/失敗時 false
+		@exception      none
+		*/
 		bool Read();
+		/*
+		@brief          キーが押されているか
+		@param          DIK_系のキーコード
+		@return         true/false
+		@exception      none
+		*/
 		bool IsKeyDown(unsigned int keyType);
+		/*
+		@brief          デバイス等の解放処理
+		@param          none
+		@return         none
+		@exception      none
+		*/
 		void Finalize();
+		/*
+		@brief          コントローラーが反応するウィンドウを変更する
+		@param          ウィンドウハンドル
+		@return         none
+		@exception      none
+		*/
 		void ChangeActiveWindow(HWND hwnd);
 
 	private:
