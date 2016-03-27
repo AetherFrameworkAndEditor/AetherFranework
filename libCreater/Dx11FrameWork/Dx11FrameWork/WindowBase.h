@@ -81,8 +81,24 @@ namespace aetherClass{
 
 	private:
 
+		/*
+		@brief          ウィンドウの登録
+		@return         callback
+		@exception		none
+		*/
 		BOOL RegisterWindow(std::wstring windowName);
+
+		/*
+		@brief          ウィンドウプロシージャ 独自のプロシージャを走らせる前の準備
+		@return         callback
+		@exception		none
+		*/
 		static LRESULT CALLBACK CloseWindowProcedure(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+		/*
+		@brief          Createの代わりに利用してください
+		@return         true/false
+		@exception		none
+		*/
 		bool InitializeWindow(Vector2 screenSize, Vector2 screenPos);
 		
 		/*

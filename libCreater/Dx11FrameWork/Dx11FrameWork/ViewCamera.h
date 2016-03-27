@@ -31,10 +31,27 @@ namespace aetherClass{
 
 		Property property;
 
-
+		/*
+		@brief          ビュー行列を生成する
+		@param[in]      none
+		@return         none
+		@exception      none
+		*/
 		void Render();
+		/*
+		@brief          ビュー行列を取得する
+		@param[in]      none
+		@return         ビュー行列
+		@exception      none
+		*/
 		Matrix4x4 GetViewMatrix();
 #ifdef DEBUG_MODE
+		/*
+		@brief          カメラコントロールを呼ぶ
+		@param[in]      none
+		@return         none
+		@exception      DEBUG_MODEが定義されていれば使用可能
+		*/
 		void Controller();
 #endif
 
