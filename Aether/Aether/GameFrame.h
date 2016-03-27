@@ -4,22 +4,12 @@
 @brief     ƒQ[ƒ€‚Ì‚PƒtƒŒ[ƒ€‚²‚Æ‚Ìˆ—‚ğs‚¤
 
 *******************************************************************************
-@date       2016/01/06 23:06
+@date       2016/01/06
 @author     ‹´–{q
 @par        1.0
 $Id$
 @par        Team Hurusu
 
-*******************************************************************************
-@par        History
-- 2016/01/06 23:06 ‹´–{q
--# Initial Version
-- 2016/01/12 10:47 ‹àq˜a÷
--# Finalization ¨ Finalize
-- 2016/01/18 13:37 ‹´–{q
--# add GameSceneManager object
-- 2016/01/18 13:37 ‹´–{q
--# ƒNƒ‰ƒX‚Éfinal‚ğ‚Â‚¯Œp³‚ğ‹Ö~‚µ‚½
 ******************************************************************************/
 #ifndef _GAMEFRAME_H
 #define _GAMEFRAME_H
@@ -27,6 +17,7 @@ $Id$
 #include "GameSceneManager.h"
 #include"GameController.h"
 #include"DirectXEntity.h"
+#include "GameScene.h"
 #include <memory>
 namespace aetherClass{
 
@@ -114,10 +105,10 @@ namespace aetherClass{
 		virtual void FinalizeBuffer(){ return; }
 
 	private:
-		static std::unique_ptr<Direct3DManager> m_direct3D;
 		static Color m_backgroundColor;
-		static std::unique_ptr<GameSceneManager> m_sceneManager;
-		static std::unique_ptr<GameScene> m_scene;
+		std::unique_ptr<Direct3DManager> m_direct3D;
+		std::unique_ptr<GameSceneManager> m_sceneManager;
+		std::unique_ptr<GameScene> m_scene;
 		DirectXEntity m_entity;
 
 	};

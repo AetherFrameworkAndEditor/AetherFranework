@@ -3,7 +3,7 @@
 /******************************************************************************/
 /*! @addtogroup aetherClass
 @file      Axis.h
-@brief     軸クラス
+@brief     分離軸クラス
 
 *******************************************************************************
 @date       2015/12/23
@@ -11,11 +11,6 @@
 @par        1.0
 $Id$
 @par        Team Hurusu
-
-*******************************************************************************
-@par        History
-- 2015/12/23 橋本航
--# Initial Version
 ******************************************************************************/
 #include "Vector3.h"
 
@@ -27,6 +22,12 @@ namespace aetherClass{
 		Axis(Vector3,Vector3,Vector3);
 		~Axis();
 
+		/*
+		@brief          引数の回転情報から分離軸を更新
+		@param[in]      回転情報
+		@return         none
+		@exception      none
+		*/
 		void Update(Vector3 rotation);
 
 	public:

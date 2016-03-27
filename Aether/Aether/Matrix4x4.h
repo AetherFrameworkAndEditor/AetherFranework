@@ -6,21 +6,11 @@
 @brief     4x4の行列クラス
 
 *******************************************************************************
-@date       2015/1/6 17:10
+@date       2016/1/6
 @author     金子和樹
 @par        1.0
 $Id$
 @par        Team Hurusu
-
-*******************************************************************************
-@par        History
-- 2016/1/6 17:10	金子和樹
--# Initial Version
-- 2016/1/6 21:45	金子和樹
--# Add View relation methods
-- 2016/1/24 14:40	橋本航
--# add RightToLeftIdentity function
-
 ******************************************************************************/
 
 #include<DirectXMath.h>
@@ -59,7 +49,6 @@ namespace aetherClass{
 		@exception      none
 		*/
 		void RightToLeftIdentity();
-
 
 
 		/*
@@ -147,20 +136,90 @@ namespace aetherClass{
 		@brief          この行列を別の行列と掛け合わせる
 		@param			掛け合わせる行列
 
-		@return         none
+		@return         掛け合わされた行列
 		@exception      none
 		*/
 		Matrix4x4 Multiply(Matrix4x4 matrix);
 
-		void PerspectiveFovLH(float fov,float aspect,float zNear,float zFar);
-		void PerspectiveFovRH(float fov, float aspect, float zNear, float zFar);
 
+		/*
+		@brief          左手系のスクリーン変換行列　視野角を利用
+		@param			視野角
+		@param			アスペクト比
+		@param			近クリップ面の距離
+		@param			遠クリップ面の距離
+
+		@return         none
+		@exception      none
+		*/
+		void PerspectiveFovLH(float fov, float aspect, float zNear, float zFar);
+		/*
+		@brief          右手系のスクリーン変換行列　視野角を利用
+		@param			視野角
+		@param			アスペクト比
+		@param			近クリップ面の距離
+		@param			遠クリップ面の距離
+
+		@return         none
+		@exception      none
+		*/
+		void PerspectiveFovRH(float fov, float aspect, float zNear, float zFar);
+		
+		/*
+		@brief          左手系のスクリーン変換行列　近クリップ面の幅を利用
+		@param			幅
+		@param			高さ
+		@param			近クリップ面の距離
+		@param			遠クリップ面の距離
+
+		@return         none
+		@exception      none
+		*/
 		void PerspectiveLH(float width,float height,float zNear, float zFar);
+		/*
+		@brief          右手系のスクリーン変換行列　近クリップ面の幅を利用
+		@param			幅
+		@param			高さ
+		@param			近クリップ面の距離
+		@param			遠クリップ面の距離
+
+		@return         none
+		@exception      none
+		*/
 		void PerspectiveRH(float width, float height, float zNear, float zFar);
 
+		/*
+		@brief          左手系のスクリーン変換行列　zを利用せず大きさをそのまま表現できる
+		@param			幅
+		@param			高さ
+		@param			近クリップ面の距離
+		@param			遠クリップ面の距離
+
+		@return         none
+		@exception      none
+		*/
 		void OrthoLH(float width, float height, float zNear, float zFar);
+		/*
+		@brief          右手系のスクリーン変換行列　zを利用せず大きさをそのまま表現できる
+		@param			幅
+		@param			高さ
+		@param			近クリップ面の距離
+		@param			遠クリップ面の距離
+
+		@return         none
+		@exception      none
+		*/
 		void OrthoRH(float width, float height, float zNear, float zFar);
 	
+		/*
+		@brief          左手系のビュー変換行列
+		@param			位置
+		@param			注視点
+		@param			カメラの上方向
+
+		@return         none
+		@exception      none
+		*/
 		void LookAtLH(Vector3 pos, Vector3 lookat, Vector3 up);
 
 		public:

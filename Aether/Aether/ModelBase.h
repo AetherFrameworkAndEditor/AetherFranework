@@ -4,22 +4,12 @@
 @brief     モデルクラスの基底クラス
 
 *******************************************************************************
-@date       2016/01/05 1:29
+@date       2016/01/05
 @author     橋本航
 @par        1.0
 $Id$
 @par        Team Hurusu
 
-*******************************************************************************
-@par        History
-- 2016/1/5 1:29 橋本航
--# Initial Version
-- 2016/1/7 4:37	金子和樹
--#　色々な更新Color Tranform Material 追加
-- 2016/1/10 18:17 金子和樹
--#　シェーダー開放
-- 2016/1/20 21:08
--#　MaterialをConstant bufferへ登録
 ******************************************************************************/
 
 #ifndef _MODELBASE_H
@@ -113,7 +103,13 @@ namespace aetherClass{
 		ViewCamera* m_camera;
 
 	protected:
-		virtual void SetName(const std::string);
+		/*
+		@brief          名前の設定。派生先で記述
+		@param          none
+		@return         none
+		@exception      none
+		*/
+		virtual void SetName(const std::string)final;
 
 	private:
 	

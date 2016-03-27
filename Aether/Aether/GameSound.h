@@ -1,3 +1,16 @@
+/******************************************************************************/
+/*! @addtogroup aetherClass
+@file      GameSound.h
+@brief     サウンドを使用する際に使用するクラス
+
+*******************************************************************************
+@date       2015/12/23
+@author     橋本航
+@par        1.0
+$Id$
+@par        Team Hurusu
+
+******************************************************************************/
 #ifndef _GAMESOUND_H
 #define _GAMESOUND_H
 
@@ -57,22 +70,101 @@ namespace aetherClass{
 		~GameSound();
 		
 		
+		/*
+		@brief          ファイルの読み込み
+		@param[in]      ファイル名を含んだパス
+		@return         成功時：true
+		@exception      none
+		*/
 		bool Load(const char*);
+
+		/*
+		@brief          ボリュームの設定
+		@param[in]      float値
+		@return         none
+		@exception      none
+		*/
 		void SetValume(const float);
+
+		/*
+		@brief          スピードの設定
+		@param[in]      eSoundSpeed（列挙型）のいずれかの値
+		@return         none
+		@exception      none
+		*/
 		void SetSpeed(long);
+
+		/*
+		@brief          一回きりの再生用
+		@param          none
+		@return         成功時：true
+		@exception      none
+		*/
 		bool PlayToOneTime();
+
+		/*
+		@brief          ループ再生用
+		@param          none
+		@return         成功時：true
+		@exception      none
+		*/
 		bool PlayToLoop();
+		
+		/*
+		@brief          一時停止用
+		@param          none
+		@return         none
+		@exception      none
+		*/
 		void Stop();
 	private:
 	
+		/*
+		@brief          解放用
+		@param          none
+		@return         none
+		@exception      none
+		*/
 		void Finalize();
 		
+		/*
+		@brief          DirectSoundの初期化用
+		@param          none
+		@return         成功時：true
+		@exception      none
+		*/
 		bool InitializeDirectSound();
+
+		/*
+		@brief          DirectSoundの解放用
+		@param          none
+		@return         none
+		@exception      none
+		*/
 		void FinalizeDIrectSound();
 
+		/*
+		@brief          Waveフォーマットのファイルの読み込み
+		@param          none
+		@return         none
+		@exception      none
+		*/
 		bool LoadWaveFile(const char*, IDirectSoundBuffer8**);
+
+		/*
+		@brief          Waveフォーマットのファイルの解放用
+		@param          none
+		@return         none
+		@exception      none
+		*/
 		void FinalizeWaveFile(IDirectSoundBuffer8**);
 
+		/*
+		@brief          再生用
+		@param          none
+		@return         成功時：true
+		@exception      none
+		*/
 		bool PlayWaveFile(DWORD);
 
 

@@ -9,12 +9,6 @@
 $Id$
 @par        Team Hurusu
 
-*******************************************************************************
-@par        History
-- 2015/12/27 ã¥ñ{çq
--# Initial Version
-- 2016/01/22 ã¥ñ{çq
--# add IsTextureVisible function
 ******************************************************************************/
 #ifndef _NODEMESH_H
 #define _NODEMESH_H

@@ -9,11 +9,6 @@
 @par        1.0
 $Id$
 @par        Team Hurusu
-
-*******************************************************************************
-@par        History
-- 2015/12/23 橋本航
--# Initial Version
 ******************************************************************************/
 
 
@@ -37,12 +32,6 @@ namespace aetherClass{
 		/*
 		@brief          ベクトルを正規化する
 		@param          none
-		@par            Refer
-		- 使用するメンバ関数   GetVectorLength
-		@par            Modify
-		- 変更するメンバ変数   _x
-		- 変更するメンバ変数   _y
-		- 変更するメンバ変数   _z
 		@return         none
 		@exception      none
 		*/
@@ -51,12 +40,6 @@ namespace aetherClass{
 		/*
 		@brief          対象ベクトルとの内積を求める
 		@param[in]      otherVector
-		@par            Refer
-		- 使用するメンバ関数   _x
-		- 使用するメンバ関数   _y
-		- 使用するメンバ関数   _z
-		@par            Modify
-		- 変更するメンバ変数   none
 		@return         内積の値を返す
 		@exception      none
 		*/
@@ -65,12 +48,6 @@ namespace aetherClass{
 		/*
 		@brief          対象ベクトルとの外積を求める
 		@param[in]      otherVector
-		@par            Refer
-		- 使用するメンバ関数   _x
-		- 使用するメンバ関数   _y
-		- 使用するメンバ関数   _z
-		@par            Modify
-		- 変更するメンバ変数   none
 		@return         内積の値を返す
 		@exception      none
 		*/
@@ -80,12 +57,6 @@ namespace aetherClass{
 		/*
 		@brief          四点間の距離を求める
 		@param          none
-		@par            Refer
-		- 使用するメンバ関数   _x
-		- 使用するメンバ関数   _y
-		- 使用するメンバ関数   _z
-		@par            Modify
-		- 変更するメンバ変数   none
 		@return         距離の値を返す
 		@exception      none
 		*/

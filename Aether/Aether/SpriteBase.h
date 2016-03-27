@@ -1,20 +1,14 @@
 /******************************************************************************/
 /*! @addtogroup aetherClass
-@file      ModelBase.h
-@brief     モデルクラスの基底クラス
+@file      SpriteBase.h
+@brief     スプライトクラスの基底クラス
 
 *******************************************************************************
-@date       2016/01/05 1:29
+@date       2016/01/05
 @author     金子和樹
 @par        1.0
 $Id$
 @par        Team Hurusu
-
-*******************************************************************************
-@par        History
-- 2016/1/5 1:21 金子和樹
--# Initial Version
-
 ******************************************************************************/
 
 #ifndef _SPRITEBASE_H
@@ -82,7 +76,12 @@ namespace aetherClass{
 		*/
 		virtual int GetIndexCount()final;
 
-		
+		/*
+		@brief          オブジェクト名を得る
+		@param[in]      none
+		@return         オブジェクト名
+		@exception      none
+		*/
 		virtual std::string GetName()final;
 		
 	private :
@@ -126,6 +125,13 @@ namespace aetherClass{
 		Texture* m_texture;
 
 	protected:
+
+		/*
+		@brief          オブジェクト名を指定する
+		@param[in]      オブジェクト名
+		@return         none
+		@exception      none
+		*/
 		virtual void SetName(const std::string);
 	private:
 		std::string m_spriteName;

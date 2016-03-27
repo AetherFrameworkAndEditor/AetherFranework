@@ -9,7 +9,7 @@ Text::Text()
 	m_texture = nullptr;
 	m_sampler = new Texture();
 	m_sampler->Load("");
-
+	SetName("Text");
 }
 
 

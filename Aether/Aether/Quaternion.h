@@ -1,5 +1,19 @@
 #ifndef _QUATERNION_H
 #define _QUATERNION_H
+/******************************************************************************/
+/*! @addtogroup aetherClass
+@file      Quaternion.h
+@brief     クォータニオンのクラス
+
+*******************************************************************************
+@date       2016/1/10
+@author     橋本航
+@par        1.0
+$Id$
+@par        Team Hurusu
+******************************************************************************/
+
+
 #include "Vector3.h"
 #include "Matrix4x4.h"
 namespace aetherClass{

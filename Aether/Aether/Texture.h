@@ -8,15 +8,6 @@
 @par        1.0
 $Id$
 @par        Team Hurusu
-
-*******************************************************************************
-@par        History
-- 2015/12/27 橋本航
--# Initial Version
-- 2016/01/12 10:10 橋本航
--# Finalizeをprivateメンバに変更。
-- 2016/01/20 17:03 橋本航
--# SamplerStateオブジェクトの追加。それに伴うGetterの追加。
 ******************************************************************************/
 #ifndef _TEXTURE_H
 #define _TEXTURE_H
@@ -57,7 +48,11 @@ namespace aetherClass{
 		@exception      none
 		*/
 		ID3D11SamplerState* GetSamplerState();
+
+		std::string GetPath()const;
+
 	private:
+		std::string m_path;
 		ID3D11ShaderResourceView* m_texture;
 		ID3D11SamplerState *m_samplerState;
 	private:

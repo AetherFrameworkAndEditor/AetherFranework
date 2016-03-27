@@ -9,13 +9,6 @@
 @par        1.0
 $Id$
 @par        Team Hurusu
-
-*******************************************************************************
-@par        History
-- 2015/12/23 橋本航
--# Initial Version
-- 2016/1/6 23:00	金子和樹
--# Add TransformCoord.
 ******************************************************************************/
 
 
@@ -71,6 +64,15 @@ namespace aetherClass{
 		@exception      none
 		*/
 		Vector3 TransformCoord(Matrix4x4 matrix);
+
+		/*
+		@brief          対象行列で現在のベクトルを変換(wは無いものとして扱う)
+		@param          none
+		@return			none
+		@exception      none
+		*/
+		Vector3 TransformCoordNormal(Matrix4x4 matrix);
+
 	public:
 
 		float _x, _y, _z;

@@ -6,21 +6,11 @@
 @brief     ライトオブジェクト
 
 *******************************************************************************
-@date       2016/1/18 10:23
+@date       2016/1/18
 @author     金子和樹
 @par        1.0
 $Id$
 @par        Team Hurusu
-
-*******************************************************************************
-@par        History
-- 2016/1/18 10:23 金子和樹
--# Initial Version
-- 2016/1/22 1:30 橋本航
--# Change include file
-- 2016/1/22 15:4 4橋本航
--# add RenderObject and InitializeObject and 
-   FinalizeObject function and ModeBase class object
 ******************************************************************************/
 #include "Vector3.h"
 #include "Triangle.h"

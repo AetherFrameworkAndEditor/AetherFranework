@@ -1,28 +1,3 @@
-/******************************************************************************/
-/*! @addtogroup aetherClass
-@file      Vector3.h
-@brief     3次元ベクトルクラス
-
-*******************************************************************************
-@date       2015/12/23
-@author     橋本航
-@par        1.0
-$Id$
-@par        Team Hurusu
-
-*******************************************************************************
-@par        History
-- 2015/12/23 橋本航
--# Initial Version
-- 2016/1/6 23:00	金子和樹
--# Add TransformCoord.
-- 2016/1/6 23:00	橋本航
--# GetVectorLength()の式を修正
-   -#before: length = sqrtf((_x*_x) + (_y*_y) + (_z + _z));
-   -#after : length = sqrtf((_x*_x) + (_y*_y) + (_z * _z));
-
-******************************************************************************/
-
 #include "Vector3.h"
 #include <math.h>
 #include"Matrix4x4.h"
@@ -91,6 +66,16 @@ using namespace DirectX;
 		output._z = (this->_x * m._matrix[0][2] + this->_y * m._matrix[1][2] + this->_z * m._matrix[2][2] + m._matrix[3][2]) * w;
 		return output;
 	}
+
+	Vector3 Vector3::TransformCoordNormal(Matrix4x4 input){
+		Vector3 out;
+		out._x = (this->_x * input._11) + (this->_y * input._21) + (this->_z * input._31);
+		out._y = (this->_x * input._12) + (this->_y * input._22) + (this->_z * input._32);
+		out._z = (this->_x * input._13) + (this->_y * input._23) + (this->_z * input._33);
+
+		return out;
+	}
+
 
 	/*	代入		*/
 

@@ -102,6 +102,8 @@ bool WindowBase::InitializeWindow(Vector2 screenSize, Vector2 screenPos){
 	}
 	// Bring the window up on the screen and set it as main focus
 	::ShowWindow(m_hWnd, SW_SHOW);
+	::SetForegroundWindow(m_hWnd);
+	::SetFocus(m_hWnd);
 
 	SetWindowLong(m_hWnd, GWL_USERDATA, (LONG)this);
 

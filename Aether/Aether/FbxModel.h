@@ -11,10 +11,6 @@
 $Id$
 @par        Team Hurusu
 
-*******************************************************************************
-@par        History
-- 2016/01/15 10:56 ã¥ñ{çq
--# Initial Version
 ******************************************************************************/
 #ifndef _FBXMODEL_H
 #define _FBXMODEL_H
@@ -48,7 +44,7 @@ namespace aetherClass{
 		@return         none
 		@exception      none
 		*/
-		virtual void LoadFBX(std::string, eAxisSystem)final;
+		virtual bool LoadFBX(std::string, eAxisSystem)final;
 
 		/*
 		@brief          âï˙óp

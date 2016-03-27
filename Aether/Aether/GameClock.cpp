@@ -38,7 +38,7 @@ void GameClock::EndTime(){
 	// ‚±‚±‚ÅdeltaTime‚ğ‹‚ß‚é
 	m_deltaTime = ((perSecond - (tick/1000.f))/1000.f);
 
-	std::cout << m_deltaTime << std::endl;
+	//std::cout << m_deltaTime << std::endl;
 	return;
 }
 

@@ -6,18 +6,11 @@
 @brief     Shaderの基底クラス
 
 *******************************************************************************
-@date       2016/1/10 17:10
+@date       2016/1/10
 @author     金子和樹
 @par        1.0
 $Id$
 @par        Team Hurusu
-
-*******************************************************************************
-@par        History
-- 2016/1/10 18:17  金子和樹
--# Initial Version
-- 2016/1/10 22:10 金子和樹
--# コメントつけた
 ******************************************************************************/
 #include<string>
 #include"DirectXEntity.h"
@@ -45,13 +38,13 @@ namespace aetherClass{
 				SecureZeroMemory(this, sizeof(Shader));
 				_shaderCompileFlags = D3D10_SHADER_ENABLE_STRICTNESS;
 			}
-			std::wstring _srcFile;
-			CONST D3D10_SHADER_MACRO *_pDefines;
-			LPD3D10INCLUDE _pInclude;
-			std::string _entryName;
-			std::string _shaderModel;
-			UINT _shaderCompileFlags;
-			UINT _effectCompileFlags;
+			std::wstring _srcFile;		//シェーダーファイルのパス
+			CONST D3D10_SHADER_MACRO *_pDefines;	//シェーダーマクロ
+			LPD3D10INCLUDE _pInclude;			//シェーダーインクルードヘッダ
+			std::string _entryName;				//エントリー名
+			std::string _shaderModel;			//シェーダーのモデル（バージョンのようなもの）
+			UINT _shaderCompileFlags;			
+			UINT _effectCompileFlags;			
 			ID3DX11ThreadPump *_pPump;
 		};
 		Shader _vertex;
