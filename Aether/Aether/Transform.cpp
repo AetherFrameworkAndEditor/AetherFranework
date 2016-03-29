@@ -20,6 +20,7 @@ using namespace DirectX;
 
 	Transform::Transform()
 	{
+		_position = 0;
 		_translation = NULL;
 		_rotation = NULL;
 		_scale = 1.0f;
@@ -38,18 +39,18 @@ using namespace DirectX;
 	}
 
 	Matrix4x4 Transform::Transmatrix(){
-		Matrix4x4 transmatrix, rotematrix, scalimatrix;
-		float pitch, yaw, roll;
-		transmatrix.TranslateMatrix(Vector3(_translation._x, _translation._y, _translation._z));
-		pitch = _rotation._x	* kAetherRadian;
-		yaw = _rotation._y	* kAetherRadian;
-		roll = _rotation._z	* kAetherRadian;
+		Matrix4x4 transmatrix, posmatrix, rotematrix, scalimatrix;
 
-		rotematrix.PitchYawRoll(Vector3(pitch, yaw, roll));
-		scalimatrix.ScaliMatrix(Vector3(_scale._x, _scale._y, _scale._z));
 
-		Matrix4x4 identity;
-		identity= (scalimatrix.Multiply(rotematrix)).Multiply(transmatrix);
+		rotematrix.PitchYawRoll(_rotation*kAetherRadian);
+		posmatrix.TranslateMatrix(_position);
+		transmatrix.TranslateMatrix(_translation);
+		scalimatrix.ScaliMatrix(_scale);
+
+		Matrix4x4 identity = scalimatrix;
+		identity = identity.Multiply(posmatrix);
+		identity = identity.Multiply(rotematrix);
+		identity = identity.Multiply(transmatrix);
 		return identity;
 	}
 
