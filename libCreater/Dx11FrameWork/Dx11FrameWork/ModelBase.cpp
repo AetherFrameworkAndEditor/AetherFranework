@@ -134,6 +134,10 @@ void ModelBase::CreateConstantBuffers(){
 		GetDirect3DManager()->GetDeviceContext()->PSSetSamplers(0, 1, &sampler);
 		GetDirect3DManager()->GetDeviceContext()->PSSetShaderResources(0, 1, &tex);
 	}
+	else{
+		ID3D11ShaderResourceView* tex = nullptr;
+		GetDirect3DManager()->GetDeviceContext()->PSSetShaderResources(0, 1, &tex);
+	}
 }
 
 //
