@@ -23,7 +23,7 @@ namespace aetherClass{
 	class SpriteBase :
 		public DirectXEntity
 	{
-	private:
+	public:
 		struct Property
 		{
 			Transform _transform;

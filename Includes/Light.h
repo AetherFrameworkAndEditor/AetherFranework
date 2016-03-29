@@ -18,6 +18,7 @@ $Id$
 namespace aetherClass{
 	class Light
 	{
+	public:
 		struct Property{
 			Vector3 _translation;
 		};

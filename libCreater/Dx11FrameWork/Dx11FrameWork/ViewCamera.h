@@ -19,6 +19,7 @@ $Id$
 namespace aetherClass{
 	class ViewCamera
 	{
+	public:
 		struct Property{
 			Vector3 _translation;
 			Vector3 _rotation;

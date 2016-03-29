@@ -91,6 +91,12 @@ namespace aetherClass{
 		*/
 		virtual Axis& GetAxis()final;
 
+		/*
+		@brief          オブジェクト名を得る
+		@param[in]      none
+		@return         オブジェクト名
+		@exception      none
+		*/
 		virtual std::string GetName()const;
 
 	public:

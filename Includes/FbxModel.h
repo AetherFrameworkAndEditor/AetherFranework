@@ -28,7 +28,7 @@ namespace aetherClass{
 	class FbxModel:
 		DirectXEntity
 	{
-	private:
+	public:
 		struct Property{
 			Transform _transform;
 		};
