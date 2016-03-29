@@ -1,57 +1,55 @@
+#ifndef _PIXELSHADER_H
+#define _PIXELSHADER_H
 /******************************************************************************/
 /*! @addtogroup aetherClass
-@file      Sphere.h
-@brief     球作成用クラス
+@file      PixelShader.h
+@brief     基本的なシェーダー。既に割り当てられた情報を扱うときに。
 
 *******************************************************************************
-@date       2016/01/05
-@author     湯川計
+@date       2016/1/10
+@author     金子和樹
 @par        1.0
 $Id$
 @par        Team Hurusu
 ******************************************************************************/
-#ifndef _SPHERE_H
-#define _SPHERE_H
-#include "ModelBase.h"
-#include "VertexType.h"
-namespace aetherClass
-{
-	class Sphere :
-		public ModelBase
+
+#include "ShaderBase.h"
+namespace aetherClass{
+	class  PixelShader :
+		public ShaderBase
 	{
+
+	
 	public:
-		Sphere(UINT,UINT);
-		~Sphere();
+		PixelShader();
+		~PixelShader() = default;
 
 	private:
+
 		/*
-		@brief          初期化用関数。
+		@brief          初期化用関数
 		@param          none
 		@return         true/false
 		@exception      none
 		*/
-		bool InitializeBuffers()override;
-
+		bool InitializeShader()override;
 		/*
-		@brief          解放用関数。
+		@brief          終了用関数
 		@param          none
 		@return         none
 		@exception      none
 		*/
-		void FinalizeBuffers()override;
-
+		void FinalizeShader()override;
 		/*
-		@brief          描画用関数。
+		@brief          描画時用関数
 		@param          none
-		@return         none
+		@return         true/false
 		@exception      none
 		*/
-		void RenderBuffers()override;
-
-	private:
-		UINT m_sliceCount;
-		UINT m_stackCount;
-		float m_radius;
+		bool SetConstantBuffer()override;
 	};
+
+
 }
+
 #endif

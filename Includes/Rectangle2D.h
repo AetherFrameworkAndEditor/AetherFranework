@@ -1,54 +1,40 @@
-#ifndef _LINE_H
-#define _LINE_H
+
 /******************************************************************************/
 /*! @addtogroup aetherClass
-@file      Line.h
-@brief     線の基本モデル
+@file      Rectangle2D.h
+@brief     2Dオブジェクト描画用クラス
 
 *******************************************************************************
-@date       2016/1/15 
+@date       2016/1/10
 @author     金子和樹
 @par        1.0
 $Id$
 @par        Team Hurusu
+
 ******************************************************************************/
-#include "ModelBase.h"
-#include"VertexType.h"
+#ifndef _RECTANGLE2D_H
+#define _RECTANGLE2D_H
+
+#include"SpriteBase.h"
 
 namespace aetherClass{
-	struct RayVector
+	class Rectangle2D : public SpriteBase
 	{
-		RayVector(){
-			_origin = 0;
-			_direction = 0;
-			_scaler = 0;
-		};
-		Vector3 _origin;
-		Vector3 _direction;
-		float	_scaler;
-	};
-
-	class Line :
-		public ModelBase
-	{
-	private:
-		RayVector m_rayVector;
 	public:
-		Line();
-		Line(RayVector);
-		Line(Vector3, float);
-		~Line();
+		Rectangle2D();
+		~Rectangle2D() = default;
+
 	private:
 		/*
-		@brief          初期化用関数。
+		@brief          初期化用関数。派生先でオーバーライドし初期化の処理を記述
 		@param          none
-		@return         true/false
+		@return         none
 		@exception      none
 		*/
 		bool InitializeBuffers()override;
 
 		/*
-		@brief          解放用関数。
+		@brief          解放用関数。派生先でオーバーライドし解放の処理を記述
 		@param          none
 		@return         none
 		@exception      none
@@ -56,7 +42,7 @@ namespace aetherClass{
 		void FinalizeBuffers()override;
 
 		/*
-		@brief          描画用関数。
+		@brief          描画用関数。派生先でオーバーライドし描画の処理を記述
 		@param          none
 		@return         none
 		@exception      none
@@ -64,6 +50,6 @@ namespace aetherClass{
 		void RenderBuffers()override;
 
 	};
-
 }
 #endif
+
