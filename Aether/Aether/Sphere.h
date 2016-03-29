@@ -25,15 +25,15 @@ namespace aetherClass
 
 	private:
 		/*
-		@brief          基底クラスから呼ばれる
+		@brief          初期化用関数。
 		@param          none
-		@return         none
+		@return         true/false
 		@exception      none
 		*/
 		bool InitializeBuffers()override;
 
 		/*
-		@brief          基底クラスから呼ばれる
+		@brief          解放用関数。
 		@param          none
 		@return         none
 		@exception      none
@@ -41,7 +41,7 @@ namespace aetherClass
 		void FinalizeBuffers()override;
 
 		/*
-		@brief          基底クラスから呼ばれる
+		@brief          描画用関数。
 		@param          none
 		@return         none
 		@exception      none

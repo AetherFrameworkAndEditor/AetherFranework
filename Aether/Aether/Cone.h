@@ -1,44 +1,32 @@
-#ifndef _LINE_H
-#define _LINE_H
+#ifndef _CONE_H
+#define _CONE_H
 /******************************************************************************/
 /*! @addtogroup aetherClass
-@file      Line.h
-@brief     線の基本モデル
+@file       Cone.h
+@brief     円錐の基本モデル
 
 *******************************************************************************
-@date       2016/1/15 
+@date       2016/3/28
 @author     金子和樹
 @par        1.0
 $Id$
 @par        Team Hurusu
+
 ******************************************************************************/
+
 #include "ModelBase.h"
-#include"VertexType.h"
-
 namespace aetherClass{
-	struct RayVector
+class Cone :
+	public ModelBase
 	{
-		RayVector(){
-			_origin = 0;
-			_direction = 0;
-			_scaler = 0;
-		};
-		Vector3 _origin;
-		Vector3 _direction;
-		float	_scaler;
-	};
-
-	class Line :
-		public ModelBase
-	{
-	private:
-		RayVector m_rayVector;
 	public:
-		Line();
-		Line(RayVector);
-		Line(Vector3, float);
-		~Line();
+		Cone();
+		Cone(float);
+		~Cone();
 	private:
+		float m_slice;
+	private:
+
 		/*
 		@brief          初期化用関数。
 		@param          none
@@ -64,6 +52,5 @@ namespace aetherClass{
 		void RenderBuffers()override;
 
 	};
-
 }
 #endif

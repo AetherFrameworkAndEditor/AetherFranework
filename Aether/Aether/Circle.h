@@ -28,15 +28,15 @@ namespace aetherClass{
 		~Circle();
 	private:
 		/*
-		@brief          初期化用関数。派生先でオーバーライドし初期化の処理を記述
+		@brief          初期化用関数。
 		@param          none
-		@return         none
+		@return         true/false
 		@exception      none
 		*/
 		bool InitializeBuffers()override;
 
 		/*
-		@brief          解放用関数。派生先でオーバーライドし解放の処理を記述
+		@brief          解放用関数。
 		@param          none
 		@return         none
 		@exception      none
@@ -44,7 +44,7 @@ namespace aetherClass{
 		void FinalizeBuffers()override;
 
 		/*
-		@brief          描画用関数。派生先でオーバーライドし描画の処理を記述
+		@brief          描画用関数。
 		@param          none
 		@return         none
 		@exception      none

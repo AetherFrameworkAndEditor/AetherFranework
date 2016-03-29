@@ -11,12 +11,6 @@
 @par        1.0
 $Id$
 @par        Team Hurusu
-
-*******************************************************************************
-@par        History
-- 2016/1/15 11:23 金子和樹
--# Initial Version
-
 ******************************************************************************/
 #include "ModelBase.h"
 #include"VertexType.h"
@@ -30,15 +24,15 @@ namespace aetherClass{
 		~Point();
 	private:
 		/*
-		@brief          初期化用関数。派生先でオーバーライドし初期化の処理を記述
+		@brief          初期化用関数。
 		@param          none
-		@return         none
+		@return         true/false
 		@exception      none
 		*/
 		bool InitializeBuffers()override;
 
 		/*
-		@brief          解放用関数。派生先でオーバーライドし解放の処理を記述
+		@brief          解放用関数。
 		@param          none
 		@return         none
 		@exception      none
@@ -46,7 +40,7 @@ namespace aetherClass{
 		void FinalizeBuffers()override;
 
 		/*
-		@brief          描画用関数。派生先でオーバーライドし描画の処理を記述
+		@brief          描画用関数。
 		@param          none
 		@return         none
 		@exception      none
