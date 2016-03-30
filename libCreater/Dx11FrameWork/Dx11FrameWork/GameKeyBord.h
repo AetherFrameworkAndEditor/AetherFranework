@@ -12,16 +12,11 @@ $Id$
 ******************************************************************************/
 #ifndef _GAMEKEYBORD_H
 #define _GAMEKEYBORD_H
-#include<dinput.h>
+#include <Windows.h>
 
-#ifndef _CONTROLLER_
-#define _CONTROLLER_
-#define DIRECTINPUT_VERSION 0x0800
-
-#pragma comment(lib,"dinput8.lib")
-#pragma comment(lib,"dxguid.lib")
-#endif
-
+namespace{
+	const int kMaxKeyType = 256;
+}
 namespace aetherClass{
 	class GameKeyBord
 	{
@@ -36,40 +31,31 @@ namespace aetherClass{
 		@return         成功時 true / 失敗時 false
 		@exception      none
 		*/
-		bool Initialize(HINSTANCE, HWND);
+		void Initialize();
+		
 		/*
-		@brief          更新処理
-		@param          none
-		@return         成功時 true/失敗時 false
-		@exception      none
-		*/
-		bool Read();
-		/*
-		@brief          キーが押されているか
-		@param          DIK_系のキーコード
+		@brief          キーが押されたか
+		@param          キーコード
 		@return         true/false
 		@exception      none
 		*/
-		bool IsKeyDown(unsigned int keyType);
-		/*
-		@brief          デバイス等の解放処理
-		@param          none
-		@return         none
-		@exception      none
-		*/
-		void Finalize();
-		/*
-		@brief          コントローラーが反応するウィンドウを変更する
-		@param          ウィンドウハンドル
-		@return         none
-		@exception      none
-		*/
-		void ChangeActiveWindow(HWND hwnd);
+		bool IsKeyDown(unsigned int);
+		
 
+		/*
+		@brief          キーが押されているか
+		@param          キーコード
+		*/
+		void KeyDown(unsigned int keyType);
+
+		/*
+		@brief          キーが押されて離されたか
+		@param          キーコード
+		@exception      none
+		*/
+		void KeyUp(unsigned int keyType);
 	private:
-		IDirectInput8* m_directInput;
-		IDirectInputDevice8* m_keybord;
-		unsigned char m_keybordState[256];
+		bool m_keybordState[256];
 	};
 }
 #endif

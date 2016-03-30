@@ -21,7 +21,7 @@ bool GameController::Initialize(HINSTANCE& hInstance, HWND& hWnd)
 {
 	HRESULT result;
 	m_hWnd = hWnd;
-	result = GetKey().Initialize(hInstance, hWnd);
+	GetKey().Initialize();
 	result = GetMouse().Initialize(hInstance, hWnd);
 
 	return result;
@@ -43,17 +43,10 @@ bool GameController::Frame()
 {
 	bool result;
 
-	result = GetKey().Read();
-	if (!result)
-	{
-		return false;
-	}
 	result = GetMouse().Frame();
 	if (!result){
 		return false;
 	}
-
-
 
 	return true;
 }
@@ -61,7 +54,6 @@ bool GameController::Frame()
 
 void GameController::Destroy()
 {
-	GetKey().Finalize();
 	GetMouse().Finalize();
 	return;
 }

@@ -16,7 +16,6 @@ LRESULT CALLBACK AetherWindow::WindowProcedure(HWND hWnd, UINT uMsg, WPARAM wPar
 	{
 	case WM_ACTIVATE:
 		if (flg  == WA_ACTIVE || flg == WA_CLICKACTIVE){
-			GameController::GetKey().ChangeActiveWindow(m_hWnd);
 			GameController::GetMouse().ChangeActiveWindow(m_hWnd);
 		}
 		break;
