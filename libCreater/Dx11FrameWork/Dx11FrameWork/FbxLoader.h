@@ -15,7 +15,7 @@ $Id$
 #ifndef _FBXLOADER_H
 #define _FBXLOADER_H
 
-#ifndef _FBX_ff
+#ifndef _FBX_
 #define _FBX_
 #pragma comment (lib,"libfbxsdk-md.lib")
 #include <fbxsdk.h>
