@@ -79,51 +79,51 @@ void ViewCamera::Controller(){
 	Vector3 rotation;
 
 	bool IsKeyDown = false;
-	if (GameController::GetKey().IsKeyDown(DIK_LCONTROL)){
+	if (GameController::GetKey().IsKeyDown(VK_LCONTROL)){
 
-		if (GameController::GetKey().IsKeyDown(DIK_W)){
+		if (GameController::GetKey().IsKeyDown('W')){
 			rotation._x += cm_rote;
 		}
-		else if (GameController::GetKey().IsKeyDown(DIK_S)){
+		else if (GameController::GetKey().IsKeyDown('S')){
 			rotation._x -= cm_rote;
 		}
-		if (GameController::GetKey().IsKeyDown(DIK_Q)){
+		if (GameController::GetKey().IsKeyDown('Q')){
 			rotation._z += cm_rote;
 		}
-		else if (GameController::GetKey().IsKeyDown(DIK_E)){
+		else if (GameController::GetKey().IsKeyDown('W')){
 			rotation._z -= cm_rote;
 		}
-		if (GameController::GetKey().IsKeyDown(DIK_D)){
+		if (GameController::GetKey().IsKeyDown('D')){
 			rotation._y += cm_rote;
 		}
-		else if (GameController::GetKey().IsKeyDown(DIK_A)){
+		else if (GameController::GetKey().IsKeyDown('A')){
 			rotation._y -= cm_rote;
 		}
 		IsKeyDown = true;
 	}
 	else{
-		if (GameController::GetKey().IsKeyDown(DIK_E)){
+		if (GameController::GetKey().IsKeyDown('E')){
 			rotation._y += cm_rote;
 		}
-		else if (GameController::GetKey().IsKeyDown(DIK_Q)){
+		else if (GameController::GetKey().IsKeyDown('Q')){
 			rotation._y -= cm_rote;
 		}
-		if (GameController::GetKey().IsKeyDown(DIK_A)){
+		if (GameController::GetKey().IsKeyDown('A')){
 			translation._x -= cm_trans;
 		}
-		else if (GameController::GetKey().IsKeyDown(DIK_D)){
+		else if (GameController::GetKey().IsKeyDown('D')){
 			translation._x += cm_trans;
 		}
-		if (GameController::GetKey().IsKeyDown(DIK_W)){
+		if (GameController::GetKey().IsKeyDown('W')){
 			translation._z += cm_trans;
 		}
-		else if (GameController::GetKey().IsKeyDown(DIK_S)){
+		else if (GameController::GetKey().IsKeyDown('S')){
 			translation._z -= cm_trans;
 		}
-		if (GameController::GetKey().IsKeyDown(DIK_SPACE)){
+		if (GameController::GetKey().IsKeyDown(VK_SPACE)){
 			translation._y += cm_trans;
 		}
-		else if (GameController::GetKey().IsKeyDown(DIK_LSHIFT)){
+		else if (GameController::GetKey().IsKeyDown(VK_LSHIFT)){
 			translation._y -= cm_trans;
 		}
 
