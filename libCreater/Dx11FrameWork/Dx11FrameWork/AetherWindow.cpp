@@ -17,6 +17,18 @@ LRESULT CALLBACK AetherWindow::WindowProcedure(HWND hWnd, UINT uMsg, WPARAM wPar
 	case WM_ACTIVATE:
 		if (flg  == WA_ACTIVE || flg == WA_CLICKACTIVE){
 			GameController::GetMouse().ChangeActiveWindow(m_hWnd);
+			break;
+		}
+	case WM_KEYDOWN:
+		{
+			GameController::GetKey().KeyDown((unsigned int)wParam);
+
+			break;
+		}
+		case WM_KEYUP:
+		{
+			GameController::GetKey().KeyUp((unsigned int)wParam);
+			break;
 		}
 		break;
 	case WM_CLOSE:

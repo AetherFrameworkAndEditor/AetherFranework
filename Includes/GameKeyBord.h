@@ -41,6 +41,13 @@ namespace aetherClass{
 		*/
 		bool IsKeyDown(unsigned int);
 		
+		/*
+		@brief          キーが1回押されたら
+		@param          キーコード
+		@return         true/false
+		@exception      none
+		*/
+		bool KeyDownTrigger(unsigned int);
 
 		/*
 		@brief          キーが押されているか
@@ -55,7 +62,8 @@ namespace aetherClass{
 		*/
 		void KeyUp(unsigned int keyType);
 	private:
-		bool m_keybordState[256];
+		bool m_keybordState[kMaxKeyType];
+		bool m_keyTrriger[kMaxKeyType];
 	};
 }
 #endif

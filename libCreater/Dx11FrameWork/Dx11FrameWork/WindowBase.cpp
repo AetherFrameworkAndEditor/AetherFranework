@@ -50,17 +50,7 @@ LRESULT CALLBACK WindowBase::CloseWindowProcedure(HWND hWnd, UINT uMsg, WPARAM w
 LRESULT CALLBACK WindowBase::WindowProcedure(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam){
 	switch (uMsg)
 	{
-	case WM_KEYDOWN:
-	{
-		GameController::GetKey().KeyDown((unsigned int)wParam);
-
-		break;
-	}
-	case WM_KEYUP:
-	{
-		GameController::GetKey().KeyDown((unsigned int)wParam);
-		break;
-	}
+	
 	default:
 		return DefWindowProc(hWnd, uMsg, wParam, lParam);
 	}
