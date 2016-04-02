@@ -95,6 +95,10 @@ bool GameFrame::FrameRunning(){
 	m_direct3D->BeginScene(m_backgroundColor);
 	// user's override process
 	result = FrameRunningBuffer();
+	if (!result)
+	{
+		return false;
+	}
 	
 	result = m_sceneManager->SceneInitialize();
 	if (!result)

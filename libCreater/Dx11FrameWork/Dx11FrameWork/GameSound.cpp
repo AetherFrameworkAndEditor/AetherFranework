@@ -327,6 +327,14 @@ bool GameSound::PlayWaveFile(DWORD isLoop){
 }
 
 //
+bool GameSound::IsLoadSuccess(){
+	if (!m_secondaryBuffer1){
+		return false;
+	}
+	return true;
+}
+
+//
 void GameSound::Stop(){
 	m_secondaryBuffer1->Stop();
 }

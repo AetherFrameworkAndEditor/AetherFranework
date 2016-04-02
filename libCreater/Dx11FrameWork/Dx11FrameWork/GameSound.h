@@ -117,6 +117,14 @@ namespace aetherClass{
 		@exception      none
 		*/
 		void Stop();
+
+		/*
+		@brief          ƒ[ƒh‚É¬Œ÷‚µ‚½‚‹‚Ç‚¤‚©
+		@param          ¬Œ÷‚µ‚Ä‚¢‚ê‚Îtrue
+		@return         none
+		@exception      none
+		*/
+		bool IsLoadSuccess();
 	private:
 	
 		/*
