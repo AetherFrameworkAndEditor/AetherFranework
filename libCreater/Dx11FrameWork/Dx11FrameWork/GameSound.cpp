@@ -297,6 +297,15 @@ void GameSound::FinalizeWaveFile(IDirectSoundBuffer8** secondaryBuffer){
 }
 
 //
+bool GameSound::IsPlayEnd(){
+	DWORD status = 0;
+	if ((status&DSBSTATUS_PLAYING) != 1)
+	{
+		return true;
+	}
+	return false;
+}
+//
 bool GameSound::PlayToOneTime(){
 	bool result;
 	result = PlayWaveFile(NULL);

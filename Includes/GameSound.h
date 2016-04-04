@@ -119,12 +119,20 @@ namespace aetherClass{
 		void Stop();
 
 		/*
-		@brief          ロードに成功したｋどうか
-		@param          成功していればtrue
-		@return         none
+		@brief          ロードに成功したかどうか
+		@param          
+		@return         成功していればtrue
 		@exception      none
 		*/
 		bool IsLoadSuccess();
+
+		/*
+		@brief          再生が終了したかどうか
+		@param          
+		@return         終了していればtrue
+		@exception      none
+		*/
+		bool IsPlayEnd();
 	private:
 	
 		/*
