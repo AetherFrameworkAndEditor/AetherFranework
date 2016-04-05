@@ -35,7 +35,6 @@ namespace aetherClass{
 		Matrix4x4 Transmatrix();
 
 	public:
-		Vector3 _position;
 		Vector3 _translation;
 		Vector3 _rotation;
 		Vector3 _scale;

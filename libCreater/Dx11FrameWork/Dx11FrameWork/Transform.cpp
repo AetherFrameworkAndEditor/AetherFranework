@@ -7,7 +7,6 @@ using namespace DirectX;
 
 	Transform::Transform()
 	{
-		_position = 0;
 		_translation = NULL;
 		_rotation = NULL;
 		_scale = 1.0f;
@@ -30,12 +29,10 @@ using namespace DirectX;
 
 
 		rotematrix.PitchYawRoll(_rotation*kAetherRadian);
-		posmatrix.TranslateMatrix(_position);
 		transmatrix.TranslateMatrix(_translation);
 		scalimatrix.ScaliMatrix(_scale);
 
 		Matrix4x4 identity = scalimatrix;
-		identity = identity.Multiply(posmatrix);
 		identity = identity.Multiply(rotematrix);
 		identity = identity.Multiply(transmatrix);
 		return identity;

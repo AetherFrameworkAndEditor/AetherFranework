@@ -79,7 +79,7 @@ void ViewCamera::Controller(){
 	Vector3 rotation;
 
 	bool IsKeyDown = false;
-	if (GameController::GetKey().IsKeyDown(VK_LCONTROL)){
+	if (GameController::GetKey().IsKeyDown(VK_CONTROL)){
 
 		if (GameController::GetKey().IsKeyDown('W')){
 			rotation._x += cm_rote;
@@ -123,7 +123,7 @@ void ViewCamera::Controller(){
 		if (GameController::GetKey().IsKeyDown(VK_SPACE)){
 			translation._y += cm_trans;
 		}
-		else if (GameController::GetKey().IsKeyDown(VK_LSHIFT)){
+		else if (GameController::GetKey().IsKeyDown(VK_SHIFT)){
 			translation._y -= cm_trans;
 		}
 
