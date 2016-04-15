@@ -347,6 +347,13 @@ bool GameSound::IsLoadSuccess(){
 //
 void GameSound::Stop(){
 	m_secondaryBuffer1->Stop();
+	m_secondaryBuffer1->SetCurrentPosition(0);
+	return;
+}
+
+void GameSound::Pause(){
+	m_secondaryBuffer1->Stop();
+	return;
 }
 
 //
