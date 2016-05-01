@@ -77,22 +77,13 @@ namespace aetherClass{
 		void GetMesh(FbxNode*, FbxScene*);
 
 		/*
-		@brief          スケルトン情報を取得
-		@param[in]		FbxMesh型オブジェクト
-		@param[in]      FbxScene型のオブジェクト
-		@return         none
-		@exception      none
-		*/
-		void GetSkeleton(FbxNode*, FbxScene*);
-
-		/*
 		@brief          メッシュの詳細情報を取得
 		@param[in]		FbxMesh型オブジェクト
 		@param[in]		FbxScene型オブジェクト
 		@return         none
 		@exception      none
 		*/
-		void GetMeshProperty(FbxMesh*, FbxScene*);
+		void GetMeshProperty(FbxMeshNode*, FbxMesh*, FbxScene*);
 		
 		/*
 		@brief          トランスフォーム情報を取得
@@ -100,107 +91,10 @@ namespace aetherClass{
 		@return         none
 		@exception      none
 		*/
-		void GetTransform(FbxMesh*);
-
-		/*
-		@brief          頂点位置情報を取得
-		@param[in]		FbxMesh型オブジェクト
-		@return         none
-		@exception      none
-		*/
-		void GetVertexPosition(FbxMesh*);
-
-		/*
-		@brief          キーフレームアニメーション取得用
-		@param[in]		FbxMesh型オブジェクト
-		@return         none
-		@exception      none
-		*/
-		FbxKeyframeAnimationInfo GetKeyframeAnimation(FbxScene*, FbxNode*);
-		
-		/*
-		@brief          法線情報を取得
-		@param[in]		FbxMesh型オブジェクト
-		@return         none
-		@exception      none
-		*/
-		void GetVertexNomal(FbxMesh*);
-
-		/*
-		@brief          UV情報を取得
-		@param[in]		FbxMesh型オブジェクト
-		@return         none
-		@exception      none
-		*/
-		void GetVertexUV(FbxMesh*);
-
-		/*
-		@brief          マテリアる情報を取得
-		@param[in]		FbxMesh型オブジェクト
-		@return         none
-		@exception      none
-		*/
-		void GetMaterial(FbxMesh*);
-
-		/*
-		@brief          スキン情報を取得
-		@param[in]		FbxMesh型オブジェクト
-		@param[in]      FbxScene型のオブジェクト
-		@return         none
-		@exception      none
-		*/
-		void GetSkin(FbxMesh*, FbxScene*);
-
-		
-
-		// スケルトン検索用
-		SkeletonInfo* FindSkeleton(std::string& skeletonName);
-
-		/*
-		@brief          マテリアル情報を取得
-		@param[in]		FbxSurfaceMaterial型オブジェクト
-		@param[out]     Material型のオブジェクト
-		@return         none
-		@exception      none
-		*/
-		void CopyMaterialData(FbxSurfaceMaterial*,Material*);
-
-		/*
-		@brief          マテリアルの詳細情報を取得
-		@param[in]		FbxSurfaceMaterial型オブジェクト
-		@param[in]      マテリアル種類の名前
-		@param[in]      マテリアル種類の名前
-		@param[out]     取得したいオブジェクト
-		@return         カラー情報を返す
-		@exception      none
-		*/
-		FbxDouble3 GetMaterialPropertey(
-			const FbxSurfaceMaterial* material,
-			std::string propertyName,
-			std::string factorPropertyName,
-			MaterialElement* element);
-
-		/*
-		@brief          ノードごとの行列取得用
-		@param[out]		FbxMeshNode型オブジェクト
-		@param[in]      FbxNode型オブジェクト
-		@param[in]      FbxScene型オブジェクト
-		@return         none
-		@exception      none
-		*/
-		void ComputeNodeMatrix(FbxMeshNode* meshNode, FbxNode* node, FbxScene* scene);
-		
+		void GetTransform(FbxMeshNode*,FbxMesh*);
+	
 	private:
-
-		
-		FbxMeshNode m_meshNode;
-
 		std::vector<FbxMeshNode> m_meshNodeArray;
-
-		std::map< std::string, SkeletonInfo* >	m_skeletonInfoPool;	// スケルトンプール
-		SkeletonInfo*							m_rootSkeleton;	// ルートスケルトン
-
-		
 	};
 }
 

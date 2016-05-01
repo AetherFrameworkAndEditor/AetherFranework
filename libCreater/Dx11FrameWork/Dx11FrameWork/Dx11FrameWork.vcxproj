@@ -90,8 +90,11 @@
     <ClCompile Include="Cylinder.cpp" />
     <ClCompile Include="Direct3DManager.cpp" />
     <ClCompile Include="DirectXEntity.cpp" />
+    <ClCompile Include="FbxKeyFrameLoader.cpp" />
     <ClCompile Include="FbxLoader.cpp" />
+    <ClCompile Include="FbxMaterialLoader.cpp" />
     <ClCompile Include="FbxModel.cpp" />
+    <ClCompile Include="FbxVertexLoader.cpp" />
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="GameActor.cpp" />
     <ClCompile Include="GameActorManager.cpp" />
@@ -148,10 +151,13 @@
     <ClInclude Include="DirectXEntity.h" />
     <ClInclude Include="FbxBoneInfo.h" />
     <ClInclude Include="FbxKeyFrameAnimationInfo.h" />
+    <ClInclude Include="FbxKeyFrameLoader.h" />
     <ClInclude Include="FbxLoader.h" />
+    <ClInclude Include="FbxMaterialLoader.h" />
     <ClInclude Include="FbxMeshNode.h" />
     <ClInclude Include="FbxModel.h" />
     <ClInclude Include="FbxUtility.h" />
+    <ClInclude Include="FbxVertexLoader.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="GameActor.h" />
     <ClInclude Include="GameActorManager.h" />
@@ -186,6 +192,7 @@
     <ClInclude Include="Rectangle2D.h" />
     <ClInclude Include="Rectangle3D.h" />
     <ClInclude Include="ShaderBase.h" />
+    <ClInclude Include="Singleton.h" />
     <ClInclude Include="SkeletonInfo.h" />
     <ClInclude Include="Skybox.h" />
     <ClInclude Include="Sphere.h" />

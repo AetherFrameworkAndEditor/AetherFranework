@@ -25,8 +25,8 @@ namespace aetherClass{
 	struct FbxMeshNode
 	{
 		FbxMeshNode(){
-			_vertexBuffer = nullptr;
-			_indexBuffer = nullptr;
+			_vertexBuffer.clear();
+			_indexBuffer.clear();
 			_materialBuffer.clear();
 			
 			SecureZeroMemory(&_matrix, sizeof(_matrix));
@@ -35,9 +35,9 @@ namespace aetherClass{
 			_indexCount = 0;
 		}
 
-		VertexType* _vertexBuffer;
-		unsigned long* _indexBuffer;
-		std::vector<aetherClass::Material> _materialBuffer;
+		std::vector<VertexType> _vertexBuffer;
+		std::vector<unsigned long> _indexBuffer;
+		std::vector<Material> _materialBuffer;
 
 		Matrix4x4 _matrix;
 		Transform _transform;

@@ -133,6 +133,16 @@ namespace aetherClass{
 		@exception      none
 		*/
 		void RegisterActorObject(GameActor*);
+
+		/*
+		@brief          解放処理
+		@param[in]      none
+
+		@return         none
+		@exception      none
+		*/
+		void Finalize();
+
 	private:
 
 		// ゲームの状態管理用
@@ -163,15 +173,7 @@ namespace aetherClass{
 		*/
 		GameScene* FindScene(std::string);
 
-		/*
-		@brief          解放処理
-		@param[in]      none
-
-		@return         none
-		@exception      none
-		*/
-		void Finalize();
-
+		
 		/*
 		@brief          トランジション効果用
 		@param[in]      none

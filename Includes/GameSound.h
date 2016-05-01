@@ -111,7 +111,14 @@ namespace aetherClass{
 		bool PlayToLoop();
 		
 		/*
-		@brief          ˆêŽž’âŽ~—p
+		@brief			ˆêŽž’âŽ~—p
+		@param          none
+		@return         none
+		@exception      none
+		*/
+		void Pause();
+		/*
+		@brief			’âŽ~—p
 		@param          none
 		@return         none
 		@exception      none
