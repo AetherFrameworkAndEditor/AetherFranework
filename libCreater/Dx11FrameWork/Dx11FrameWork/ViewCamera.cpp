@@ -90,7 +90,7 @@ void ViewCamera::Controller(){
 		if (GameController::GetKey().IsKeyDown('Q')){
 			rotation._z += cm_rote;
 		}
-		else if (GameController::GetKey().IsKeyDown('W')){
+		else if (GameController::GetKey().IsKeyDown('E')){
 			rotation._z -= cm_rote;
 		}
 		if (GameController::GetKey().IsKeyDown('D')){
