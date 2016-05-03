@@ -54,13 +54,13 @@ bool FbxModel::LoadModelBuffers(Direct3DManager* directX){
 
 		const int vertexCount = m_fbxLoader->GetNodeMesh()[i]._vertexBuffer.size();;
 		m_nodeMeshBuffer[i]._vertexCount = vertexCount;
-		VertexType* vertexType = new VertexType[vertexCount];
+		/*VertexType* vertexType = new VertexType[vertexCount];
 
 		for (int vertexID = 0; vertexID < vertexCount; ++vertexID){
 			vertexType[vertexID]._position = m_fbxLoader->GetNodeMesh()[i]._vertexBuffer[vertexID]._position;
 			vertexType[vertexID]._normal = m_fbxLoader->GetNodeMesh()[i]._vertexBuffer[vertexID]._normal;
 			vertexType[vertexID]._uv = m_fbxLoader->GetNodeMesh()[i]._vertexBuffer[vertexID]._uv;
-		}
+		}*/
 		D3D11_BUFFER_DESC vertexBufferDesc;
 		vertexBufferDesc.Usage = D3D11_USAGE_DEFAULT;
 		vertexBufferDesc.ByteWidth = sizeof(VertexType) * vertexCount;
@@ -70,7 +70,7 @@ bool FbxModel::LoadModelBuffers(Direct3DManager* directX){
 		vertexBufferDesc.StructureByteStride = 0;
 
 		D3D11_SUBRESOURCE_DATA vertexData;
-		vertexData.pSysMem = vertexType;
+		vertexData.pSysMem = m_fbxLoader->GetNodeMesh()[i]._vertex;
 		vertexData.SysMemPitch = 0;
 		vertexData.SysMemSlicePitch = 0;
 
@@ -81,16 +81,16 @@ bool FbxModel::LoadModelBuffers(Direct3DManager* directX){
 			return false;
 		}
 
-		delete[] vertexType;
-		vertexType = nullptr;
+		delete[] m_fbxLoader->GetNodeMesh()[i]._vertex;
+		m_fbxLoader->GetNodeMesh()[i]._vertex = nullptr;
 
 		const unsigned long indexCount = m_fbxLoader->GetNodeMesh()[i]._indexBuffer.size();
 		m_nodeMeshBuffer[i]._indexCount = indexCount;
-		unsigned long* indexBuffer = new unsigned long[indexCount]();
+		/*unsigned long* indexBuffer = new unsigned long[indexCount]();
 
 		for (int indexID = 0; indexID < indexCount; ++indexID){
 			indexBuffer[indexID] = m_fbxLoader->GetNodeMesh()[i]._indexBuffer[indexID];
-		}
+		}*/
 		D3D11_BUFFER_DESC indexBufferDesc;
 		indexBufferDesc.Usage = D3D11_USAGE_DEFAULT;
 		indexBufferDesc.ByteWidth = sizeof(unsigned long)*indexCount;
@@ -100,7 +100,7 @@ bool FbxModel::LoadModelBuffers(Direct3DManager* directX){
 		indexBufferDesc.StructureByteStride = 0;
 
 		D3D11_SUBRESOURCE_DATA indexData;
-		indexData.pSysMem = indexBuffer;
+		indexData.pSysMem = m_fbxLoader->GetNodeMesh()[i]._index;
 		indexData.SysMemPitch = 0;
 		indexData.SysMemSlicePitch = 0;
 
@@ -112,8 +112,8 @@ bool FbxModel::LoadModelBuffers(Direct3DManager* directX){
 			return false;
 		}
 
-		delete[] indexBuffer;
-		indexBuffer = nullptr;
+		delete[] m_fbxLoader->GetNodeMesh()[i]._index;
+		m_fbxLoader->GetNodeMesh()[i]._index = nullptr;
 		m_nodeMeshBuffer[i].property._transform = m_fbxLoader->GetNodeMesh()[i]._transform;
 		m_nodeMeshBuffer[i].property._material = m_fbxLoader->GetNodeMesh()[i]._materialBuffer[0];
 

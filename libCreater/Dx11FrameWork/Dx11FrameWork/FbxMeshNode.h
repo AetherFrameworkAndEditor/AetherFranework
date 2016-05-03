@@ -39,6 +39,8 @@ namespace aetherClass{
 		std::vector<unsigned long> _indexBuffer;
 		std::vector<Material> _materialBuffer;
 
+		VertexType* _vertex;
+		unsigned long* _index;
 		Matrix4x4 _matrix;
 		Transform _transform;
 		FbxKeyframeAnimationInfo _keyframeAnimation;

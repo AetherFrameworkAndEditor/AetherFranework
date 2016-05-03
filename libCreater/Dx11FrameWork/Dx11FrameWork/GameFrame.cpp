@@ -131,6 +131,10 @@ void GameFrame::Finalize(){
 
 	// user's override process
 	FinalizeBuffer();
+	if (m_scene){
+		m_scene.release();
+		m_scene = nullptr;
+	}
 	if (m_sceneManager)
 	{
 		m_sceneManager.release();
@@ -138,7 +142,8 @@ void GameFrame::Finalize(){
 	}
 	
 	GameController::Destroy();
-	if (m_direct3D);
+
+	if (m_direct3D)
 	{
 		m_direct3D->Finalize();
 		m_direct3D.release();
