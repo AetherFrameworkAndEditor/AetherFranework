@@ -129,8 +129,8 @@ namespace aetherClass{
 		@return         none
 		@exception      none
 		*/
-		virtual void ChangeScene(const std::string& afterSceneName,LoadState useLoad,LoadWaitState useLoadWaitRun)final{
-			 m_sceneManager.IsChangeScene(afterSceneName,useLoad,useLoadWaitRun);
+		virtual void ChangeScene(const std::string& afterSceneName,LoadState useLoad)final{
+			 m_sceneManager.IsChangeScene(afterSceneName,useLoad);
 		}
 
 		/*

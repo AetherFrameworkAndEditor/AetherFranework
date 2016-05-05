@@ -23,7 +23,6 @@ std::string GameSceneManager::m_currentSceneName = "None";
 /*	ƒtƒ‰ƒOŠÖ˜A	*/
 bool GameSceneManager::m_isLoadScene = false;
 bool GameSceneManager::m_isChangeScene = false;
-LoadWaitState GameSceneManager::m_useLoadWaitRun = LoadWaitState::eNull;
 LoadState GameSceneManager::m_useLoadScreen= LoadState::eNull;
 GameActorManager GameSceneManager::m_actorManager;
 
@@ -277,10 +276,9 @@ void GameSceneManager::SetLoadScreen(LoadScreen* loadObject){
 }
 
 //
-void GameSceneManager::IsChangeScene(std::string nextSceneName,LoadState useLoadScreen,LoadWaitState useWaitRun){
+void GameSceneManager::IsChangeScene(std::string nextSceneName,LoadState useLoadScreen){
 	m_isChangeScene = true;
 	m_nextSceneName = nextSceneName;
-	m_useLoadWaitRun = useWaitRun;
 	m_useLoadScreen = useLoadScreen;
 	m_gameState = eGameState::eNone;
 	m_transitionState = eTransitionState::eIn;
@@ -330,7 +328,7 @@ bool GameSceneManager::LoadScene(){
 //
 bool GameSceneManager::LaodWaitRun(){
 
-	if (m_useLoadWaitRun != LoadWaitState::eUse || m_isLoadWaitEnd) return true;
+	if (m_isLoadWaitEnd) return true;
 	
 	m_isLoadWaitEnd = m_loadObject->WaitRun();
 	

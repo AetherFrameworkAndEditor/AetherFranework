@@ -96,7 +96,7 @@ namespace aetherClass{
 		@return         none
 		@exception      none
 		*/
-		void IsChangeScene(std::string, LoadState useLoadScreen, LoadWaitState useWaitProcess);
+		void IsChangeScene(std::string, LoadState useLoadScreen);
 
 		/*
 		@brief          最初のシーンの設定
@@ -239,7 +239,6 @@ namespace aetherClass{
 		static bool m_isChangeScene;           // シーンを切り替えるかのフラグ
 		static bool m_isLoadScene;             // ロード処理を行うかのフラグ
 		static GameActorManager m_actorManager; // アクター管理オブジェクト
-		static LoadWaitState m_useLoadWaitRun;    // ロード後に何らかの処理ができる
 		static LoadState m_useLoadScreen;
 
 		bool m_isTransitionInEnd;               // トランジション(in)の終わったかのフラグ
