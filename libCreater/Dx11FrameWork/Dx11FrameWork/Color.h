@@ -34,6 +34,7 @@ namespace aetherClass{
 		float _alpha;
 	
 	public:
+		Color operator -();
 		void operator = (Vector3);
 		void operator = (Vector4);
 		void operator = (float);
