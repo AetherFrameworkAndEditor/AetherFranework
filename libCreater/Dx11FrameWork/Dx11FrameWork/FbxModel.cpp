@@ -52,15 +52,9 @@ bool FbxModel::LoadModelBuffers(Direct3DManager* directX){
 		directX->GetDevice()->CreateBuffer(&aetherFunction::GetConstantBufferDesc(sizeof(Color)), NULL, &m_nodeMeshBuffer[i]._colorBuffer);
 		directX->GetDevice()->CreateBuffer(&aetherFunction::GetConstantBufferDesc(sizeof(MaterialBufferType)), NULL, &m_nodeMeshBuffer[i]._materialBuffer);
 
-		const int vertexCount = m_fbxLoader->GetNodeMesh()[i]._vertexBuffer.size();;
+		const int vertexCount = m_fbxLoader->GetNodeMesh()[i]._vertexCount;
 		m_nodeMeshBuffer[i]._vertexCount = vertexCount;
-		/*VertexType* vertexType = new VertexType[vertexCount];
 
-		for (int vertexID = 0; vertexID < vertexCount; ++vertexID){
-			vertexType[vertexID]._position = m_fbxLoader->GetNodeMesh()[i]._vertexBuffer[vertexID]._position;
-			vertexType[vertexID]._normal = m_fbxLoader->GetNodeMesh()[i]._vertexBuffer[vertexID]._normal;
-			vertexType[vertexID]._uv = m_fbxLoader->GetNodeMesh()[i]._vertexBuffer[vertexID]._uv;
-		}*/
 		D3D11_BUFFER_DESC vertexBufferDesc;
 		vertexBufferDesc.Usage = D3D11_USAGE_DEFAULT;
 		vertexBufferDesc.ByteWidth = sizeof(VertexType) * vertexCount;
@@ -84,13 +78,9 @@ bool FbxModel::LoadModelBuffers(Direct3DManager* directX){
 		delete[] m_fbxLoader->GetNodeMesh()[i]._vertex;
 		m_fbxLoader->GetNodeMesh()[i]._vertex = nullptr;
 
-		const unsigned long indexCount = m_fbxLoader->GetNodeMesh()[i]._indexBuffer.size();
+		const unsigned long indexCount = m_fbxLoader->GetNodeMesh()[i]._indexCount;
 		m_nodeMeshBuffer[i]._indexCount = indexCount;
-		/*unsigned long* indexBuffer = new unsigned long[indexCount]();
-
-		for (int indexID = 0; indexID < indexCount; ++indexID){
-			indexBuffer[indexID] = m_fbxLoader->GetNodeMesh()[i]._indexBuffer[indexID];
-		}*/
+	
 		D3D11_BUFFER_DESC indexBufferDesc;
 		indexBufferDesc.Usage = D3D11_USAGE_DEFAULT;
 		indexBufferDesc.ByteWidth = sizeof(unsigned long)*indexCount;

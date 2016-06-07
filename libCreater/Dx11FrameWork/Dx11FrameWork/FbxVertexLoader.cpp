@@ -29,12 +29,13 @@ void FbxVertexLoader::GetVertexPosition(FbxMeshNode* meshNode, FbxMesh* mesh){
 
 	meshNode->_vertex = new VertexType[kPolygonCount * 3]();
 	meshNode->_index = new unsigned long[kPolygonCount * 3]();
+
+
 	for (int i = 0; i < kPolygonCount; ++i){
 		const int kPolygonSize = mesh->GetPolygonSize(i);
 		for (int size = 0; size < kPolygonSize; ++size){
 
 			const int index = mesh->GetPolygonVertex(i, size);
-			meshNode->_indexBuffer.push_back(indexNumber);
 			FbxVector4 vertexPosition = mesh->GetControlPointAt(index);
 			FbxVector4 vertexNormal;
 			mesh->GetPolygonVertexNormal(i, size, vertexNormal);
@@ -45,12 +46,11 @@ void FbxVertexLoader::GetVertexPosition(FbxMeshNode* meshNode, FbxMesh* mesh){
 
 			meshNode->_vertex[indexNumber] = vertex;
 			meshNode->_index[indexNumber] = indexNumber;
-
-			meshNode->_vertexBuffer.push_back(vertex);
 			indexNumber += 1;
 		}
 	}
-
+	meshNode->_vertexCount = indexNumber;
+	meshNode->_indexCount = indexNumber;
 	return;
 }
 
@@ -83,7 +83,6 @@ void FbxVertexLoader::GetVertexUV(FbxMeshNode* meshNode, FbxMesh* mesh){
 				pushValue._y = (float)(abs(1.0f-texCoord[1]));
 
 				meshNode->_vertex[indexNumber]._uv = pushValue;
-				meshNode->_vertexBuffer[indexNumber]._uv = pushValue;
 				indexNumber += 1;
 			}
 		}

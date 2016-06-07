@@ -22,6 +22,7 @@ bool GameController::Initialize(HINSTANCE& hInstance, HWND& hWnd)
 	HRESULT result;
 	m_hWnd = hWnd;
 	GetKey().Initialize();
+	GetJoypad().Initialize();
 	result = GetMouse().Initialize(hInstance, hWnd);
 
 	return result;
@@ -38,16 +39,22 @@ GameMouse& GameController::GetMouse(){
 	return mouse;
 }
 
+GameJoypad& GameController::GetJoypad(){
+	static GameJoypad joypad;
+	return joypad;
+}
+
 //
 bool GameController::Frame()
 {
 	bool result;
+	
+	GetJoypad().ReadKey();
 
 	result = GetMouse().Frame();
 	if (!result){
 		return false;
 	}
-
 	return true;
 }
 

@@ -32,16 +32,9 @@ namespace aetherClass{
 	class Particle :
 		DirectXEntity
 	{
-	
 	public:
-		/*
-		@brief          パーティクルの描画モードの列挙型
-		*/
 		enum class eMode{
-			eUnknown = 0,
-			e2D,
-			e3D,
-			
+			eLoop,eOneTime,eNull
 		};
 	public:
 		Particle();
@@ -55,7 +48,7 @@ namespace aetherClass{
 		@return         成功時：true/失敗時：false
 		@exception      none
 		*/
-		bool Initialize(eMode renderMode, std::string texturePath, const int maxCount = kDefaultCount);
+		bool Initialize(eMode,std::string texturePath, const int maxCount = kDefaultCount);
 
 		/*
 		@brief          解放用関数
@@ -83,12 +76,13 @@ namespace aetherClass{
 		void Update(Vector3 vector,float speed);
 
 		/*
-		@brief          消えるまでの長さを設定
-		@param[in]      長さ
+		@brief          更新用
+		@param[in]      パーティクルの向き
+		@param[in]      パーティクルの動きのスピード
 		@return         none
 		@exception      none
 		*/
-		void SetActiveLength(const float);
+		void KillUpdate(Vector3 vector, float speed);
 
 		/*
 		@brief          スケールの設定
@@ -122,6 +116,9 @@ namespace aetherClass{
 		@exception      none
 		*/
 		void SetPosition(Vector3);
+
+		void SetEndPosition(Vector3);
+		void Reset();
 	private:
 
 		/*
@@ -131,55 +128,6 @@ namespace aetherClass{
 		@exception      none
 		*/
 		bool InitializeParticle();
-
-		/*
-		@brief          2Dパーティクルの作成
-		@param          none
-		@return         成功時：true/失敗時：false
-		@exception      none
-		*/
-		bool Create2DParticle(std::string texturePath, const int maxCount);
-
-		/*
-		@brief          2Dパーティクルの解放
-		@param          none
-		@return         none
-		@exception      none
-		*/
-		void Remove2DParticle();
-
-		/*
-		@brief          2Dパーティクルの描画
-		@param[in]      使用するシェーダーのポインタ
-		@return         none
-		@exception      none
-		*/
-		void Render2DParticle(ShaderBase*);
-
-		/*
-		@brief          2Dパーティクルの更新処理
-		@param[in]      位置情報
-		@param[in]      パーティクルの速度
-		@return         none
-		@exception      none
-		*/
-		void Update2DParticle(Vector3 position,float frameTime);
-
-		/*
-		@brief          2Dパーティクルの生成処理
-		@param[in]      パーティクルの速度
-		@return         none
-		@exception      none
-		*/
-		void Emit2DParticles(float frameTime);
-
-		/*
-		@brief          2Dパーティクルの一部破棄処理
-		@param          none
-		@return         none
-		@exception      none
-		*/
-		void Kill2DParticle();
 
 		/*
 		@brief          3Dパーティクル作成用
@@ -214,6 +162,7 @@ namespace aetherClass{
 		*/
 		void Update3DParticle(Vector3,float);
 
+
 		/*
 		@brief          3Dパーティクルの生成用
 		@param[in]      更新時間
@@ -229,15 +178,9 @@ namespace aetherClass{
 		@exception      none
 		*/
 		void Kill3DParticle();
+
+		
 	private:
-		/*
-		@brief     2Dパーティクル用構造体
-		*/
-		struct Particle2D{
-			aetherClass::SpriteBase* _sprite;
-			float _velocity;
-			bool _active;
-		};
 
 		/*
 		@brief     3Dパーティクル用構造体
@@ -246,6 +189,7 @@ namespace aetherClass{
 			aetherClass::ModelBase* _sprite;
 			float _velocity;
 			bool _active;
+			bool _everDeth;
 		};
 
 	private:
@@ -255,12 +199,10 @@ namespace aetherClass{
 		float m_particlesPerSecond;
 		int m_currentParticleCount,m_maxParticle;
 		float m_accumulatedTime;
-		float m_maxActiveLength;
-
+		eMode m_mode;
 		std::vector<Particle3D> m_3dParticle;
-		std::vector<Particle2D> m_2dParticle;
-		eMode m_renderMode;
 		Vector3 m_maxRange, m_minRange;
+		Vector3 m_endPosition;
 	};
 
 }

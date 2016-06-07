@@ -21,7 +21,8 @@ $Id$
 #include <memory>
 #include "ViewCamera.h"
 #include "GameKeyBord.h"
-#include"GameMouse.h"
+#include "GameMouse.h"
+#include "GameJoypad.h"
 namespace aetherClass{
 	class GameController
 	{
@@ -49,6 +50,14 @@ namespace aetherClass{
 		@exception      none
 		*/
 		static GameMouse& GetMouse();
+
+		/*
+		@brief          マウスオブジェクトの取得
+		@param          none
+		@return         マウスオブジェクト
+		@exception      none
+		*/
+		static GameJoypad& GetJoypad();
 
 		/*
 		@brief          デバイスの解放処理

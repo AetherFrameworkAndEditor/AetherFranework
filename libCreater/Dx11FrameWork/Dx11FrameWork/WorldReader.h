@@ -25,7 +25,7 @@ public:
 	@param[in]      ファイル名。
 	@return         生成完了　true/失敗 false
 	*/
-	bool Load(std::string);
+	bool Load(std::string,bool flg = false);
 
 	/*
 	@brief          Loadで読み取った情報を扱うための関数
@@ -65,6 +65,8 @@ private:
 	World m_world;
 	std::vector<std::string> m_input;
 	std::string m_tag;
+	static const int mKey[];
+	static const int mKeySize;
 private:
 	std::string GetExtension(const std::string path);
 	void GetObjectInfo(std::string);

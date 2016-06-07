@@ -2,6 +2,7 @@
 #include "DirectXEntity.h"
 using namespace aetherClass;
 using namespace DirectX;
+
 Direct3DManager::Direct3DManager(){
 
 	m_device = nullptr;

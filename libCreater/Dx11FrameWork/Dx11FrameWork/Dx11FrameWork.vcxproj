@@ -101,6 +101,7 @@
     <ClCompile Include="GameClock.cpp" />
     <ClCompile Include="GameController.cpp" />
     <ClCompile Include="GameFrame.cpp" />
+    <ClCompile Include="GameJoypad.cpp" />
     <ClCompile Include="GameKeyBord.cpp" />
     <ClCompile Include="GameMouse.cpp" />
     <ClCompile Include="GameSceneManager.cpp" />
@@ -164,6 +165,7 @@
     <ClInclude Include="GameClock.h" />
     <ClInclude Include="GameController.h" />
     <ClInclude Include="GameFrame.h" />
+    <ClInclude Include="GameJoypad.h" />
     <ClInclude Include="GameKeyBord.h" />
     <ClInclude Include="GameMouse.h" />
     <ClInclude Include="GameScene.h" />

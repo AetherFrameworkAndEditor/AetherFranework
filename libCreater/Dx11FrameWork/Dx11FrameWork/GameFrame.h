@@ -33,7 +33,7 @@ namespace aetherClass{
 
 	public:
 		GameFrame();
-		virtual ~GameFrame() = default;
+		virtual ~GameFrame(){ Finalize(); }
 
 		/*
 		@brief          ‰Šú‰»—p

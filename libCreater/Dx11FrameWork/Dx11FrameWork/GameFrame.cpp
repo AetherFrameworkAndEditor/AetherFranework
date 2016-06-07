@@ -8,7 +8,9 @@
 using namespace aetherClass;
 
 Color GameFrame::m_backgroundColor = Color(NULL, NULL, NULL, NULL);
-GameFrame::GameFrame(){}
+GameFrame::GameFrame(){
+	
+}
 
 //
 bool GameFrame::Initialize(WindowBase **window ,UINT numWindow, const float screenDepth, const float screenNear){
@@ -47,6 +49,7 @@ bool GameFrame::Initialize(WindowBase **window ,UINT numWindow, const float scre
 	return true;
 }
 
+
 void GameFrame::GameRun(){
 	MSG msg;
 	bool isEnd, result;
@@ -77,6 +80,8 @@ void GameFrame::GameRun(){
 			{
 				isEnd = true;
 			}
+
+			//GameController::GetJoypad().Reset();
 		}
 	}
 
@@ -131,10 +136,13 @@ void GameFrame::Finalize(){
 
 	// user's override process
 	FinalizeBuffer();
+
 	if (m_scene){
+		m_scene->Finalize();
 		m_scene.release();
 		m_scene = nullptr;
 	}
+
 	if (m_sceneManager)
 	{
 		m_sceneManager.release();
@@ -143,7 +151,7 @@ void GameFrame::Finalize(){
 	
 	GameController::Destroy();
 
-	if (m_direct3D)
+	if (m_direct3D);
 	{
 		m_direct3D->Finalize();
 		m_direct3D.release();

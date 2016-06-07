@@ -4,6 +4,17 @@
 #include <sstream>
 #include <string>
 using namespace aetherClass;
+
+const int WorldReader::mKey[]{
+	0x3727ba7,
+		0x543a746,
+		0x4278b82,
+		0xca89431,
+		0x42de281,
+		0x3a8a43d
+};
+const int WorldReader::mKeySize = 4;
+
 WorldReader::WorldReader(){
 	m_tag = "none";
 	m_input.clear();
@@ -15,23 +26,35 @@ WorldReader::~WorldReader(){
 }
 
 
-bool WorldReader::Load(std::string filePath){
-	// 独自ファイル以外は読み込まない
-	if (GetExtension(filePath) != "aether")
-	{
-		return false;
-	}
+bool WorldReader::Load(std::string filePath,bool decode){
 	std::ifstream reader;
-	reader.open(filePath,std::ios::in);
-	
-	reader.unsetf(std::ios::skipws);
+	reader.open(filePath, std::ios::in);
+
+	//reader.unsetf(std::ios::skipws);
 	while (!reader.eof())
 	{
 		std::string line;
 		std::getline(reader, line);
-		m_input.push_back(line);
-	}
+		if (decode){
+			std::string push;
+			int KeyCount = 0;
 
+			for (auto index : line){
+				char code = index ^ mKey[0];
+				push.push_back(code);
+				KeyCount += 1;
+				if (KeyCount > 4){
+					KeyCount = 0;
+				}
+			}
+			m_input.push_back(push);
+			push.clear();
+		}
+		else{
+			m_input.push_back(line);
+		}
+	}
+	
 	for (auto index : m_input)
 	{
 		// タグの行もしくは項目の状態を確認

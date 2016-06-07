@@ -33,7 +33,7 @@ void GameSound::Finalize(){
 //
 bool GameSound::Load(const char* soundFile){
 	bool result = false;
-
+	
 	result = InitializeDirectSound();
 	if (!result)
 	{
@@ -367,4 +367,13 @@ void GameSound::SetSpeed(long speed){
 	m_secondaryBuffer1->SetFrequency(speed);
 
 	return;
+}
+
+bool GameSound::GetPlayPosition(unsigned long* current, unsigned long* next){
+	
+	auto result = m_secondaryBuffer1->GetCurrentPosition(current, next);
+	if (result != DS_OK){
+		return false;
+	}
+	return true;
 }

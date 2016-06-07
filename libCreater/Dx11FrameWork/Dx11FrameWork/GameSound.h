@@ -140,6 +140,8 @@ namespace aetherClass{
 		@exception      none
 		*/
 		bool IsPlayEnd();
+
+		bool GetPlayPosition(unsigned long*, unsigned long*);
 	private:
 	
 		/*

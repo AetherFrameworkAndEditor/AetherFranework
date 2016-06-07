@@ -18,6 +18,9 @@ $Id$
 #pragma comment(lib,"dxgi.lib")
 #pragma comment(lib,"d3d11.lib")
 
+// C4005‚ÌŒx‚ğ”ñ•\¦‚É‚·‚é
+#pragma warning(disable : 4005) 
+
 #include <dxgi.h>
 #include <d3dcommon.h>
 #include <d3d11.h>

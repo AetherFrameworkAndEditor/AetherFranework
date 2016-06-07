@@ -17,8 +17,6 @@ using namespace aetherFunction;
 		// Release Buffer
 		for (auto index : m_meshNodeArray)
 		{
-			index._vertexBuffer.clear();
-			index._indexBuffer.clear();
 			index._materialBuffer.clear();
 
 			SecureZeroMemory(&index._matrix, sizeof(index._matrix));
