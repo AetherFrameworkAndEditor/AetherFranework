@@ -5,7 +5,7 @@ using namespace aetherClass;
 Texture::Texture()
 {
 	m_texture = nullptr;
-	m_texture = nullptr;
+	m_samplerState = nullptr;
 
 }
 
