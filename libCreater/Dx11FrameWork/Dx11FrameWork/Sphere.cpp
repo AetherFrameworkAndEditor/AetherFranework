@@ -159,8 +159,6 @@ bool Sphere::InitializeBuffers(){
 	// Relese the arrays now that the vertex and index buffers have been created and loaded
 	delete[] vertices;
 	delete[] indices;
-	vindices.clear();
-
 	return true;
 }
 

@@ -28,11 +28,7 @@ namespace aetherClass{
 			eElementBoth,
 			eElementMax
 		};
-		~MaterialElement(){
-			if (_texture){
-				delete _texture;
-			}
-		}
+
 		// UVSet名とテクスチャのパス名.1つのUVSet名に対してテクスチャが複数ある場合がある
 		Texture* _texture;
 		std::vector<std::string> _texturePath;
