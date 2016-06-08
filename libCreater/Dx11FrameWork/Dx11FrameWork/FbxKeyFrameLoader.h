@@ -15,7 +15,7 @@ namespace aetherClass{
 		@return         none
 		@exception      none
 		*/
-		FbxKeyframeAnimationInfo GetKeyframeAnimation(FbxScene*, FbxNode*);
+		void GetKeyframeAnimation(FbxKeyframeAnimationInfo*, FbxScene*, FbxNode*);
 
 
 	};

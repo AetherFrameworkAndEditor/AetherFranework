@@ -17,6 +17,7 @@ $Id$
 #include <vector>
 #include <Windows.h>
 #include "Transform.h"
+#include <unordered_map>
 namespace aetherClass{
 
 	struct AnimationVector{
@@ -24,32 +25,33 @@ namespace aetherClass{
 		float _frameSecounds;
 	};
 
+	struct KeyframeArray{
+		std::vector<AnimationVector> _trancelation;
+		std::vector<AnimationVector> _rotation;
+		std::vector<AnimationVector> _scaling;
+		int _size;
+		void Reset(){
+			_rotation.clear();
+			_scaling.clear();
+			_trancelation.clear();
+			_size = NULL;
+		}
+	};
+
+
 	class FbxKeyframeAnimationInfo
 	{
 	public:
 		FbxKeyframeAnimationInfo(){
-			_animationName = "Null";
+
 			_animationLayerName = "Null";
-			SecureZeroMemory(&_trancelation, sizeof(_trancelation));
-			SecureZeroMemory(&_rotation, sizeof(_rotation));
-			SecureZeroMemory(&_scaling, sizeof(_scaling));
 		}
 		~FbxKeyframeAnimationInfo(){
-			_animationName = "Null";
 			_animationLayerName = "Null";
-			SecureZeroMemory(&_trancelation, sizeof(_trancelation));
-			SecureZeroMemory(&_rotation, sizeof(_rotation));
-			SecureZeroMemory(&_scaling, sizeof(_scaling));
 		}
-
-		std::string _animationName;
 		std::string _animationLayerName;
-		
-		std::vector<AnimationVector> _trancelation;
-		std::vector<AnimationVector> _rotation;
-		std::vector<AnimationVector> _scaling;
-
-		
+		std::unordered_map<std::string, KeyframeArray> _keyframeHash;
+		std::vector<std::string> _keyframeNameList;
 
 	};
 }

@@ -10,9 +10,8 @@ FbxKeyFrameLoader::~FbxKeyFrameLoader()
 {
 }
 
-FbxKeyframeAnimationInfo FbxKeyFrameLoader::GetKeyframeAnimation(FbxScene* fbxScene, FbxNode* fbxNode){
+void FbxKeyFrameLoader::GetKeyframeAnimation(FbxKeyframeAnimationInfo* anim, FbxScene* fbxScene, FbxNode* fbxNode){
 	bool isAnimated = false;
-	FbxKeyframeAnimationInfo outInfomation;
 
 	// アニメーションの数を取得
 	const int animationCount = fbxScene->GetSrcObjectCount(FbxAnimStack::ClassId);
@@ -22,8 +21,9 @@ FbxKeyframeAnimationInfo FbxKeyFrameLoader::GetKeyframeAnimation(FbxScene* fbxSc
 		FbxAnimEvaluator* animEvaluator = fbxScene->GetAnimationEvaluator();
 
 		// アニメーションの名前を取得
-		outInfomation._animationName = animStack->GetName();
-
+		std::string animationName = animStack->GetName();
+		anim->_keyframeNameList.push_back(animationName);
+		anim->_keyframeHash[animationName].Reset();
 		// レイヤーの数を取得
 		const int layerCount = animStack->GetMemberCount();
 		for (int layerIndex = 0; layerIndex < layerCount; ++layerIndex)
@@ -31,8 +31,7 @@ FbxKeyframeAnimationInfo FbxKeyFrameLoader::GetKeyframeAnimation(FbxScene* fbxSc
 			FbxAnimLayer* animationLayer = (FbxAnimLayer*)animStack->GetMember(layerIndex);
 
 			// アニメーションレイヤーの名前を取得
-			outInfomation._animationLayerName = animationLayer->GetName();
-
+			anim->_animationLayerName = animationLayer->GetName();
 			FbxAnimCurve* translationCurve = fbxNode->LclTranslation.GetCurve(animationLayer);
 			FbxAnimCurve* rotationCurve = fbxNode->LclRotation.GetCurve(animationLayer);
 			FbxAnimCurve* scalingCurve = fbxNode->LclScaling.GetCurve(animationLayer);
@@ -41,6 +40,7 @@ FbxKeyframeAnimationInfo FbxKeyFrameLoader::GetKeyframeAnimation(FbxScene* fbxSc
 			if (translationCurve != 0)
 			{
 				int keyCount = translationCurve->KeyGetCount();
+				anim->_keyframeHash[animationName]._size = keyCount;
 				for (int keyIndex = 0; keyIndex < keyCount; ++keyIndex)
 				{
 					FbxTime frameTime = translationCurve->KeyGetTime(keyIndex);
@@ -52,7 +52,7 @@ FbxKeyframeAnimationInfo FbxKeyFrameLoader::GetKeyframeAnimation(FbxScene* fbxSc
 
 					// フレーム数を秒単位で取得
 					vector._frameSecounds = frameTime.GetSecondDouble();
-					outInfomation._trancelation.push_back(vector);
+					anim->_keyframeHash[animationName]._trancelation.push_back(vector);
 				}
 			}
 			else
@@ -65,7 +65,7 @@ FbxKeyframeAnimationInfo FbxKeyFrameLoader::GetKeyframeAnimation(FbxScene* fbxSc
 				vector._data._z = static_cast<float>(translation[2]);
 				vector._frameSecounds = 0;
 
-				outInfomation._trancelation.push_back(vector);
+				anim->_keyframeHash[animationName]._trancelation.push_back(vector);
 			}
 
 			// ローテーションの取得
@@ -83,7 +83,7 @@ FbxKeyframeAnimationInfo FbxKeyFrameLoader::GetKeyframeAnimation(FbxScene* fbxSc
 
 					// フレーム数を秒単位で取得
 					vector._frameSecounds = frameTime.GetSecondDouble();
-					outInfomation._rotation.push_back(vector);
+					anim->_keyframeHash[animationName]._rotation.push_back(vector);
 				}
 			}
 			else
@@ -96,7 +96,7 @@ FbxKeyframeAnimationInfo FbxKeyFrameLoader::GetKeyframeAnimation(FbxScene* fbxSc
 				vector._data._z = static_cast<float>(translation[2]);
 				vector._frameSecounds = 0;
 
-				outInfomation._rotation.push_back(vector);
+				anim->_keyframeHash[animationName]._rotation.push_back(vector);
 			}
 
 			// スケーリングの取得
@@ -114,7 +114,8 @@ FbxKeyframeAnimationInfo FbxKeyFrameLoader::GetKeyframeAnimation(FbxScene* fbxSc
 
 					// フレーム数を秒単位で取得
 					vector._frameSecounds = frameTime.GetSecondDouble();
-					outInfomation._scaling.push_back(vector);
+
+					anim->_keyframeHash[animationName]._scaling.push_back(vector);
 				}
 			}
 			else
@@ -127,11 +128,11 @@ FbxKeyframeAnimationInfo FbxKeyFrameLoader::GetKeyframeAnimation(FbxScene* fbxSc
 				vector._data._z = static_cast<float>(scaling[2]);
 				vector._frameSecounds = 0;
 
-				outInfomation._scaling.push_back(vector);
+				anim->_keyframeHash[animationName]._scaling.push_back(vector);
 			}
 
 		}
 	}
 
-	return outInfomation;
+	return;
 }

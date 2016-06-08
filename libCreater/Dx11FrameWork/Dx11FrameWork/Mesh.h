@@ -33,10 +33,10 @@ namespace aetherClass{
 		ID3D11Buffer* _indexBuffer;
 		ID3D11Buffer* _colorBuffer;
 		ID3D11Buffer* _materialBuffer;
-		ID3D11Buffer* _matrixBuffer;
+
 		Property property;
 		Matrix4x4 _meshMatrix; 
-		std::vector<Transform> _animationTransform;
+		std::unordered_map<std::string, std::vector<Transform>> _animationTransform;
 		
 		unsigned long _vertexCount, _indexCount;
 
@@ -69,21 +69,20 @@ namespace aetherClass{
 		void SetTexture(Texture*);
 
 		/*
+		@brief          テクスチャークラスオブジェクトのメモリが存在しているか確認用
+		@param          none
+		@return         存在する：true/存在しない:false
+		@exception      none
+		*/
+		bool IsTextureVisible(); 
+
+		/*
 		@brief          このクラスが持つすべての情報を安全に解放または初期化
 		@param          none
 		@return         none
 		@exception      none
 		*/
 		void Release();
-
-		/*
-		@brief          テクスチャークラスオブジェクトのメモリが存在しているか確認用
-		@param          none
-		@return         存在する：true/存在しない:false
-		@exception      none
-		*/
-		bool IsTextureVisible();
-
 	private:
 		Texture* _texture;
 
@@ -105,6 +104,8 @@ namespace aetherClass{
 		@exception      none
 		*/
 		void ResetProperty();
+
+	
 		
 	};
 }

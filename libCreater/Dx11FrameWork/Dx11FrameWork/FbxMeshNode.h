@@ -25,15 +25,16 @@ namespace aetherClass{
 	struct FbxMeshNode
 	{
 		FbxMeshNode(){
-
-			_materialBuffer.clear();
-			
-			SecureZeroMemory(&_matrix, sizeof(_matrix));
-			SecureZeroMemory(&_transform, sizeof(_transform));
+			_vertex = nullptr;
+			_index = nullptr;
 			_vertexCount = 0;
 			_indexCount = 0;
 		}
 
+		~FbxMeshNode(){
+			Release();
+
+		}
 		std::vector<Material> _materialBuffer;
 
 		VertexType* _vertex;
@@ -41,10 +42,15 @@ namespace aetherClass{
 		Matrix4x4 _matrix;
 		Transform _transform;
 		FbxKeyframeAnimationInfo _keyframeAnimation;
-		SkinInfo _skinInfo;
-
 		unsigned long _vertexCount;
 		unsigned long _indexCount;
+
+	private:
+		void Release(){
+			_materialBuffer.clear();
+			_vertexCount = 0;
+			_indexCount = 0;
+		}
 	};
 }
 #endif

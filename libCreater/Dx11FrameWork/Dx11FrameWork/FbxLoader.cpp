@@ -10,21 +10,12 @@ using namespace aetherFunction;
 	FbxLoader::FbxLoader(){}
 	FbxLoader::~FbxLoader()
 	{
-		Release();
 	}
 	//
 	void FbxLoader::Release(){
 		// Release Buffer
-		for (auto index : m_meshNodeArray)
-		{
-			index._materialBuffer.clear();
 
-			SecureZeroMemory(&index._matrix, sizeof(index._matrix));
-			SecureZeroMemory(&index._transform, sizeof(index._transform));
-
-			index._vertexCount = NULL;
-			index._indexCount = NULL;
-		}
+		m_meshNodeArray.clear();
 	}
 
 	//
@@ -133,7 +124,7 @@ using namespace aetherFunction;
 			GetMeshProperty(&meshNode,mesh, scene);
 			
 			FbxKeyFrameLoader keyframe;
-			meshNode._keyframeAnimation = keyframe.GetKeyframeAnimation(scene, node);
+			keyframe.GetKeyframeAnimation(&meshNode._keyframeAnimation,scene, node);
 			m_meshNodeArray.push_back(meshNode);
 		}
 		break;

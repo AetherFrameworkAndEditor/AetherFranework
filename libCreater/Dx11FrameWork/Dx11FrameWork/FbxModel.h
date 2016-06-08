@@ -74,14 +74,11 @@ namespace aetherClass{
 
 
 		/*
-			キーフレームアニメーション用
-		*/
-		virtual void KeyFrameAnimation(ShaderBase* shader)final;
-
-		/*
 		キーフレームアニメーション用
 		*/
-	//	virtual void SkinAnimation(ShaderBase* shader)final;
+		virtual void KeyFrameAnimation(ShaderBase* shader, std::string, const bool)final;
+
+		virtual void KeyFrameAnimation(ShaderBase* shader, std::string, const int frame)final;
 
 		/*
 		@brief          投影するカメラのアドレス取得用

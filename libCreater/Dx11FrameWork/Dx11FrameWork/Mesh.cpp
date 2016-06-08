@@ -3,16 +3,11 @@
 using namespace aetherClass;
 Mesh::Mesh()
 {
-
-	ResetProperty();
 }
 
 
 Mesh::~Mesh()
 {
-	
-
-	ResetProperty();
 }
 
 //
@@ -69,7 +64,6 @@ void Mesh::ReleaseBuffer(){
 		_indexBuffer->Release();
 		_indexBuffer = nullptr;
 	}
-
 }
 
 //

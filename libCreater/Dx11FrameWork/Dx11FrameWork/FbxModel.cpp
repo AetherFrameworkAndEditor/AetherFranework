@@ -118,14 +118,19 @@ bool FbxModel::LoadModelBuffers(Direct3DManager* directX){
 			return false;
 		}
 
-		// キーフレームアニメーションの読み取り
-		const int maxSize = m_fbxLoader->GetNodeMesh()[i]._keyframeAnimation._rotation.size();
-		m_nodeMeshBuffer[i]._animationTransform.resize(maxSize);
-		for (int index = 0; index < maxSize; ++index)
-		{
-			m_nodeMeshBuffer[i]._animationTransform[index]._translation = m_fbxLoader->GetNodeMesh()[i]._keyframeAnimation._trancelation[index]._data;
-			m_nodeMeshBuffer[i]._animationTransform[index]._rotation = m_fbxLoader->GetNodeMesh()[i]._keyframeAnimation._rotation[index]._data;
-			m_nodeMeshBuffer[i]._animationTransform[index]._scale = m_fbxLoader->GetNodeMesh()[i]._keyframeAnimation._scaling[index]._data;
+		//// キーフレームアニメーションの読み取り
+		const int size = m_fbxLoader->GetNodeMesh()[i]._keyframeAnimation._keyframeNameList.size();
+
+		for (int nameID = 0; nameID < size; ++nameID){
+			const std::string name = m_fbxLoader->GetNodeMesh()[i]._keyframeAnimation._keyframeNameList[nameID];
+			for (int k = 0; k < m_fbxLoader->GetNodeMesh()[i]._keyframeAnimation._keyframeHash[name]._size; ++k){
+				Transform trans;
+				trans._translation = m_fbxLoader->GetNodeMesh()[i]._keyframeAnimation._keyframeHash[name]._trancelation[k]._data;
+				trans._rotation = m_fbxLoader->GetNodeMesh()[i]._keyframeAnimation._keyframeHash[name]._rotation[k]._data;
+				trans._scale = m_fbxLoader->GetNodeMesh()[i]._keyframeAnimation._keyframeHash[name]._scaling[k]._data;
+
+				m_nodeMeshBuffer[i]._animationTransform[name].push_back(trans);
+			}
 		}
 
 
@@ -139,17 +144,15 @@ void FbxModel::Finalize()
 {
 	if (m_fbxLoader)
 	{
-		m_fbxLoader.release();
+		
+		m_fbxLoader.reset();
 		m_fbxLoader = nullptr;
 	}
 
-	if (m_nodeMeshBuffer.size() > 0)
-	{
-		for (auto index : m_nodeMeshBuffer)
-		{
-			index.Release();
-		}
+	for (auto&& index : m_nodeMeshBuffer){
+		index.Release();
 	}
+	m_nodeMeshBuffer.clear();
 	return;
 }
 
@@ -197,21 +200,26 @@ void FbxModel::NodeRender(ShaderBase* shader, const int id){
 	return;
 }
 
+
 //
-void FbxModel::KeyFrameAnimation(ShaderBase* shader){
+void FbxModel::KeyFrameAnimation(ShaderBase* shader, std::string type, const bool isLoop){
 	static int animation = 0;
 
-	for (auto node : m_nodeMeshBuffer){
+	for (auto& node : m_nodeMeshBuffer){
 
 		// アニメーションなければ無視
-		if (node._animationTransform.size() <= 0)
-		{
-			continue;
-		}
+		if (node._animationTransform.size() <= 0) continue;
+
 
 		if (animation >= node._animationTransform.size())
 		{
-			animation = 0;
+			if (isLoop){
+
+				animation = 0;
+			}
+			else{
+				animation = node._animationTransform.size() - 1;
+			}
 		}
 
 		RenderBuffers(GetDirect3DManager(), node);
@@ -224,25 +232,25 @@ void FbxModel::KeyFrameAnimation(ShaderBase* shader){
 		Matrix4x4 projection = GetDirect3DManager()->GetProjectionMatrix();
 
 		// ワールド行列の作成
-		Matrix4x4 hoge = node._animationTransform[animation].Transmatrix();
+		Matrix4x4 hoge = node._animationTransform[type][animation].Transmatrix();
 
 		// アニメーション用トランスフォーム
 		Transform animationTransform;
 
 		// 移動行列の作成
 		Matrix4x4 translateMatrix;
-		animationTransform._translation = node._animationTransform[animation]._translation + node.property._transform._translation;
+		animationTransform._translation = node._animationTransform[type][animation]._translation + node.property._transform._translation;
 		translateMatrix.TranslateMatrix(animationTransform._translation);
 
 		// 回転行列の作成
 		Matrix4x4 rotationMatrix;
-		animationTransform._rotation = node._animationTransform[animation]._rotation + node.property._transform._rotation;
+		animationTransform._rotation = node._animationTransform[type][animation]._rotation + node.property._transform._rotation;
 		rotationMatrix.PitchYawRoll(animationTransform._rotation);
 
 
 		// スケール行列の作成
 		Matrix4x4 scaleMatrix;
-		animationTransform._scale = node._animationTransform[animation]._scale + node.property._transform._scale;
+		animationTransform._scale = node._animationTransform[type][animation]._scale + node.property._transform._scale;
 		scaleMatrix.ScaliMatrix(animationTransform._scale);
 		scaleMatrix.Identity();
 
@@ -254,6 +262,63 @@ void FbxModel::KeyFrameAnimation(ShaderBase* shader){
 
 		shader->Render(node._indexCount, animationMatrix, view, projection);
 		animation += 1;
+	}
+}
+
+//
+void FbxModel::KeyFrameAnimation(ShaderBase* shader, std::string type, const int frame){
+	for (auto node : m_nodeMeshBuffer){
+
+		// アニメーションなければ無視
+		if (node._animationTransform.size() <= 0)
+		{
+			continue;
+		}
+
+		if (frame >= node._animationTransform.size())
+		{
+			return;
+		}
+
+		RenderBuffers(GetDirect3DManager(), node);
+
+
+		// 各ノードの姿勢行列
+		Matrix4x4  nodeMatrix = node._meshMatrix;
+
+		Matrix4x4 view = m_camera->GetViewMatrix();
+		Matrix4x4 projection = GetDirect3DManager()->GetProjectionMatrix();
+
+		// ワールド行列の作成
+		Matrix4x4 hoge = node._animationTransform[type][frame].Transmatrix();
+
+		// アニメーション用トランスフォーム
+		Transform animationTransform;
+
+		// 移動行列の作成
+		Matrix4x4 translateMatrix;
+		animationTransform._translation = node._animationTransform[type][frame]._translation + node.property._transform._translation;
+		translateMatrix.TranslateMatrix(animationTransform._translation);
+
+		// 回転行列の作成
+		Matrix4x4 rotationMatrix;
+		animationTransform._rotation = node._animationTransform[type][frame]._rotation + node.property._transform._rotation;
+		rotationMatrix.PitchYawRoll(animationTransform._rotation);
+
+
+		// スケール行列の作成
+		Matrix4x4 scaleMatrix;
+		animationTransform._scale = node._animationTransform[type][frame]._scale + node.property._transform._scale;
+		scaleMatrix.ScaliMatrix(animationTransform._scale);
+		scaleMatrix.Identity();
+
+		// トランスフォームから行列を作成
+		Matrix4x4 transformMatrix = property._transform.Transmatrix();
+
+		Matrix4x4 animationMatrix = nodeMatrix*scaleMatrix*rotationMatrix*translateMatrix*transformMatrix;
+		CreateConstantBuffers(node);
+
+		shader->Render(node._indexCount, animationMatrix, view, projection);
 	}
 }
 
@@ -311,8 +376,6 @@ void FbxModel::CreateConstantBuffers(Mesh mesh){
 
 //
 bool FbxModel::SetTexture(Texture* texture, eMatrerialType type){
-	bool result;
-
 	for (int id = 0; id < m_nodeMeshBuffer.size(); ++id)
 	{
 		SetNodeTexture(texture, id, type);

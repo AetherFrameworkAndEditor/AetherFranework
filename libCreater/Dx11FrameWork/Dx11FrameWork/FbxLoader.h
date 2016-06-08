@@ -56,9 +56,6 @@ namespace aetherClass{
 		@exception      none
 		*/
 		std::vector<FbxMeshNode> GetNodeMesh();
-
-	private:
-
 		/*
 		@brief          ‰ğ•ú—p
 		@param[in]		none
@@ -66,6 +63,9 @@ namespace aetherClass{
 		@exception      none
 		*/
 		void Release();
+	private:
+
+	
 
 		/*
 		@brief          GetMeshProperty‚ğŒÄ‚Ño‚·
