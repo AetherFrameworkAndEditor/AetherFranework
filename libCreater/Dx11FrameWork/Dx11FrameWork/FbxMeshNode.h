@@ -20,7 +20,7 @@ $Id$
 #include "Transform.h"
 #include "Material.h"
 #include "FbxKeyFrameAnimationInfo.h"
-#include "FbxBoneInfo.h"
+
 namespace aetherClass{
 	struct FbxMeshNode
 	{

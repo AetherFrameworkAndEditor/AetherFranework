@@ -35,11 +35,12 @@ namespace aetherClass{
 		ID3D11Buffer* _materialBuffer;
 
 		Property property;
-		Matrix4x4 _meshMatrix; 
-		std::unordered_map<std::string, std::vector<Transform>> _animationTransform;
-		
+		Matrix4x4 _meshMatrix;
+		Matrix4x4 _initMatrix;
+		Matrix4x4 _animationMatrix;
 		unsigned long _vertexCount, _indexCount;
-
+		int _animationCount;
+		int _nodeNumber;
 	public:
 		Mesh();
 		~Mesh();

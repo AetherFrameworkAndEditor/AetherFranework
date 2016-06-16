@@ -22,10 +22,10 @@ void FbxMaterialLoader::GetMaterial(FbxMeshNode* meshNode, FbxMesh* mesh){
 	{
 		FbxSurfaceMaterial* material = node->GetMaterial(materialID);
 
-		if (!material)
-		{
+		if (!material){
 			continue;
 		}
+
 		Material destMaterial;
 
 		CopyMaterialData(material, &destMaterial);
@@ -247,18 +247,20 @@ FbxDouble3 FbxMaterialLoader::GetMaterialPropertey(
 
 		//　ルートテーブルのエントリーの数を取得
 		size_t entryCount = rootTable->GetEntryCount();
-		for (int index = 0; index < entryCount; ++index)
-		{
+		for (int index = 0; index < entryCount; ++index){
+
 			// ルートテーブルのエントリーを取得
 			const FbxBindingTableEntry& entry = rootTable->GetEntry(index);
 
 			std::string entryName = entry.GetSource();
+			
 			// エントリー名からプロパティを取得
 			FbxProperty entryProperty = material->RootProperty.FindHierarchical(entryName.c_str());
 
 			// テクスチャの数を取得
 			int fileTextureCount = entryProperty.GetSrcObjectCount<FbxFileTexture>();
 
+			// 
 			for (int textureIndex = 0; textureIndex < fileTextureCount; ++textureIndex)
 			{
 				FbxFileTexture* fileTexture = entryProperty.GetSrcObject<FbxFileTexture>(textureIndex);

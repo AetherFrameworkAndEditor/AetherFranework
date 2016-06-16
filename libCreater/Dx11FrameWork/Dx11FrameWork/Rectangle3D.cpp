@@ -116,34 +116,34 @@ void Rectangle3D::FinalizeBuffers(){
 
 }
 
-#include<iostream>
-void Rectangle3D::VertexData(){
-	D3D11_MAPPED_SUBRESOURCE pMap;
-	HRESULT hResult;
-
-	hResult = GetDirect3DManager()->GetDeviceContext()->Map(m_vertexBuffer, 0, D3D11_MAP_READ, 0, &pMap);
-	if (FAILED(hResult)){
-		assert(!"EXPR");
-	}
-	VertexType* pBits = (VertexType*)pMap.pData;
-	vertex = pBits;
-
-	GetDirect3DManager()->GetDeviceContext()->Unmap(m_vertexBuffer, 0);
-	ReadVertexData();
-}
-
-void Rectangle3D::ReadVertexData(){
-	VertexType *ptr = vertex;
-
-	for (int i = 0; i < m_vertexCount; i++){
-		printf("%d x %.2f\n", i, ptr->_position._x);
-		printf("%d y %.2f\n", i, ptr->_position._y);
-		printf("%d z %.2f\n\n", i, ptr->_position._z);
-		ptr++;
-	}
-	
-
-}
+//#include<iostream>
+//void Rectangle3D::VertexData(){
+//	D3D11_MAPPED_SUBRESOURCE pMap;
+//	HRESULT hResult;
+//
+//	hResult = GetDirect3DManager()->GetDeviceContext()->Map(m_vertexBuffer, 0, D3D11_MAP_READ, 0, &pMap);
+//	if (FAILED(hResult)){
+//		assert(!"EXPR");
+//	}
+//	VertexType* pBits = (VertexType*)pMap.pData;
+//	vertex = pBits;
+//
+//	GetDirect3DManager()->GetDeviceContext()->Unmap(m_vertexBuffer, 0);
+//	ReadVertexData();
+//}
+//
+//void Rectangle3D::ReadVertexData(){
+//	VertexType *ptr = vertex;
+//
+//	for (int i = 0; i < m_vertexCount; i++){
+//		printf("%d x %.2f\n", i, ptr->_position._x);
+//		printf("%d y %.2f\n", i, ptr->_position._y);
+//		printf("%d z %.2f\n\n", i, ptr->_position._z);
+//		ptr++;
+//	}
+//	
+//
+//}
 
 void Rectangle3D::RenderBuffers(){
 	unsigned int stride;

@@ -17,6 +17,10 @@ Text::~Text()
 {
 	m_fontTexture->Release();
 	delete m_sampler;
+	if (m_font){
+		m_font->Release();
+		delete m_font;
+	}
 }
 
 void Text::SetFont(Font *font){

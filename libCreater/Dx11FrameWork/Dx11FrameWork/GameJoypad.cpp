@@ -21,6 +21,10 @@ bool GameJoypad::Initialize(){
 	m_buttonList.insert(std::make_pair(eJoyButton::eDown, false));
 	m_buttonList.insert(std::make_pair(eJoyButton::eLeft, false));
 	m_buttonList.insert(std::make_pair(eJoyButton::eRight, false));
+	m_buttonList.insert(std::make_pair(eJoyButton::eRUp, false));
+	m_buttonList.insert(std::make_pair(eJoyButton::eRDown, false));
+	m_buttonList.insert(std::make_pair(eJoyButton::eRLeft, false));
+	m_buttonList.insert(std::make_pair(eJoyButton::eRRight, false));
 	m_buttonList.insert(std::make_pair(eJoyButton::eA, false));
 	m_buttonList.insert(std::make_pair(eJoyButton::eB, false));
 	m_buttonList.insert(std::make_pair(eJoyButton::eX, false));
@@ -52,6 +56,8 @@ void GameJoypad::ReadKey(){
 	WORD button = inputState.Gamepad.wButtons;
 	SHORT stictLX = inputState.Gamepad.sThumbLX;
 	SHORT stictLY = inputState.Gamepad.sThumbLY;
+	SHORT sticRX = inputState.Gamepad.sThumbRX;
+	SHORT stictRY = inputState.Gamepad.sThumbRY;
 	// ↑
 	if (button&XINPUT_GAMEPAD_DPAD_UP || stictLY>Threshold){
 		m_buttonList[eJoyButton::eUp] = true;
@@ -82,6 +88,39 @@ void GameJoypad::ReadKey(){
 	}
 	else{
 		m_buttonList[eJoyButton::eLeft] = false;
+	}
+
+	// 右スティック
+	// ↑
+	if (stictRY>XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE){
+		m_buttonList[eJoyButton::eRUp] = true;
+	}
+	else{
+		m_buttonList[eJoyButton::eRUp] = false;
+	}
+
+	// ↓
+	if (stictRY<-XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE){
+		m_buttonList[eJoyButton::eRDown] = true;
+	}
+	else{
+		m_buttonList[eJoyButton::eRDown] = false;
+	}
+
+	// →
+	if (sticRX>XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE){
+		m_buttonList[eJoyButton::eRRight] = true;
+	}
+	else{
+		m_buttonList[eJoyButton::eRRight] = false;
+	}
+
+	// ←
+	if (sticRX<-XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE){
+		m_buttonList[eJoyButton::eRLeft] = true;
+	}
+	else{
+		m_buttonList[eJoyButton::eRLeft] = false;
 	}
 
 	// Aボタン

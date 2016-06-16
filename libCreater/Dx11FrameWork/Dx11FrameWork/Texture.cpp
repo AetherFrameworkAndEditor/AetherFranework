@@ -5,7 +5,7 @@ using namespace aetherClass;
 Texture::Texture()
 {
 	m_texture = nullptr;
-	m_texture = nullptr;
+	m_samplerState = nullptr;
 
 }
 
@@ -62,6 +62,7 @@ void Texture::Release(){
 		m_samplerState->Release();
 		m_samplerState = nullptr;
 	}
+
 	return;
 }
 
@@ -73,9 +74,4 @@ ID3D11ShaderResourceView* Texture::GetTexture(){
 //
 ID3D11SamplerState* Texture::GetSamplerState(){
 	return m_samplerState;
-}
-
-//
-std::string Texture::GetPath()const{
-	return m_path;
 }

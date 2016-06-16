@@ -63,8 +63,8 @@ void FbxVertexLoader::GetVertexUV(FbxMeshNode* meshNode, FbxMesh* mesh){
 	int numUVSet = uvsetName.GetCount();
 	int lPolygonCount = mesh->GetPolygonCount();
 	bool unmapped = false;
-	std::vector<Vector2> buf;
 	int indexNumber = 0;
+
 	for (int uv = 0; uv<numUVSet; uv++)
 	{
 

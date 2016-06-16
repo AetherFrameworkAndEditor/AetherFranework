@@ -27,6 +27,13 @@ enum class eJoyStick{
 
 // ƒ{ƒ^ƒ“
 enum class eJoyButton{
+
+	// ‰E
+	eRUp,
+	eRDown,
+	eRLeft,
+	eRRight,
+
 	eUp,
 	eDown,
 	eLeft,

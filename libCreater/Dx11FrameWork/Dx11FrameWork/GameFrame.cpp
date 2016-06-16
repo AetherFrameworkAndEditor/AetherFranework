@@ -139,6 +139,7 @@ void GameFrame::Finalize(){
 
 	if (m_scene){
 		m_scene->Finalize();
+		m_scene.reset();
 		m_scene.release();
 		m_scene = nullptr;
 	}

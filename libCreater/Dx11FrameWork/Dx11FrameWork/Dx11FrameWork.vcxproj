@@ -114,14 +114,12 @@
     <ClCompile Include="Matrix4x4.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="ModelBase.cpp" />
-    <ClCompile Include="Particle.cpp" />
     <ClCompile Include="PixelShader.cpp" />
     <ClCompile Include="Point.cpp" />
     <ClCompile Include="Quaternion.cpp" />
     <ClCompile Include="Rectangle2D.cpp" />
     <ClCompile Include="Rectangle3D.cpp" />
     <ClCompile Include="ShaderBase.cpp" />
-    <ClCompile Include="SkeletonInfo.cpp" />
     <ClCompile Include="Skybox.cpp" />
     <ClCompile Include="Sphere.cpp" />
     <ClCompile Include="SpriteBase.cpp" />
@@ -185,7 +183,6 @@
     <ClInclude Include="ModelUtility.h" />
     <ClInclude Include="NullLoadScreen.h" />
     <ClInclude Include="NullScene.h" />
-    <ClInclude Include="Particle.h" />
     <ClInclude Include="Physics.h" />
     <ClInclude Include="PixelShader.h" />
     <ClInclude Include="Point.h" />
@@ -195,7 +192,6 @@
     <ClInclude Include="Rectangle3D.h" />
     <ClInclude Include="ShaderBase.h" />
     <ClInclude Include="Singleton.h" />
-    <ClInclude Include="SkeletonInfo.h" />
     <ClInclude Include="Skybox.h" />
     <ClInclude Include="Sphere.h" />
     <ClInclude Include="SpriteBase.h" />

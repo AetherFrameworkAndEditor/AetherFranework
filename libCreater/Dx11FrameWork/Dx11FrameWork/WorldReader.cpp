@@ -84,6 +84,7 @@ void WorldReader::UnLoad(){
 	this->UnLoadObject();
 	this->UnLoadTexture();
 	this->UnLoadMaterial();
+	m_input.clear();
 }
 
 //

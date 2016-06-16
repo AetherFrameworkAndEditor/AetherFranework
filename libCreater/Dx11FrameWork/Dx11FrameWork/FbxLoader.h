@@ -55,7 +55,9 @@ namespace aetherClass{
 		@return         std::vector<FbxMeshNode>型オブジェクト
 		@exception      none
 		*/
-		std::vector<FbxMeshNode> GetNodeMesh();
+		FbxMeshNode& GetNodeMesh(const int);
+
+		int GetMeshNodeCount();
 		/*
 		@brief          解放用
 		@param[in]		none
@@ -64,8 +66,6 @@ namespace aetherClass{
 		*/
 		void Release();
 	private:
-
-	
 
 		/*
 		@brief          GetMeshPropertyを呼び出す
@@ -95,6 +95,7 @@ namespace aetherClass{
 	
 	private:
 		std::vector<FbxMeshNode> m_meshNodeArray;
+		FbxImporter* m_importer;
 	};
 }
 

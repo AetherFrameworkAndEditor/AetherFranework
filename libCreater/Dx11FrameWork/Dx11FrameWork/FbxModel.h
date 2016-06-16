@@ -36,7 +36,7 @@ namespace aetherClass{
 		 FbxModel::Property property;
 	public:
 		FbxModel();
-		virtual ~FbxModel() = default;
+		~FbxModel() = default;
 
 		/*
 		@brief          FbxFileの読み込みと初期化
@@ -44,7 +44,7 @@ namespace aetherClass{
 		@return         none
 		@exception      none
 		*/
-		virtual bool LoadFBX(std::string, eAxisSystem)final;
+		bool LoadFBX(std::string, eAxisSystem);
 
 		/*
 		@brief          解放用
@@ -52,7 +52,7 @@ namespace aetherClass{
 		@return         none
 		@exception      none
 		*/
-		virtual void Finalize()final;
+		void Finalize();
 
 		/*
 		@brief          全てのノード描画用
@@ -60,7 +60,7 @@ namespace aetherClass{
 		@return         none
 		@exception      none
 		*/
-		virtual void Render(ShaderBase*)final;
+		void Render(ShaderBase*);
 
 		/*
 		@brief          指定ノードのみ描画用。
@@ -70,15 +70,16 @@ namespace aetherClass{
 		@return         none
 		@exception      none
 		*/
-		virtual void NodeRender(ShaderBase*, const int id)final;
+		void NodeRender(ShaderBase*, const int id);
 
 
 		/*
 		キーフレームアニメーション用
 		*/
-		virtual void KeyFrameAnimation(ShaderBase* shader, std::string, const bool)final;
+		void KeyframeAnimationRender(ShaderBase* shader);
 
-		virtual void KeyFrameAnimation(ShaderBase* shader, std::string, const int frame)final;
+		void KeyframeUpdate(std::string, int&);
+		void KeyframeUpdate(std::string, bool);
 
 		/*
 		@brief          投影するカメラのアドレス取得用
@@ -86,7 +87,7 @@ namespace aetherClass{
 		@return         none
 		@exception      none
 		*/
-		virtual void SetCamera(ViewCamera*)final;
+		void SetCamera(ViewCamera*);
 
 
 		/*
@@ -97,7 +98,7 @@ namespace aetherClass{
 		@return         none
 		@exception      none
 		*/
-		virtual void SetModelMaterialColor(Color rgba, const int nodeID, eMatrerialType)final;
+		void SetModelMaterialColor(Color rgba, const int nodeID, eMatrerialType);
 
 		/*
 		@brief          全てのノードを好きな色に設定できる
@@ -107,7 +108,9 @@ namespace aetherClass{
 		@return         none
 		@exception      none
 		*/
-		virtual void SetModelMaterialColor(Color rgba, eMatrerialType)final;
+		void SetModelMaterialColor(Color rgba, eMatrerialType);
+
+		void SetColor(Color);
 
 		/*
 		@brief          指定のノードのテクスチャオブジェクトを取得
@@ -115,7 +118,7 @@ namespace aetherClass{
 		@return         ID3D11ShaderResourceView型オブジェクト
 		@exception      none
 		*/
-		virtual ID3D11ShaderResourceView* GetTexture(const int id)final;
+		ID3D11ShaderResourceView* GetTexture(const int id);
 
 		
 		/*
@@ -124,7 +127,7 @@ namespace aetherClass{
 		@return         成功時：ture/失敗時:false
 		@exception      none
 		*/
-		virtual bool SetTexture(Texture*,eMatrerialType)final;
+		bool SetTexture(Texture*,eMatrerialType);
 
 		/*
 		@brief          指定のノードに対して同じテクスチャを取得
@@ -133,7 +136,7 @@ namespace aetherClass{
 		@return         成功時：ture/失敗時:false
 		@exception      none
 		*/
-		virtual bool SetNodeTexture(Texture*, const int id, eMatrerialType)final;
+		 bool SetNodeTexture(Texture*, const int id, eMatrerialType);
 
 		/*
 		@brief          テクスチャのある親ディレクトリーの設定.そして各テクスチャの読み込み
@@ -141,14 +144,11 @@ namespace aetherClass{
 		@return         成功時：ture/失敗時:false
 		@exception      none
 		*/
-		virtual void SetTextureDirectoryName(std::string)final;
+		void SetTextureDirectoryName(std::string);
 
-		virtual std::string GetModelPath()const final;
-	protected:
-
-		std::vector<Mesh> m_nodeMeshBuffer;
-		std::unique_ptr<FbxLoader> m_fbxLoader;
-		
+		std::string GetModelPath()const;
+		std::string GetAnimationName(const int);
+		int GetAnimationListSize()const;
 
 	private:
 		/*
@@ -157,16 +157,9 @@ namespace aetherClass{
 		@return         成功時：ture/失敗時:false
 		@exception      none
 		*/
-		virtual bool LoadModelBuffers(Direct3DManager*)final;
+		bool LoadModelBuffers(Direct3DManager*);
 
-		/*
-		@brief          ノードごとに読み取る情報の記述
-		@param[in]      Direct3DManager型のアドレス
-		@return         成功時：ture/失敗時:false
-		@exception      none
-		*/
-		virtual bool LoadNodeMesh(){ return true; }
-
+		
 		/*
 		@brief          描画処理
 		@param[in]      Direct3DManager型のアドレス
@@ -174,7 +167,7 @@ namespace aetherClass{
 		@return         none
 		@exception      none
 		*/
-		virtual void RenderBuffers(Direct3DManager*, Mesh)final;
+		void RenderBuffers(Direct3DManager*, Mesh&);
 
 		/*
 		@brief          シェーダーに渡すパラメーターを設定する関数。派生先でオーバーライドし処理を記述
@@ -182,13 +175,17 @@ namespace aetherClass{
 		@return         none
 		@exception      none
 		*/
-		virtual void CreateConstantBuffers(Mesh);
+		void CreateConstantBuffers(Mesh&);
 
 
 
 	private:
 		ViewCamera* m_camera;
 		std::string m_modelPath;
+		std::string m_prevAnimationName;
+		std::vector<std::string> m_animationNameList;
+		std::vector<Mesh> m_nodeMeshBuffer;
+		std::unique_ptr<FbxLoader> m_fbxLoader;
 	};
 
 }

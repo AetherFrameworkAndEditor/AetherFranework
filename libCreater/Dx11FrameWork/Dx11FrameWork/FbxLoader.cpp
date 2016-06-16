@@ -16,6 +16,7 @@ using namespace aetherFunction;
 		// Release Buffer
 
 		m_meshNodeArray.clear();
+		m_meshNodeArray.shrink_to_fit();
 	}
 
 	//
@@ -35,23 +36,19 @@ using namespace aetherFunction;
 		FbxScene* scene = FbxScene::Create(manager, "");
 
 		// this class is fbx file open 
-		FbxImporter* importer = FbxImporter::Create(manager, "");
+		m_importer = FbxImporter::Create(manager, "");
 
 		// Open the fbx file
-		result = importer->Initialize(filePath.c_str());
+		result = m_importer->Initialize(filePath.c_str());
 		if (!result)
 		{
 			return false;
 		}
 
 		// Read in fbx infomation
-		importer->Import(scene);
+		m_importer->Import(scene);
 
-		// インポーターはファイル開いてsceneに橋渡しするだけ
-		// 以降、使わないから破棄
-		importer->Destroy();
-		importer = nullptr;
-
+		
 		// 軸の設定
 		FbxAxisSystem ourAxisSystem = FbxAxisSystem::DirectX;
 
@@ -97,6 +94,10 @@ using namespace aetherFunction;
 			GetMesh(rootNode->GetChild(i), scene);
 		}
 
+		// インポーターはファイル開いてsceneに橋渡しするだけ
+		// 以降、使わないから破棄
+		m_importer->Destroy();
+		m_importer = nullptr;
 
 		manager->Destroy();
 		manager = nullptr;
@@ -124,7 +125,7 @@ using namespace aetherFunction;
 			GetMeshProperty(&meshNode,mesh, scene);
 			
 			FbxKeyFrameLoader keyframe;
-			keyframe.GetKeyframeAnimation(&meshNode._keyframeAnimation,scene, node);
+			keyframe.GetKeyframeAnimation(&meshNode._keyframeAnimation,m_importer, scene, node);
 			m_meshNodeArray.push_back(meshNode);
 		}
 		break;
@@ -148,7 +149,6 @@ using namespace aetherFunction;
 	// その処理の終わりに管理する配列にプッシュする
 	void FbxLoader::GetMeshProperty(FbxMeshNode* meshNode,FbxMesh* mesh, FbxScene* scene){
 
-
 		GetTransform(meshNode,mesh);
 
 		FbxVertexLoader vertex;
@@ -168,7 +168,13 @@ using namespace aetherFunction;
 		meshNode->_transform._scale = FbxDoubleToVector3(&node->LclScaling.Get());
 		return;
 	}
+
 	//
-	std::vector<FbxMeshNode> FbxLoader::GetNodeMesh(){
-		return m_meshNodeArray;
+	FbxMeshNode& FbxLoader::GetNodeMesh(const int id){
+		return m_meshNodeArray[id];
+	}
+
+	//
+	int FbxLoader::GetMeshNodeCount(){
+		return m_meshNodeArray.size();
 	}

@@ -25,7 +25,7 @@ namespace aetherClass{
 		Rectangle3D();
 		~Rectangle3D();
 
-		void VertexData();
+	//	void VertexData();
 
 
 	private:
@@ -53,8 +53,8 @@ namespace aetherClass{
 		*/
 		void RenderBuffers()override;
 
-		void ReadVertexData();
-		VertexType *vertex;
+	//	void ReadVertexData();
+	//	VertexType *vertex;
 
 	};
 

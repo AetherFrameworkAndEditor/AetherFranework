@@ -11,6 +11,7 @@ FbxModel::FbxModel()
 {
 	m_fbxLoader = nullptr;
 	this->property._transform._scale = Vector3(1, 1, 1);
+	m_prevAnimationName = "null";
 }
 
 
@@ -41,7 +42,7 @@ bool FbxModel::LoadFBX(std::string file, eAxisSystem axis){
 bool FbxModel::LoadModelBuffers(Direct3DManager* directX){
 	HRESULT result;
 
-	const int meshNodeCount = m_fbxLoader->GetNodeMesh().size();
+	const int meshNodeCount = m_fbxLoader->GetMeshNodeCount();
 
 	// メッシュのノードごとに作成するので、メッシュのノード分確保
 	m_nodeMeshBuffer.resize(meshNodeCount);
@@ -52,7 +53,7 @@ bool FbxModel::LoadModelBuffers(Direct3DManager* directX){
 		directX->GetDevice()->CreateBuffer(&aetherFunction::GetConstantBufferDesc(sizeof(Color)), NULL, &m_nodeMeshBuffer[i]._colorBuffer);
 		directX->GetDevice()->CreateBuffer(&aetherFunction::GetConstantBufferDesc(sizeof(MaterialBufferType)), NULL, &m_nodeMeshBuffer[i]._materialBuffer);
 
-		const int vertexCount = m_fbxLoader->GetNodeMesh()[i]._vertexCount;
+		const int vertexCount = m_fbxLoader->GetNodeMesh(i)._vertexCount;
 		m_nodeMeshBuffer[i]._vertexCount = vertexCount;
 
 		D3D11_BUFFER_DESC vertexBufferDesc;
@@ -64,7 +65,7 @@ bool FbxModel::LoadModelBuffers(Direct3DManager* directX){
 		vertexBufferDesc.StructureByteStride = 0;
 
 		D3D11_SUBRESOURCE_DATA vertexData;
-		vertexData.pSysMem = m_fbxLoader->GetNodeMesh()[i]._vertex;
+		vertexData.pSysMem = m_fbxLoader->GetNodeMesh(i)._vertex;
 		vertexData.SysMemPitch = 0;
 		vertexData.SysMemSlicePitch = 0;
 
@@ -75,10 +76,10 @@ bool FbxModel::LoadModelBuffers(Direct3DManager* directX){
 			return false;
 		}
 
-		delete[] m_fbxLoader->GetNodeMesh()[i]._vertex;
-		m_fbxLoader->GetNodeMesh()[i]._vertex = nullptr;
+		delete[] m_fbxLoader->GetNodeMesh(i)._vertex;
+		m_fbxLoader->GetNodeMesh(i)._vertex = nullptr;
 
-		const unsigned long indexCount = m_fbxLoader->GetNodeMesh()[i]._indexCount;
+		const unsigned long indexCount = m_fbxLoader->GetNodeMesh(i)._indexCount;
 		m_nodeMeshBuffer[i]._indexCount = indexCount;
 	
 		D3D11_BUFFER_DESC indexBufferDesc;
@@ -90,7 +91,7 @@ bool FbxModel::LoadModelBuffers(Direct3DManager* directX){
 		indexBufferDesc.StructureByteStride = 0;
 
 		D3D11_SUBRESOURCE_DATA indexData;
-		indexData.pSysMem = m_fbxLoader->GetNodeMesh()[i]._index;
+		indexData.pSysMem = m_fbxLoader->GetNodeMesh(i)._index;
 		indexData.SysMemPitch = 0;
 		indexData.SysMemSlicePitch = 0;
 
@@ -102,39 +103,39 @@ bool FbxModel::LoadModelBuffers(Direct3DManager* directX){
 			return false;
 		}
 
-		delete[] m_fbxLoader->GetNodeMesh()[i]._index;
-		m_fbxLoader->GetNodeMesh()[i]._index = nullptr;
-		m_nodeMeshBuffer[i].property._transform = m_fbxLoader->GetNodeMesh()[i]._transform;
-		m_nodeMeshBuffer[i].property._material = m_fbxLoader->GetNodeMesh()[i]._materialBuffer[0];
+		delete[] m_fbxLoader->GetNodeMesh(i)._index;
+		m_fbxLoader->GetNodeMesh(i)._index = nullptr;
+
+		m_nodeMeshBuffer[i].property._transform = m_fbxLoader->GetNodeMesh(i)._transform;
+		m_nodeMeshBuffer[i].property._material = m_fbxLoader->GetNodeMesh(i)._materialBuffer[0];
+
+		//
+		m_fbxLoader->GetNodeMesh(i)._materialBuffer.clear();
+		m_fbxLoader->GetNodeMesh(i)._materialBuffer.shrink_to_fit();
 
 		// 行列の取得
-		m_nodeMeshBuffer[i]._meshMatrix = m_fbxLoader->GetNodeMesh()[i]._matrix;
-
-		bool nodeResult = false;
-		nodeResult = LoadNodeMesh();
-
-		if (!nodeResult)
-		{
-			return false;
-		}
+		m_nodeMeshBuffer[i]._meshMatrix = m_fbxLoader->GetNodeMesh(i)._matrix;
+		m_nodeMeshBuffer[i]._nodeNumber = i;
 
 		//// キーフレームアニメーションの読み取り
-		const int size = m_fbxLoader->GetNodeMesh()[i]._keyframeAnimation._keyframeNameList.size();
+		m_nodeMeshBuffer[i]._initMatrix = m_fbxLoader->GetNodeMesh(i)._keyframeAnimation._initMatrix;
+		m_nodeMeshBuffer[i]._initMatrix.Inverse();
+		for (auto&& name : m_fbxLoader->GetNodeMesh(i)._keyframeAnimation._keyframeHash){
+			bool getted = false;
 
-		for (int nameID = 0; nameID < size; ++nameID){
-			const std::string name = m_fbxLoader->GetNodeMesh()[i]._keyframeAnimation._keyframeNameList[nameID];
-			for (int k = 0; k < m_fbxLoader->GetNodeMesh()[i]._keyframeAnimation._keyframeHash[name]._size; ++k){
-				Transform trans;
-				trans._translation = m_fbxLoader->GetNodeMesh()[i]._keyframeAnimation._keyframeHash[name]._trancelation[k]._data;
-				trans._rotation = m_fbxLoader->GetNodeMesh()[i]._keyframeAnimation._keyframeHash[name]._rotation[k]._data;
-				trans._scale = m_fbxLoader->GetNodeMesh()[i]._keyframeAnimation._keyframeHash[name]._scaling[k]._data;
-
-				m_nodeMeshBuffer[i]._animationTransform[name].push_back(trans);
+			name.second.shrink_to_fit();
+			for (auto& index : m_animationNameList){
+				if (index == name.first){
+					getted = true;
+					break;
+				}
 			}
+			if (getted)continue;
+			m_animationNameList.push_back(name.first);
 		}
 
-
 	}
+	m_animationNameList.shrink_to_fit();
 
 	return true;
 }
@@ -144,7 +145,7 @@ void FbxModel::Finalize()
 {
 	if (m_fbxLoader)
 	{
-		
+		m_fbxLoader->Release();
 		m_fbxLoader.reset();
 		m_fbxLoader = nullptr;
 	}
@@ -152,7 +153,7 @@ void FbxModel::Finalize()
 	for (auto&& index : m_nodeMeshBuffer){
 		index.Release();
 	}
-	m_nodeMeshBuffer.clear();
+
 	return;
 }
 
@@ -171,10 +172,6 @@ void FbxModel::Render(ShaderBase* shader){
 void FbxModel::NodeRender(ShaderBase* shader, const int id){
 
 	RenderBuffers(GetDirect3DManager(), m_nodeMeshBuffer[id]);
-
-	Matrix4x4 zMatrix;
-	zMatrix.RightToLeftIdentity();
-
 
 	// 各ノードの行列
 	Matrix4x4 nodeMatrix = m_nodeMeshBuffer[id]._meshMatrix;
@@ -202,124 +199,61 @@ void FbxModel::NodeRender(ShaderBase* shader, const int id){
 
 
 //
-void FbxModel::KeyFrameAnimation(ShaderBase* shader, std::string type, const bool isLoop){
-	static int animation = 0;
-
+void FbxModel::KeyframeAnimationRender(ShaderBase* shader){
+	
 	for (auto& node : m_nodeMeshBuffer){
 
-		// アニメーションなければ無視
-		if (node._animationTransform.size() <= 0) continue;
-
-
-		if (animation >= node._animationTransform.size())
-		{
-			if (isLoop){
-
-				animation = 0;
-			}
-			else{
-				animation = node._animationTransform.size() - 1;
-			}
-		}
-
+		auto& keyframe = m_fbxLoader->GetNodeMesh(node._nodeNumber)._keyframeAnimation;
 		RenderBuffers(GetDirect3DManager(), node);
-
-
-		// 各ノードの姿勢行列
-		Matrix4x4  nodeMatrix = node._meshMatrix;
-
 		Matrix4x4 view = m_camera->GetViewMatrix();
 		Matrix4x4 projection = GetDirect3DManager()->GetProjectionMatrix();
-
-		// ワールド行列の作成
-		Matrix4x4 hoge = node._animationTransform[type][animation].Transmatrix();
-
-		// アニメーション用トランスフォーム
-		Transform animationTransform;
-
-		// 移動行列の作成
-		Matrix4x4 translateMatrix;
-		animationTransform._translation = node._animationTransform[type][animation]._translation + node.property._transform._translation;
-		translateMatrix.TranslateMatrix(animationTransform._translation);
-
-		// 回転行列の作成
-		Matrix4x4 rotationMatrix;
-		animationTransform._rotation = node._animationTransform[type][animation]._rotation + node.property._transform._rotation;
-		rotationMatrix.PitchYawRoll(animationTransform._rotation);
-
-
-		// スケール行列の作成
-		Matrix4x4 scaleMatrix;
-		animationTransform._scale = node._animationTransform[type][animation]._scale + node.property._transform._scale;
-		scaleMatrix.ScaliMatrix(animationTransform._scale);
-		scaleMatrix.Identity();
 
 		// トランスフォームから行列を作成
 		Matrix4x4 transformMatrix = property._transform.Transmatrix();
 
-		Matrix4x4 animationMatrix = nodeMatrix*scaleMatrix*rotationMatrix*translateMatrix*transformMatrix;
+		Matrix4x4 animationMatrix = node._meshMatrix*node._initMatrix *node._animationMatrix;
 		CreateConstantBuffers(node);
 
 		shader->Render(node._indexCount, animationMatrix, view, projection);
-		animation += 1;
 	}
 }
 
 //
-void FbxModel::KeyFrameAnimation(ShaderBase* shader, std::string type, const int frame){
-	for (auto node : m_nodeMeshBuffer){
+void FbxModel::KeyframeUpdate(std::string type, int& frame){
+	for (auto& node : m_nodeMeshBuffer){
+		auto& keyframe = m_fbxLoader->GetNodeMesh(node._nodeNumber)._keyframeAnimation._keyframeHash;
+		if (keyframe.find(type) == keyframe.end())continue;
 
-		// アニメーションなければ無視
-		if (node._animationTransform.size() <= 0)
-		{
-			continue;
+		if (keyframe.size()-1 < frame){
+			frame = keyframe.size()-1;
 		}
-
-		if (frame >= node._animationTransform.size())
-		{
-			return;
-		}
-
-		RenderBuffers(GetDirect3DManager(), node);
-
-
-		// 各ノードの姿勢行列
-		Matrix4x4  nodeMatrix = node._meshMatrix;
-
-		Matrix4x4 view = m_camera->GetViewMatrix();
-		Matrix4x4 projection = GetDirect3DManager()->GetProjectionMatrix();
-
-		// ワールド行列の作成
-		Matrix4x4 hoge = node._animationTransform[type][frame].Transmatrix();
-
-		// アニメーション用トランスフォーム
-		Transform animationTransform;
-
-		// 移動行列の作成
-		Matrix4x4 translateMatrix;
-		animationTransform._translation = node._animationTransform[type][frame]._translation + node.property._transform._translation;
-		translateMatrix.TranslateMatrix(animationTransform._translation);
-
-		// 回転行列の作成
-		Matrix4x4 rotationMatrix;
-		animationTransform._rotation = node._animationTransform[type][frame]._rotation + node.property._transform._rotation;
-		rotationMatrix.PitchYawRoll(animationTransform._rotation);
-
-
-		// スケール行列の作成
-		Matrix4x4 scaleMatrix;
-		animationTransform._scale = node._animationTransform[type][frame]._scale + node.property._transform._scale;
-		scaleMatrix.ScaliMatrix(animationTransform._scale);
-		scaleMatrix.Identity();
-
-		// トランスフォームから行列を作成
-		Matrix4x4 transformMatrix = property._transform.Transmatrix();
-
-		Matrix4x4 animationMatrix = nodeMatrix*scaleMatrix*rotationMatrix*translateMatrix*transformMatrix;
-		CreateConstantBuffers(node);
-
-		shader->Render(node._indexCount, animationMatrix, view, projection);
+		node._animationMatrix = keyframe[type][frame];
 	}
+	m_prevAnimationName = type;
+}
+
+//
+void FbxModel::KeyframeUpdate(std::string type, bool isLoop){
+	for (auto& node : m_nodeMeshBuffer){
+		if (m_prevAnimationName != type){
+			m_prevAnimationName = type;
+			node._animationCount = 0;
+		}
+		auto& keyframe = m_fbxLoader->GetNodeMesh(node._nodeNumber)._keyframeAnimation._keyframeHash;
+		if (keyframe.find(type) == keyframe.end())continue;
+
+		if (keyframe.size()-1 < node._animationCount){
+			if (isLoop){
+				node._animationCount = 0;
+			}
+			else{
+				node._animationCount = keyframe.size()-1;
+			}
+		}
+		node._animationMatrix = keyframe[type][node._animationCount];
+		node._animationCount += 1;
+	}
+	m_prevAnimationName = type;
 }
 
 //
@@ -328,7 +262,7 @@ ID3D11ShaderResourceView* FbxModel::GetTexture(const int id){
 }
 
 //
-void FbxModel::CreateConstantBuffers(Mesh mesh){
+void FbxModel::CreateConstantBuffers(Mesh& mesh){
 	D3D11_MAPPED_SUBRESOURCE mapped;
 	Color *dataptr;
 	MaterialBufferType *dataptr2;
@@ -530,8 +464,10 @@ void FbxModel::SetModelMaterialColor(Color rgba, eMatrerialType type){
 }
 
 
+
+
 //
-void FbxModel::RenderBuffers(Direct3DManager* directX, Mesh mesh){
+void FbxModel::RenderBuffers(Direct3DManager* directX, Mesh& mesh){
 	unsigned int stride;
 	unsigned int offset;
 
@@ -552,4 +488,18 @@ void FbxModel::RenderBuffers(Direct3DManager* directX, Mesh mesh){
 
 std::string FbxModel::GetModelPath()const{
 	return m_modelPath;
+}
+
+std::string FbxModel::GetAnimationName(const int id){
+	return m_animationNameList.at(id);
+}
+
+int FbxModel::GetAnimationListSize()const{
+	return m_animationNameList.size();
+}
+
+void FbxModel::SetColor(Color color){
+	for (auto& node : m_nodeMeshBuffer){
+		node.property._color = color;
+	}
 }

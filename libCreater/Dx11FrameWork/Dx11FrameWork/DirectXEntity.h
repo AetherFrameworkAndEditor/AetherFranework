@@ -60,9 +60,6 @@ namespace aetherClass{
 			@exception      none
 			*/
 			HWND& GetWindowHandle()const;
-
-
-
 		private:
 			static Direct3DManager* m_direct3d;
 			static std::unordered_map<std::wstring, WindowBase*>m_window;

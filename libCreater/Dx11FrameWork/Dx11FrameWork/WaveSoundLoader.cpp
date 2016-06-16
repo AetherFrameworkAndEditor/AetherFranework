@@ -170,6 +170,7 @@ bool WaveSoundLoader::Load(const std::string &fileName){
 
 	// ƒtƒ@ƒCƒ‹‚ð•Â‚¶‚é
 	this->Close();
+	m_waveData.shrink_to_fit();
 }
 
 //

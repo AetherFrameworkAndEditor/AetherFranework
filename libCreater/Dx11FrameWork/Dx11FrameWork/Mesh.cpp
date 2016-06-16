@@ -3,6 +3,7 @@
 using namespace aetherClass;
 Mesh::Mesh()
 {
+	_animationCount = NULL;
 }
 
 

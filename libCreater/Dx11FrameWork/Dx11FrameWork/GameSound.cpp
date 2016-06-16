@@ -33,7 +33,7 @@ void GameSound::Finalize(){
 //
 bool GameSound::Load(const char* soundFile){
 	bool result = false;
-	
+	Finalize();
 	result = InitializeDirectSound();
 	if (!result)
 	{

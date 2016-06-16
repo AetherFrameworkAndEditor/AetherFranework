@@ -32,9 +32,6 @@ namespace aetherClass{
 			void Render()override{}
 			bool Updater()override{ return true; }
 			void Finalize()override{}
-
-		private:
-			static std::string m_name;
 	};
 }
 #endif

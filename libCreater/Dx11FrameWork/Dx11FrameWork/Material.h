@@ -21,6 +21,17 @@ namespace aetherClass{
 	
 	// マテリアルの要素構造体
 	struct MaterialElement{
+		MaterialElement(){
+			_texturePath.clear();
+		}
+
+		~MaterialElement(){
+			_texturePath.clear();
+			if (_texture){
+				delete _texture;
+				_texture = nullptr;
+			}
+		}
 		enum class eMaterialElementType{
 			eElementNone = 0,
 			eElementColor,
